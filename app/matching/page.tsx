@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import FlyingMonk from "@/components/FlyingMonk";
-import { ErrorNote, GhostButton, PrimaryButton } from "@/components/ui";
+import { ErrorNote, GhostButton, PrimaryButton, Stage } from "@/components/ui";
 import { postJson, readFlow, writeFlow } from "@/lib/client/session";
 import type { MatchResponse } from "@/lib/types";
 
@@ -52,17 +52,19 @@ function Matching() {
   }, [router, hold]);
 
   return (
-    <section className="flex flex-1 flex-col">
-      {error ? (
-        <div className="mt-20 flex flex-col gap-3">
-          <ErrorNote message={`Matching failed: ${error}`} />
-          <GhostButton onClick={() => location.reload()}>Try again</GhostButton>
-        </div>
-      ) : (
-        <FlyingMonk />
-      )}
-      {ready ? <PrimaryButton onClick={() => router.replace("/matches")}>Show my monks</PrimaryButton> : null}
-    </section>
+    <Stage wide>
+      <section className="flex w-full flex-1 flex-col lg:mx-auto lg:max-w-[760px]">
+        {error ? (
+          <div className="mt-20 flex flex-col gap-3">
+            <ErrorNote message={`Matching failed: ${error}`} />
+            <GhostButton onClick={() => location.reload()}>Try again</GhostButton>
+          </div>
+        ) : (
+          <FlyingMonk />
+        )}
+        {ready ? <PrimaryButton className="mt-4" onClick={() => router.replace("/matches")}>Show my monks</PrimaryButton> : null}
+      </section>
+    </Stage>
   );
 }
 

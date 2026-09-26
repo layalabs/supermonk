@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Card, Chip, ErrorNote, Header, Pill, PrimaryButton } from "@/components/ui";
+import { Card, Chip, ErrorNote, Header, Pill, PrimaryButton, Stage, StageAside } from "@/components/ui";
 import { deviceId, getJson, postJson, readFlow, type Flow } from "@/lib/client/session";
 import { baht, defaultDonation, denominations, LANGUAGE_LABEL, shortDate, SLOT_LABEL } from "@/lib/labels";
 import type { Availability, InviteResponse, Language, Monk, Service, ServiceId, Slot, Temple } from "@/lib/types";
@@ -80,41 +80,10 @@ export default function MonkPage() {
     }
   };
 
-  return (
-    <section className="flex flex-1 flex-col gap-4">
-      <Header back="/matches" />
-      <div className="flex items-center gap-4">
-        <div className="bg-brand flex h-20 w-20 shrink-0 items-center justify-center rounded-full text-3xl font-bold text-navy" aria-hidden>
-          {monk.name.replace(/^Phra\s+/, "").charAt(0)}
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold leading-tight">{monk.name}</h1>
-          <p className="text-sm text-muted">{monk.nameThai}</p>
-          <p className="text-sm text-cream/90">
-            {temple?.name} · {monk.yearsOrdained} years ordained
-          </p>
-        </div>
-      </div>
-      <p className="text-cream/90">{monk.bio}</p>
-      <div className="flex flex-wrap gap-1.5">
-        {monk.languages.map((l) => (
-          <Chip key={l}>{LANGUAGE_LABEL[l as Language] ?? l}</Chip>
-        ))}
-      </div>
-
-      {data.services.length > 1 ? (
-        <div>
-          <h2 className="mb-2 text-sm uppercase tracking-wide text-muted">Invite for</h2>
-          <div className="flex flex-wrap gap-2">
-            {data.services.map((s) => (
-              <Pill key={s.id} active={s.id === serviceId} onClick={() => setServiceId(s.id)}>
-                {s.name.replace(/\s*\(.*\)$/, "")}
-              </Pill>
-            ))}
-          </div>
-        </div>
-      ) : null}
-
+  // Desktop: the profile on the left, the picker (time, address, donation, send) sticky on the
+  // right. Mobile: StageAside renders below, so the order matches the original single column.
+  const aside = (
+    <StageAside>
       <Card>
         <h2 className="mb-3 text-sm uppercase tracking-wide text-muted">Pick a time</h2>
         <div className="grid grid-cols-[auto_repeat(3,1fr)] gap-1.5 text-sm" role="grid">
@@ -139,7 +108,7 @@ export default function MonkPage() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Condo name, soi, room (optional)"
-              className="rounded-xl bg-navy px-3 py-2 text-cream ring-1 ring-cream/15 focus:outline-none focus:ring-2 focus:ring-saffron"
+              className="rounded-xl bg-cream px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-saffron"
             />
           </label>
         </Card>
@@ -167,7 +136,7 @@ export default function MonkPage() {
             onChange={(e) => setCustom(e.target.value.replace(/\D/g, "").slice(0, 6))}
             placeholder="Other ฿"
             aria-label="Custom donation in baht"
-            className="w-28 rounded-full bg-navy px-4 py-2 text-sm text-cream ring-1 ring-saffron/40 focus:outline-none focus:ring-2 focus:ring-saffron"
+            className="w-28 rounded-full bg-cream px-4 py-2 text-sm text-navy ring-1 ring-saffron/50 focus:outline-none focus:ring-2 focus:ring-saffron"
           />
         </div>
       </Card>
@@ -176,7 +145,57 @@ export default function MonkPage() {
       <PrimaryButton disabled={!pick || amount === null || sending} onClick={() => void send()}>
         {sending ? "Sending…" : pick ? `Send invite · ${shortDate(pick.date)} ${SLOT_LABEL[pick.slot].toLowerCase()}` : "Pick a time"}
       </PrimaryButton>
-    </section>
+    </StageAside>
+  );
+
+  return (
+    <Stage aside={aside}>
+      <section className="flex flex-1 flex-col gap-4">
+        <Header back="/matches" />
+        <div className="flex items-center gap-4 lg:items-start lg:gap-6">
+          <div
+            className="bg-brand flex h-20 w-20 shrink-0 items-center justify-center rounded-full text-3xl font-bold text-navy shadow-md shadow-orange/20 lg:h-32 lg:w-32 lg:text-5xl"
+            aria-hidden
+          >
+            {monk.name.replace(/^Phra\s+/, "").charAt(0)}
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold leading-tight lg:text-3xl">{monk.name}</h1>
+            <p lang="th" className="text-sm text-muted lg:text-base">
+              {monk.nameThai}
+            </p>
+            <p className="text-sm text-navy/90 lg:mt-1">
+              {temple?.name} · {monk.yearsOrdained} years ordained
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {monk.languages.map((l) => (
+                <Chip key={l}>{LANGUAGE_LABEL[l as Language] ?? l}</Chip>
+              ))}
+            </div>
+          </div>
+        </div>
+        <p className="text-navy/90 lg:text-lg lg:leading-relaxed">{monk.bio}</p>
+        <p className="text-sm text-muted">
+          <span className="text-rice-deep" aria-hidden>
+            ✿{" "}
+          </span>
+          Donations go to {temple?.name ?? "the temple"}.
+        </p>
+
+        {data.services.length > 1 ? (
+          <div>
+            <h2 className="mb-2 text-sm uppercase tracking-wide text-muted">Invite for</h2>
+            <div className="flex flex-wrap gap-2">
+              {data.services.map((s) => (
+                <Pill key={s.id} active={s.id === serviceId} onClick={() => setServiceId(s.id)}>
+                  {s.name.replace(/\s*\(.*\)$/, "")}
+                </Pill>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </section>
+    </Stage>
   );
 }
 
@@ -194,7 +213,7 @@ function DayRow({ day, pick, onPick }: { day: Availability; pick: { date: string
             onClick={() => onPick({ date: day.date, slot: s })}
             aria-label={`${shortDate(day.date)} ${SLOT_LABEL[s]}${open ? "" : " (unavailable)"}`}
             aria-pressed={on}
-            className={`h-9 rounded-lg transition ${on ? "bg-brand" : open ? "bg-cream/10 ring-1 ring-saffron/30" : "bg-transparent opacity-20"}`}
+            className={`h-9 rounded-lg transition ${on ? "bg-brand text-navy" : open ? "bg-saffron/15 ring-1 ring-saffron/40 hover:bg-saffron/30" : "bg-transparent opacity-30"}`}
           >
             {open ? (on ? "✓" : "") : "·"}
           </button>
