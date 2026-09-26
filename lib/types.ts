@@ -36,6 +36,10 @@ export type Service = {
   donationRange: [number, number];
   prepare: string[];
   thaiLine: string;
+  /** slots this service is normally held in; the clarifier defaults to the first */
+  preferredSlots?: Slot[];
+  /** starter pill labels shown on the Ask screen */
+  pills?: string[];
 };
 
 export type Temple = {
@@ -47,6 +51,8 @@ export type Temple = {
   lng: number;
   address: string;
   notes?: string;
+  /** seed coordinates are hand-entered and approximate (~200 m) */
+  coordsApproximate?: boolean;
 };
 
 export type Availability = { date: string; slots: Slot[] };

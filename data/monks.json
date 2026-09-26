@@ -1,0 +1,3746 @@
+[
+  {
+    "id": "monk_01",
+    "name": "Phra Somchai Thammawaro",
+    "nameThai": "พระสมชาย ธมฺมวโร",
+    "templeId": "wat_suan_dok",
+    "yearsOrdained": 14,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "house_blessing",
+      "shop_blessing",
+      "monk_chat"
+    ],
+    "travels": true,
+    "bio": "Ordained 14 years, based at Wat Suan Dok. Speaks Thai, English. Offers house / condo blessing, shop / office opening blessing, monk chat (conversation and culture), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "evening"
+        ]
+      }
+    ],
+    "_note": "demo #1: available Sat morning, closest to Nimman"
+  },
+  {
+    "id": "monk_02",
+    "name": "Phra Somsak Aggavamso",
+    "nameThai": "พระสมศักดิ์ อคฺควํโส",
+    "templeId": "wat_ket_karam",
+    "yearsOrdained": 22,
+    "languages": [
+      "th",
+      "en",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "meditation"
+    ],
+    "travels": true,
+    "bio": "Ordained 22 years, based at Wat Ket Karam. Speaks Thai, English, Northern Thai (Kham Mueang). Offers house / condo blessing, memorial or merit-making at home, meditation guidance, one-on-one, and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      }
+    ],
+    "_note": "demo #2: available Sat morning, Ping River side"
+  },
+  {
+    "id": "monk_03",
+    "name": "Phra Anan Yasodharo",
+    "nameThai": "พระอนันต์ ยโสธโร",
+    "templeId": "wat_chedi_luang",
+    "yearsOrdained": 9,
+    "languages": [
+      "th",
+      "en",
+      "zh"
+    ],
+    "services": [
+      "house_blessing",
+      "shop_blessing",
+      "vehicle_blessing",
+      "monk_chat"
+    ],
+    "travels": true,
+    "bio": "Ordained 9 years, based at Wat Chedi Luang. Speaks Thai, English, Chinese. Offers house / condo blessing, shop / office opening blessing, vehicle blessing (car or motorbike), monk chat (conversation and culture), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon"
+        ]
+      }
+    ],
+    "_note": "demo #3: NOT available Sat morning, next slot Sunday"
+  },
+  {
+    "id": "monk_04",
+    "name": "Phra Wichai Pannawuttho",
+    "nameThai": "พระวิชัย ปญฺญาวุฑฺโฒ",
+    "templeId": "wat_suan_dok",
+    "yearsOrdained": 27,
+    "languages": [
+      "th",
+      "en",
+      "ja"
+    ],
+    "services": [
+      "monk_chat",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 27 years, based at Wat Suan Dok. Speaks Thai, English, Japanese. Offers monk chat (conversation and culture), vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_05",
+    "name": "Phra Prasit Kantasilo",
+    "nameThai": "พระประสิทธิ์ กนฺตสีโล",
+    "templeId": "wat_umong",
+    "yearsOrdained": 3,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "monk_chat",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 3 years, based at Wat Umong. Speaks Thai, English. Offers monk chat (conversation and culture), vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_06",
+    "name": "Phra Narong Kittisaro",
+    "nameThai": "พระณรงค์ กิตฺติสาโร",
+    "templeId": "wat_chedi_luang",
+    "yearsOrdained": 3,
+    "languages": [
+      "th",
+      "en",
+      "ja"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 3 years, based at Wat Chedi Luang. Speaks Thai, English, Japanese. Offers meditation guidance, one-on-one, monk chat (conversation and culture), vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_07",
+    "name": "Phra Thawat Khemako",
+    "nameThai": "พระธวัช เขมโก",
+    "templeId": "wat_phra_singh",
+    "yearsOrdained": 15,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 15 years, based at Wat Phra Singh. Speaks Thai, English. Offers meditation guidance, one-on-one, monk chat (conversation and culture), vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_08",
+    "name": "Phra Kittipong Suddhacitto",
+    "nameThai": "พระกิตติพงษ์ สุทฺธจิตฺโต",
+    "templeId": "wat_srisuphan",
+    "yearsOrdained": 11,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 11 years, based at Wat Srisuphan. Speaks Thai, English. Offers meditation guidance, one-on-one, vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_09",
+    "name": "Phra Chalerm Vimalo",
+    "nameThai": "พระเฉลิม วิมโล",
+    "templeId": "wat_bupparam",
+    "yearsOrdained": 29,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat"
+    ],
+    "travels": false,
+    "bio": "Ordained 29 years, based at Wat Bupparam. Speaks Thai, English. Offers meditation guidance, one-on-one, monk chat (conversation and culture), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_10",
+    "name": "Phra Sarawut Santikaro",
+    "nameThai": "พระสราวุธ สนฺติกโร",
+    "templeId": "wat_ket_karam",
+    "yearsOrdained": 28,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat"
+    ],
+    "travels": false,
+    "bio": "Ordained 28 years, based at Wat Ket Karam. Speaks Thai, English. Offers meditation guidance, one-on-one, monk chat (conversation and culture), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_11",
+    "name": "Phra Nattapong Piyadhammo",
+    "nameThai": "พระณัฐพงษ์ ปิยธมฺโม",
+    "templeId": "wat_chai_mongkhon",
+    "yearsOrdained": 7,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 7 years, based at Wat Chai Mongkhon. Speaks Thai, English. Offers meditation guidance, one-on-one, monk chat (conversation and culture), vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_12",
+    "name": "Phra Phichit Jotiko",
+    "nameThai": "พระพิชิต โชติโก",
+    "templeId": "wat_doi_suthep",
+    "yearsOrdained": 18,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 18 years, based at Wat Phra That Doi Suthep. Speaks Thai, English. Offers meditation guidance, one-on-one, vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_13",
+    "name": "Phra Manop Cittasamvaro",
+    "nameThai": "พระมานพ จิตฺตสํวโร",
+    "templeId": "wat_jed_yod",
+    "yearsOrdained": 27,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat"
+    ],
+    "travels": false,
+    "bio": "Ordained 27 years, based at Wat Jed Yod. Speaks Thai, English. Offers meditation guidance, one-on-one, monk chat (conversation and culture), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_14",
+    "name": "Phra Surin Sirindharo",
+    "nameThai": "พระสุรินทร์ สิรินฺธโร",
+    "templeId": "wat_lok_moli",
+    "yearsOrdained": 6,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 6 years, based at Wat Lok Moli. Speaks Thai, English. Offers meditation guidance, one-on-one, monk chat (conversation and culture), vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_15",
+    "name": "Phra Boonmee Nyanavaro",
+    "nameThai": "พระบุญมี ญาณวโร",
+    "templeId": "wat_phan_tao",
+    "yearsOrdained": 14,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat"
+    ],
+    "travels": false,
+    "bio": "Ordained 14 years, based at Wat Phan Tao. Speaks Thai, English. Offers meditation guidance, one-on-one, monk chat (conversation and culture), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_16",
+    "name": "Phra Sombat Sumedho",
+    "nameThai": "พระสมบัติ สุเมโธ",
+    "templeId": "wat_chiang_man",
+    "yearsOrdained": 9,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "house_blessing",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 9 years, based at Wat Chiang Man. Speaks Thai. Offers house / condo blessing, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_17",
+    "name": "Phra Winai Ariyawangso",
+    "nameThai": "พระวินัย อริยวํโส",
+    "templeId": "wat_mahawan",
+    "yearsOrdained": 18,
+    "languages": [
+      "th",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 18 years, based at Wat Mahawan. Speaks Thai, Northern Thai (Kham Mueang). Offers house / condo blessing, memorial or merit-making at home, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_18",
+    "name": "Phra Thongchai Sucitto",
+    "nameThai": "พระธงชัย สุจิตฺโต",
+    "templeId": "wat_saen_fang",
+    "yearsOrdained": 4,
+    "languages": [
+      "th",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 4 years, based at Wat Saen Fang. Speaks Thai, Northern Thai (Kham Mueang). Offers house / condo blessing, memorial or merit-making at home, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_19",
+    "name": "Phra Adisak Thitadhammo",
+    "nameThai": "พระอดิศักดิ์ ฐิตธมฺโม",
+    "templeId": "wat_chetawan",
+    "yearsOrdained": 20,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 20 years, based at Wat Chetawan. Speaks Thai. Offers house / condo blessing, memorial or merit-making at home, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_20",
+    "name": "Phra Kamon Dhammadharo",
+    "nameThai": "พระกมล ธมฺมธโร",
+    "templeId": "wat_chai_mongkhon",
+    "yearsOrdained": 4,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "memorial",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 4 years, based at Wat Chai Mongkhon. Speaks Thai. Offers memorial or merit-making at home, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_21",
+    "name": "Phra Somchai Pannawuttho",
+    "nameThai": "พระสมชาย ปญฺญาวุฑฺโฒ",
+    "templeId": "wat_srisuphan",
+    "yearsOrdained": 21,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 21 years, based at Wat Srisuphan. Speaks Thai. Offers house / condo blessing, memorial or merit-making at home, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_22",
+    "name": "Phra Somsak Kantasilo",
+    "nameThai": "พระสมศักดิ์ กนฺตสีโล",
+    "templeId": "wat_bupparam",
+    "yearsOrdained": 24,
+    "languages": [
+      "th",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 24 years, based at Wat Bupparam. Speaks Thai, Northern Thai (Kham Mueang). Offers house / condo blessing, memorial or merit-making at home, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_23",
+    "name": "Phra Anan Kittisaro",
+    "nameThai": "พระอนันต์ กิตฺติสาโร",
+    "templeId": "wat_phan_tao",
+    "yearsOrdained": 15,
+    "languages": [
+      "th",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 15 years, based at Wat Phan Tao. Speaks Thai, Northern Thai (Kham Mueang). Offers house / condo blessing, memorial or merit-making at home, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_24",
+    "name": "Phra Wichai Khemako",
+    "nameThai": "พระวิชัย เขมโก",
+    "templeId": "wat_lok_moli",
+    "yearsOrdained": 25,
+    "languages": [
+      "th",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 25 years, based at Wat Lok Moli. Speaks Thai, Northern Thai (Kham Mueang). Offers house / condo blessing, memorial or merit-making at home, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_25",
+    "name": "Phra Prasit Suddhacitto",
+    "nameThai": "พระประสิทธิ์ สุทฺธจิตฺโต",
+    "templeId": "wat_ket_karam",
+    "yearsOrdained": 30,
+    "languages": [
+      "th",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 30 years, based at Wat Ket Karam. Speaks Thai, Northern Thai (Kham Mueang). Offers house / condo blessing, memorial or merit-making at home, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_26",
+    "name": "Phra Narong Vimalo",
+    "nameThai": "พระณรงค์ วิมโล",
+    "templeId": "wat_suan_dok",
+    "yearsOrdained": 20,
+    "languages": [
+      "th",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "memorial",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 20 years, based at Wat Suan Dok. Speaks Thai, Northern Thai (Kham Mueang). Offers house / condo blessing, memorial or merit-making at home, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_27",
+    "name": "Phra Thawat Santikaro",
+    "nameThai": "พระธวัช สนฺติกโร",
+    "templeId": "wat_umong",
+    "yearsOrdained": 14,
+    "languages": [
+      "th",
+      "kham_mueang"
+    ],
+    "services": [
+      "house_blessing",
+      "shop_blessing",
+      "vehicle_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 14 years, based at Wat Umong. Speaks Thai, Northern Thai (Kham Mueang). Offers house / condo blessing, shop / office opening blessing, vehicle blessing (car or motorbike), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_28",
+    "name": "Phra Kittipong Piyadhammo",
+    "nameThai": "พระกิตติพงษ์ ปิยธมฺโม",
+    "templeId": "wat_jed_yod",
+    "yearsOrdained": 20,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "memorial",
+      "shop_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 20 years, based at Wat Jed Yod. Speaks Thai, English. Offers meditation guidance, one-on-one, memorial or merit-making at home, shop / office opening blessing, and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_29",
+    "name": "Phra Chalerm Jotiko",
+    "nameThai": "พระเฉลิม โชติโก",
+    "templeId": "wat_doi_suthep",
+    "yearsOrdained": 7,
+    "languages": [
+      "th",
+      "en",
+      "zh"
+    ],
+    "services": [
+      "meditation",
+      "shop_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 7 years, based at Wat Phra That Doi Suthep. Speaks Thai, English, Chinese. Offers meditation guidance, one-on-one, shop / office opening blessing, and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_30",
+    "name": "Phra Sarawut Cittasamvaro",
+    "nameThai": "พระสราวุธ จิตฺตสํวโร",
+    "templeId": "wat_chiang_man",
+    "yearsOrdained": 3,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "memorial",
+      "monk_chat"
+    ],
+    "travels": true,
+    "bio": "Ordained 3 years, based at Wat Chiang Man. Speaks Thai, English. Offers memorial or merit-making at home, monk chat (conversation and culture), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_31",
+    "name": "Phra Nattapong Sirindharo",
+    "nameThai": "พระณัฐพงษ์ สิรินฺธโร",
+    "templeId": "wat_mahawan",
+    "yearsOrdained": 26,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "memorial",
+      "monk_chat"
+    ],
+    "travels": true,
+    "bio": "Ordained 26 years, based at Wat Mahawan. Speaks Thai, English. Offers memorial or merit-making at home, monk chat (conversation and culture), and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_32",
+    "name": "Phra Phichit Nyanavaro",
+    "nameThai": "พระพิชิต ญาณวโร",
+    "templeId": "wat_saen_fang",
+    "yearsOrdained": 23,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "memorial",
+      "shop_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 23 years, based at Wat Saen Fang. Speaks Thai, English. Offers meditation guidance, one-on-one, memorial or merit-making at home, shop / office opening blessing, and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_33",
+    "name": "Phra Manop Sumedho",
+    "nameThai": "พระมานพ สุเมโธ",
+    "templeId": "wat_chetawan",
+    "yearsOrdained": 21,
+    "languages": [
+      "th",
+      "en"
+    ],
+    "services": [
+      "meditation",
+      "memorial",
+      "shop_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 21 years, based at Wat Chetawan. Speaks Thai, English. Offers meditation guidance, one-on-one, memorial or merit-making at home, shop / office opening blessing, and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_34",
+    "name": "Phra Surin Ariyawangso",
+    "nameThai": "พระสุรินทร์ อริยวํโส",
+    "templeId": "wat_phra_singh",
+    "yearsOrdained": 7,
+    "languages": [
+      "th",
+      "en",
+      "zh"
+    ],
+    "services": [
+      "memorial",
+      "monk_chat",
+      "shop_blessing"
+    ],
+    "travels": true,
+    "bio": "Ordained 7 years, based at Wat Phra Singh. Speaks Thai, English, Chinese. Offers memorial or merit-making at home, monk chat (conversation and culture), shop / office opening blessing, and visits homes and shops across Chiang Mai.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_35",
+    "name": "Phra Boonmee Sucitto",
+    "nameThai": "พระบุญมี สุจิตฺโต",
+    "templeId": "wat_chedi_luang",
+    "yearsOrdained": 5,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "meditation",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 5 years, based at Wat Chedi Luang. Speaks Thai. Offers meditation guidance, one-on-one, vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_36",
+    "name": "Phra Sombat Thitadhammo",
+    "nameThai": "พระสมบัติ ฐิตธมฺโม",
+    "templeId": "wat_phra_singh",
+    "yearsOrdained": 6,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat"
+    ],
+    "travels": false,
+    "bio": "Ordained 6 years, based at Wat Phra Singh. Speaks Thai. Offers meditation guidance, one-on-one, monk chat (conversation and culture), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_37",
+    "name": "Phra Winai Dhammadharo",
+    "nameThai": "พระวินัย ธมฺมธโร",
+    "templeId": "wat_umong",
+    "yearsOrdained": 14,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "meditation",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 14 years, based at Wat Umong. Speaks Thai. Offers meditation guidance, one-on-one, vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_38",
+    "name": "Phra Thongchai Thammawaro",
+    "nameThai": "พระธงชัย ธมฺมวโร",
+    "templeId": "wat_doi_suthep",
+    "yearsOrdained": 22,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "meditation",
+      "vehicle_blessing"
+    ],
+    "travels": false,
+    "bio": "Ordained 22 years, based at Wat Phra That Doi Suthep. Speaks Thai. Offers meditation guidance, one-on-one, vehicle blessing (car or motorbike), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_39",
+    "name": "Phra Adisak Aggavamso",
+    "nameThai": "พระอดิศักดิ์ อคฺควํโส",
+    "templeId": "wat_jed_yod",
+    "yearsOrdained": 6,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat"
+    ],
+    "travels": false,
+    "bio": "Ordained 6 years, based at Wat Jed Yod. Speaks Thai. Offers meditation guidance, one-on-one, monk chat (conversation and culture), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "monk_40",
+    "name": "Phra Kamon Yasodharo",
+    "nameThai": "พระกมล ยโสธโร",
+    "templeId": "wat_saen_fang",
+    "yearsOrdained": 4,
+    "languages": [
+      "th"
+    ],
+    "services": [
+      "meditation",
+      "monk_chat"
+    ],
+    "travels": false,
+    "bio": "Ordained 4 years, based at Wat Saen Fang. Speaks Thai. Offers meditation guidance, one-on-one, monk chat (conversation and culture), and receives visitors at the temple.",
+    "availability": [
+      {
+        "date": "2026-09-26",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-27",
+        "slots": [
+          "morning"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "slots": [
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "slots": [
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-03",
+        "slots": [
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-04",
+        "slots": [
+          "morning",
+          "afternoon",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-05",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "slots": [
+          "morning",
+          "afternoon"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "slots": [
+          "morning",
+          "evening"
+        ]
+      },
+      {
+        "date": "2026-10-09",
+        "slots": [
+          "afternoon"
+        ]
+      }
+    ]
+  }
+]
