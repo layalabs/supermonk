@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { loadData } from "@/lib/data";
+import { loadAllData } from "@/lib/data";
 import { todayBangkok } from "@/lib/dates";
 import { handle, readJson } from "@/lib/http";
 import { InviteError } from "@/lib/invites";
@@ -14,6 +14,6 @@ export function POST(req: Request) {
     if (!body.extracted?.serviceId) throw new InviteError("extracted.serviceId is required");
     const loc = body.location;
     const location = loc && Number.isFinite(loc.lat) && Number.isFinite(loc.lng) ? loc : undefined;
-    return NextResponse.json(match(body.extracted, loadData(), { location, today: todayBangkok() }));
+    return NextResponse.json(match(body.extracted, await loadAllData(), { location, today: todayBangkok() }));
   });
 }

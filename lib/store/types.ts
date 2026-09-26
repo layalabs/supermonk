@@ -5,5 +5,6 @@ export interface InviteStore {
   get(code: string): Promise<Invite | null>;
   listByDevice(deviceId: string): Promise<Invite[]>;
   listAll(): Promise<Invite[]>;
-  setStatus(code: string, status: InviteStatus): Promise<Invite | null>;
+  setStatus(code: string, status: InviteStatus, respondedBy?: string): Promise<Invite | null>;
+  setDelivery(code: string, via: "line" | "web"): Promise<void>;
 }

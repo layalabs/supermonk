@@ -28,6 +28,25 @@ fixed question flow. Add keys to switch to the real services:
 
 Copy `env.example` to `.env.local` for local keys. Never commit it.
 
+## Temple side on LINE (P1)
+
+Temple offices (or monks) join through a LINE Official Account, **กิจนิมนต์ SuperMonk**. They add
+the account, pick office or monk, and fill a 2-minute Thai form (`/onboard`, opened from a signed
+link the bot sends). Invites to their monks arrive as a card with **รับนิมนต์ / ไม่สะดวก**
+buttons, and a tap updates the host's invite page. An office's monks are matchable at once; a monk
+who registers himself waits until his temple office taps ยืนยัน.
+
+| Variable | Effect |
+|---|---|
+| `LINE_CHANNEL_SECRET`, `LINE_CHANNEL_ACCESS_TOKEN` | Real LINE: push cards, verify `x-line-signature` on `POST /api/line/webhook` |
+| `PUBLIC_BASE_URL` | Base for links sent over LINE (defaults to the request host) |
+| `LINE_MOCK=1` | Keep the mock on even with real keys |
+
+Without the keys everything runs on a **mock**: open `/dev/line` to play the temple office's phone
+(add the account, register, receive the card, accept). Outgoing messages go to
+`data/line-outbox.json`. Set the webhook URL in the LINE Developers console to
+`https://<host>/api/line/webhook`, and run the new tables in `supabase/schema.sql`.
+
 ## Screens
 
 | Route | What |

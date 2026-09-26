@@ -20,6 +20,9 @@ type Row = {
   created_at: string;
   updated_at: string;
   note: string | null;
+  delivered_via?: "line" | "web" | null;
+  responded_by?: string | null;
+  responded_at?: string | null;
 };
 
 export function toRow(i: Invite): Row {
@@ -41,6 +44,8 @@ export function toRow(i: Invite): Row {
     created_at: i.createdAt,
     updated_at: i.updatedAt,
     note: i.note ?? null,
+    ...(i.deliveredVia && { delivered_via: i.deliveredVia }),
+    ...(i.respondedBy && { responded_by: i.respondedBy, responded_at: i.respondedAt ?? null }),
   };
 }
 
@@ -63,6 +68,9 @@ export function fromRow(r: Row): Invite {
     createdAt: r.created_at,
     updatedAt: r.updated_at,
     ...(r.note != null && { note: r.note }),
+    ...(r.delivered_via != null && { deliveredVia: r.delivered_via }),
+    ...(r.responded_by != null && { respondedBy: r.responded_by }),
+    ...(r.responded_at != null && { respondedAt: r.responded_at }),
   };
 }
 
@@ -101,10 +109,16 @@ export class SupabaseInviteStore implements InviteStore {
     return (data as Row[]).map(fromRow);
   }
 
-  async setStatus(code: string, status: InviteStatus): Promise<Invite | null> {
+  async setDelivery(code: string, via: "line" | "web"): Promise<void> {
+    const { error } = await this.db.from("invites").update({ delivered_via: via }).eq("code", code);
+    if (error) throw new Error(`supabase update failed: ${error.message}`);
+  }
+
+  async setStatus(code: string, status: InviteStatus, respondedBy?: string): Promise<Invite | null> {
+    const now = new Date().toISOString();
     const { data, error } = await this.db
       .from("invites")
-      .update({ status, updated_at: new Date().toISOString() })
+      .update({ status, updated_at: now, ...(respondedBy && { responded_by: respondedBy, responded_at: now }) })
       .eq("code", code)
       .select()
       .maybeSingle();

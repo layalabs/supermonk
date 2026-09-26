@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Bubble, ErrorNote, GhostButton, Header, Pill } from "@/components/ui";
+import { Bubble, ErrorNote, GhostButton, Header, Pill, Stage } from "@/components/ui";
 import VoiceButton from "@/components/VoiceButton";
 import { postJson, readFlow, writeFlow, type Flow } from "@/lib/client/session";
 import { AREA_CENTROIDS, haversineKm } from "@/lib/geo";
@@ -99,62 +99,64 @@ export default function ChatPage() {
   const askingArea = flow.messages.at(-1)?.role === "assistant" && /area|where/i.test(flow.messages.at(-1)!.content);
 
   return (
-    <section className="flex flex-1 flex-col">
-      <Header back="/" />
-      <div className="flex flex-1 flex-col gap-3">
-        {flow.messages.map((m, i) => (
-          <Bubble key={i} from={m.role}>
-            {m.content}
-          </Bubble>
-        ))}
-        {busy ? (
-          <Bubble from="assistant">
-            <span className="inline-flex gap-1" aria-label="SuperMonk is thinking">
-              <span className="animate-bounce">•</span>
-              <span className="animate-bounce [animation-delay:120ms]">•</span>
-              <span className="animate-bounce [animation-delay:240ms]">•</span>
-            </span>
-          </Bubble>
-        ) : null}
-        {error ? (
-          <div className="flex flex-col gap-2">
-            <ErrorNote message={error} />
-            <GhostButton onClick={() => void ask(readFlow())}>Try again</GhostButton>
+    <Stage>
+      <section className="flex flex-1 flex-col">
+        <Header back="/" />
+        <div className="flex flex-1 flex-col gap-3">
+          {flow.messages.map((m, i) => (
+            <Bubble key={i} from={m.role}>
+              {m.content}
+            </Bubble>
+          ))}
+          {busy ? (
+            <Bubble from="assistant">
+              <span className="inline-flex gap-1" aria-label="SuperMonk is thinking">
+                <span className="animate-bounce">•</span>
+                <span className="animate-bounce [animation-delay:120ms]">•</span>
+                <span className="animate-bounce [animation-delay:240ms]">•</span>
+              </span>
+            </Bubble>
+          ) : null}
+          {error ? (
+            <div className="flex flex-col gap-2">
+              <ErrorNote message={error} />
+              <GhostButton onClick={() => void ask(readFlow())}>Try again</GhostButton>
+            </div>
+          ) : null}
+          <div ref={endRef} />
+        </div>
+
+        {!busy && flow.pills?.length ? (
+          <div className="sticky bottom-10 -mx-5 mt-4 flex gap-2 no-scrollbar overflow-x-auto px-5 pb-2 lg:mx-0 lg:flex-wrap lg:px-0">
+            {flow.pills.map((p) => (
+              <Pill key={p} onClick={() => answer(p)}>
+                {p}
+              </Pill>
+            ))}
+            {askingArea ? <Pill onClick={locate}>{LOCATE}</Pill> : null}
           </div>
         ) : null}
-        <div ref={endRef} />
-      </div>
 
-      {!busy && flow.pills?.length ? (
-        <div className="sticky bottom-10 -mx-5 mt-4 flex gap-2 no-scrollbar overflow-x-auto px-5 pb-2">
-          {flow.pills.map((p) => (
-            <Pill key={p} onClick={() => answer(p)}>
-              {p}
-            </Pill>
-          ))}
-          {askingArea ? <Pill onClick={locate}>{LOCATE}</Pill> : null}
-        </div>
-      ) : null}
-
-      <form
-        className="sticky bottom-10 mt-2 flex gap-2"
-        onSubmit={(e) => {
-          e.preventDefault();
-          answer(text);
-        }}
-      >
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Type an answer…"
-          className="flex-1 rounded-full bg-navy-2 px-4 py-3 text-cream ring-1 ring-cream/15 placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-saffron"
-          aria-label="Your answer"
-        />
-        <VoiceButton onInterim={setText} onFinal={answer} />
-        <button type="submit" disabled={!text.trim() || busy} className="bg-brand rounded-full px-5 font-semibold text-navy disabled:opacity-40">
-          Send
-        </button>
-      </form>
-    </section>
+        <form
+          className="sticky bottom-10 mt-2 flex gap-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            answer(text);
+          }}
+        >
+          <input
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Type an answer…"
+            className="flex-1 rounded-full bg-navy-2 px-4 py-3 text-navy shadow-sm shadow-navy/5 ring-1 ring-navy/15 placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-saffron"
+            aria-label="Your answer"
+          />
+          <VoiceButton onInterim={setText} onFinal={answer} />
+          <button type="submit" disabled={!text.trim() || busy} className="bg-brand rounded-full px-5 font-semibold text-navy disabled:opacity-40">
+            Send
+          </button>
+        </form>
+      </section>
+    </Stage>
   );
 }

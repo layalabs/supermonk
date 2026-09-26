@@ -1,28 +1,47 @@
 @import "tailwindcss";
 
-/* Design tokens from the SuperMonk logo. Restyle here, not in components. */
+/* Design tokens: "golden hour Chiang Mai". Light, calm, warm. Restyle here, not in components.
+   Token names are kept from the original dark theme so components keep working:
+   navy = ink (deep teak), navy-2 = surface (card white), cream = page background. */
 @theme {
-  --color-navy: #0f1a2e;
-  --color-navy-2: #18253d;
-  --color-saffron: #f5a623;
-  --color-orange: #f26b1d;
-  --color-cape: #d7263d;
-  --color-cream: #f7f3ea;
-  --color-muted: #a9b3c4;
+  --color-navy: #2b1d12; /* deep teak: body text, text on brand buttons */
+  --color-navy-2: #fffdf8; /* surface: cards, inputs, bubbles */
+  --color-cream: #fbf6ec; /* page background */
+  --color-surface: #fffdf8;
+  --color-ink: #2b1d12;
+  --color-muted: #7a6a58; /* 4.84:1 on cream */
+  --color-saffron: #f0a030;
+  --color-orange: #e8792b;
+  --color-ember: #9a4a0e; /* saffron as *text* on cream: 5.80:1 (raw saffron is 1.99:1) */
+  --color-cape: #c8323f; /* destructive / decline only: 4.89:1 on cream */
+  --color-lotus: #e9a7b6;
+  --color-rice: #8fb27a;
+  --color-rice-deep: #4a6a36; /* rice as text on cream: 5.72:1 */
+  --color-mist: #bfd6e4;
   --radius-card: 16px;
   --font-sans: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --breakpoint-lg: 64rem;
 }
 
 :root {
   --gradient-brand: linear-gradient(135deg, var(--color-saffron), var(--color-orange));
+  /* Darker gradient for gradient *text* so headings stay >= 3:1 on cream (4.26 → 5.51). */
+  --gradient-brand-ink: linear-gradient(135deg, #c0560e, #b33a1c);
 }
 
 html,
 body {
-  background: var(--color-navy);
-  color: var(--color-cream);
+  background: var(--color-cream);
+  color: var(--color-navy);
   font-family: var(--font-sans);
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Golden-hour wash: a soft saffron glow at the top so the cream never reads as flat grey. */
+body {
+  background-image:
+    radial-gradient(60rem 28rem at 50% -8rem, color-mix(in srgb, var(--color-saffron) 18%, transparent), transparent 70%);
+  background-repeat: no-repeat;
 }
 
 .bg-brand {
@@ -30,7 +49,7 @@ body {
 }
 
 .text-brand {
-  background-image: var(--gradient-brand);
+  background-image: var(--gradient-brand-ink);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

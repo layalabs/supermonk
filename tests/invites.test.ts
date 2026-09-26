@@ -76,6 +76,11 @@ describe("Thai area names", () => {
   it("every area in the seed has a Thai name, so no Thai line falls back to English", () => {
     for (const [id, a] of Object.entries(AREA_CENTROIDS)) expect(a.labelThai, id).toMatch(/[\u0E00-\u0E7F]/);
   });
+  it("never leaves the place empty in the Thai line", () => {
+    const card = buildCard(buildInvite({ ...ok, area: undefined }, data), data);
+    expect(card.thaiLine).toContain("ที่บ้านเจ้าภาพ");
+    expect(card.thaiLine).not.toMatch(/ที่\s+วันที่/);
+  });
   it("keeps a typed address as written", () => {
     const card = buildCard(buildInvite({ ...ok, address: "The Nimmana Condo, room 804" }, data), data);
     expect(card.thaiLine).toContain("ที่ The Nimmana Condo, room 804");

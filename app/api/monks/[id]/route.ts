@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { loadData } from "@/lib/data";
+import { loadAllData } from "@/lib/data";
 import { todayBangkok } from "@/lib/dates";
 import { handle } from "@/lib/http";
 import { InviteError } from "@/lib/invites";
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
   return handle(async () => {
     const { id } = await ctx.params;
-    const { monks, temples, services } = loadData();
+    const { monks, temples, services } = await loadAllData();
     const monk = monks.find((m) => m.id === id);
     if (!monk) throw new InviteError("monk not found", 404);
     const today = todayBangkok();
