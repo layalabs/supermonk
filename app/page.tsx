@@ -2,16 +2,32 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import services from "@/data/services.json";
 import VoiceButton from "@/components/VoiceButton";
 import SuperMonkGame from "@/components/SuperMonkGame";
-import { Header, Pill, PrimaryButton, Stage, StageAside } from "@/components/ui";
+import { Header, Pill, Stage, StageAside } from "@/components/ui";
 import { startFlow } from "@/lib/client/session";
+
+// Three lines of 24 px text plus the row padding.
+const MAX_ROWS_PX = 3 * 24 + 20;
 
 export default function AskPage() {
   const router = useRouter();
   const [text, setText] = useState("");
+  const box = useRef<HTMLTextAreaElement>(null);
+
+  // One calm row that grows with the text up to three lines, then scrolls.
+  const fit = useCallback(() => {
+    const el = box.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, MAX_ROWS_PX)}px`;
+  }, []);
+  const update = (value: string) => {
+    setText(value);
+    requestAnimationFrame(fit);
+  };
 
   const go = (value: string) => {
     const t = value.trim();
@@ -38,32 +54,48 @@ export default function AskPage() {
         </div>
 
         <form
-          className="mt-6 flex flex-col gap-3"
+          className="mt-6"
           onSubmit={(e) => {
             e.preventDefault();
             go(text);
           }}
         >
-          <div className="relative">
+          <label htmlFor="ask" className="sr-only">
+            What do you need?
+          </label>
+          <div className="flex items-end gap-2 rounded-[28px] bg-navy-2 py-2 pl-5 pr-2 shadow-sm shadow-navy/5 ring-1 ring-navy/15 transition focus-within:ring-2 focus-within:ring-saffron">
             <textarea
+              id="ask"
+              ref={box}
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => update(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
                   go(text);
                 }
               }}
-              rows={4}
-              placeholder="I just moved into a condo and want a house blessing on Saturday…"
-              className="w-full resize-none rounded-card bg-navy-2 p-4 pr-14 text-base text-navy shadow-sm shadow-navy/5 ring-1 ring-navy/15 placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-saffron"
-              aria-label="What do you need?"
+              rows={1}
+              enterKeyHint="send"
+              placeholder="Ask SuperMonk…"
+              className="min-h-11 flex-1 resize-none self-center bg-transparent py-2.5 text-base leading-6 text-navy placeholder:text-muted/70 focus:outline-none"
+              aria-describedby="ask-hint"
             />
-            <VoiceButton className="absolute bottom-3 right-3" onInterim={setText} onFinal={go} />
+            <VoiceButton className="shrink-0" onInterim={update} onFinal={go} />
+            <button
+              type="submit"
+              disabled={!text.trim()}
+              aria-label="Ask SuperMonk"
+              className="bg-brand flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-navy shadow-md shadow-orange/20 transition hover:brightness-105 active:scale-95 disabled:opacity-40 disabled:shadow-none"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M12 19V5M5 12l7-7 7 7" />
+              </svg>
+            </button>
           </div>
-          <PrimaryButton type="submit" disabled={!text.trim()}>
-            Ask SuperMonk
-          </PrimaryButton>
+          <p id="ask-hint" className="sr-only">
+            Press Enter to ask, Shift and Enter for a new line.
+          </p>
         </form>
 
         <div className="mt-8">

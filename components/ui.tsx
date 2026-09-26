@@ -33,6 +33,42 @@ export function Pill({ active, className = "", ...props }: ButtonHTMLAttributes<
   );
 }
 
+/** Two-to-four-way view switcher (Grid | Map). Buttons carry aria-pressed; the group is labelled. */
+export function Segmented<T extends string>({
+  value,
+  options,
+  onChange,
+  label,
+  className = "",
+}: {
+  value: T;
+  options: { value: T; label: ReactNode }[];
+  onChange: (v: T) => void;
+  label: string;
+  className?: string;
+}) {
+  return (
+    <div role="group" aria-label={label} className={`inline-flex shrink-0 rounded-full bg-navy/5 p-1 ring-1 ring-navy/10 ${className}`}>
+      {options.map((o) => {
+        const on = o.value === value;
+        return (
+          <button
+            key={o.value}
+            type="button"
+            aria-pressed={on}
+            onClick={() => onChange(o.value)}
+            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-saffron ${
+              on ? "bg-navy-2 text-navy shadow-sm shadow-navy/10" : "text-muted hover:text-navy"
+            }`}
+          >
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`rounded-card bg-navy-2 p-4 shadow-sm shadow-navy/5 ring-1 ring-navy/10 ${className}`}>{children}</div>;
 }

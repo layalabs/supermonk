@@ -9,8 +9,8 @@
       "morning"
     ],
     "donationRange": [
-      1000,
-      3000
+      300,
+      1000
     ],
     "pills": [
       "Bless my new home"
@@ -21,7 +21,7 @@
       "Flowers, candles and incense (a temple shop sells a ready set)",
       "A bowl of clean water for the holy water",
       "Food for the monks, served before 11:00, and drinking water",
-      "An envelope with the donation (ปัจจัย), handed over at the end",
+      "An envelope with the donation (ปัจจัย), ตามกำลังศรัทธา (as your faith allows), handed over at the end",
       "Dress modestly: shoulders and knees covered, sit lower than the monks"
     ],
     "thaiLine": "ขอนิมนต์{monkThai} จาก{templeThai} ไปทำบุญขึ้นบ้านใหม่ที่ {where} วันที่ {date} {slotThai}"
@@ -36,8 +36,8 @@
       "morning"
     ],
     "donationRange": [
-      1000,
-      3000
+      300,
+      1000
     ],
     "pills": [
       "Bless my new shop"
@@ -48,7 +48,7 @@
       "A bowl of clean water for the holy water",
       "Food for the monks before 11:00, and drinking water",
       "The owner and staff present, dressed modestly",
-      "An envelope with the donation (ปัจจัย)"
+      "An envelope with the donation (ปัจจัย), ตามกำลังศรัทธา (as your faith allows)"
     ],
     "thaiLine": "ขอนิมนต์{monkThai} จาก{templeThai} ไปทำบุญเปิดร้านที่ {where} วันที่ {date} {slotThai}"
   },
@@ -63,8 +63,8 @@
       "afternoon"
     ],
     "donationRange": [
-      1000,
-      2000
+      300,
+      1000
     ],
     "pills": [
       "Merit for someone I lost"
@@ -73,7 +73,7 @@
       "A photo of the person, placed on a small table with flowers",
       "An offering set (สังฆทาน) from any temple shop or supermarket",
       "Food or drinks for the monks if before noon, drinks only after",
-      "An envelope with the donation (ปัจจัย)",
+      "An envelope with the donation (ปัจจัย), ตามกำลังศรัทธา (as your faith allows)",
       "Dress modestly, white or muted colours"
     ],
     "thaiLine": "ขอนิมนต์{monkThai} จาก{templeThai} ไปทำบุญอุทิศส่วนกุศลที่ {where} วันที่ {date} {slotThai}"
@@ -88,7 +88,7 @@
       "morning"
     ],
     "donationRange": [
-      200,
+      100,
       500
     ],
     "pills": [
@@ -97,7 +97,7 @@
     "prepare": [
       "Bring the vehicle to the temple, cleaned",
       "A small offering set or flowers, candles and incense",
-      "An envelope with the donation (ปัจจัย)",
+      "An envelope with the donation (ปัจจัย), ตามกำลังศรัทธา (as your faith allows)",
       "Arrive in the morning, dressed modestly"
     ],
     "thaiLine": "ขอนิมนต์{monkThai} เจิมรถที่{templeThai} วันที่ {date} {slotThai}"
@@ -124,7 +124,7 @@
       "Women do not touch monks or hand items directly to them; place items down first",
       "Bring three questions; monks like practising English too",
       "Phone on silent, and ask before taking photos",
-      "A donation is optional; 100 baht or more is customary"
+      "A donation is optional, ตามกำลังศรัทธา (as your faith allows); 100 baht or more is customary"
     ],
     "thaiLine": "ขอเข้าพบ{monkThai} ที่{templeThai} เพื่อสนทนาธรรม วันที่ {date} {slotThai}"
   },
@@ -150,7 +150,7 @@
       "Loose, modest clothes in muted colours",
       "Arrive 10 minutes early, shoes off, phone silent",
       "Eat lightly beforehand",
-      "A donation is optional"
+      "A donation is optional, ตามกำลังศรัทธา (as your faith allows)"
     ],
     "thaiLine": "ขอเข้าพบ{monkThai} ที่{templeThai} เพื่อฝึกสมาธิ วันที่ {date} {slotThai}"
   }
