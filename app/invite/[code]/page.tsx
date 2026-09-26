@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import ConfirmationCard from "@/components/ConfirmationCard";
 import MonkCard from "@/components/MonkCard";
-import { ErrorNote, Header } from "@/components/ui";
+import { ErrorNote, Header, Stage, StageAside } from "@/components/ui";
 import { getJson, postJson, readFlow } from "@/lib/client/session";
 import type { InviteResponse, MatchCard } from "@/lib/types";
 import { fetchLevels } from "@/lib/verify/client";
@@ -67,57 +67,63 @@ function InviteStatus() {
   if (!data) return error ? <ErrorNote message={error} /> : <p className="mt-20 text-center text-muted">Loading…</p>;
   const { invite, card } = data;
 
+  const asideContent =
+    invite.status === "accepted" ? (
+      <ConfirmationCard card={card} verified={verified} />
+    ) : invite.status === "declined" && next ? (
+      <div className="-mx-5 flex px-5 lg:mx-0 lg:px-0">
+        <MonkCard card={next} />
+      </div>
+    ) : null;
+
   return (
-    <section className="flex flex-1 flex-col gap-5">
-      <Header back="/my" />
-      {invite.status === "pending" ? (
-        <div className="flex flex-col items-center gap-4 py-8 text-center" role="status" aria-live="polite">
-          <div className="h-14 w-14 animate-spin rounded-full border-4 border-saffron/20 border-t-saffron" aria-hidden />
-          <h1 className="text-2xl font-bold">Invite sent</h1>
-          <p className="text-muted">
-            The office at {card.templeName} has your invite for {card.monkName}. This page updates when they reply.
-          </p>
-          <p className="text-sm">
-            {card.when}
-            <br />
-            <span className="font-mono tracking-widest text-saffron">{card.code}</span>
-          </p>
-        </div>
-      ) : null}
-
-      {invite.status === "accepted" ? (
-        <>
-          <div className="text-center" role="status" aria-live="polite">
-            <p className="text-4xl" aria-hidden>
-              🙏
+    <Stage aside={asideContent ? <StageAside>{asideContent}</StageAside> : undefined}>
+      <section className="flex flex-1 flex-col gap-5">
+        <Header back="/my" />
+        {invite.status === "pending" ? (
+          <div className="flex flex-col items-center gap-4 py-8 text-center" role="status" aria-live="polite">
+            <div className="h-14 w-14 animate-spin rounded-full border-4 border-saffron/20 border-t-saffron" aria-hidden />
+            <h1 className="text-2xl font-bold">Invite sent</h1>
+            <p className="text-muted">
+              The office at {card.templeName} has your invite for {card.monkName}. This page updates when they reply.
             </p>
-            <h1 className="mt-2 text-2xl font-bold">
-              <span className="text-brand">{card.monkName}</span> accepted
-            </h1>
-            <p className="mt-1 text-muted">Here is everything you need for the day.</p>
+            <p className="text-sm">
+              {card.when}
+              <br />
+              <span className="font-mono tracking-widest text-ember">{card.code}</span>
+            </p>
           </div>
-          <ConfirmationCard card={card} verified={verified} />
-        </>
-      ) : null}
+        ) : null}
 
-      {invite.status === "declined" ? (
-        <div className="flex flex-col gap-4" role="status" aria-live="polite">
-          <h1 className="text-2xl font-bold">{card.monkName} can't make it</h1>
-          <p className="text-muted">The temple office declined this time. Here is another monk who could come.</p>
-          {next ? (
-            <div className="-mx-5 flex px-5">
-              <MonkCard card={next} />
+        {invite.status === "accepted" ? (
+          <>
+            <div className="text-center" role="status" aria-live="polite">
+              <p className="text-4xl" aria-hidden>
+                🙏
+              </p>
+              <h1 className="mt-2 text-2xl font-bold">
+                <span className="text-brand">{card.monkName}</span> accepted
+              </h1>
+              <p className="mt-1 text-muted">Here is everything you need for the day.</p>
             </div>
-          ) : (
-            <Link href="/" className="text-saffron underline">
-              Ask SuperMonk again
-            </Link>
-          )}
-        </div>
-      ) : null}
+          </>
+        ) : null}
 
-      {error ? <ErrorNote message={`Reconnecting… (${error})`} /> : null}
-    </section>
+        {invite.status === "declined" ? (
+          <div className="flex flex-col gap-4" role="status" aria-live="polite">
+            <h1 className="text-2xl font-bold">{card.monkName} can't make it</h1>
+            <p className="text-muted">The temple office declined this time. Here is another monk who could come.</p>
+            {next ? null : (
+              <Link href="/" className="text-ember underline">
+                Ask SuperMonk again
+              </Link>
+            )}
+          </div>
+        ) : null}
+
+        {error ? <ErrorNote message={`Reconnecting… (${error})`} /> : null}
+      </section>
+    </Stage>
   );
 }
 

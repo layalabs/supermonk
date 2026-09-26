@@ -23,3 +23,22 @@ create table if not exists public.invites (
 
 create index if not exists invites_device_id_idx on public.invites (device_id, created_at desc);
 alter table public.invites disable row level security;
+
+-- P1: temple-side records created through LINE onboarding (whole record kept as jsonb).
+create table if not exists public.line_profiles (
+  line_user_id text primary key,
+  record       jsonb not null,
+  updated_at   timestamptz not null default now()
+);
+create table if not exists public.line_monks (
+  id         text primary key,
+  record     jsonb not null,
+  updated_at timestamptz not null default now()
+);
+alter table public.line_profiles disable row level security;
+alter table public.line_monks disable row level security;
+
+-- P1: how an invite reached the temple side and who answered it.
+alter table public.invites add column if not exists delivered_via text;
+alter table public.invites add column if not exists responded_by text;
+alter table public.invites add column if not exists responded_at timestamptz;

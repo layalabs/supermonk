@@ -1,37 +1,63 @@
 import Link from "next/link";
+import monks from "@/data/monks.json";
+import temples from "@/data/temples.json";
 import { Chip } from "@/components/ui";
+import { AREA_CENTROIDS } from "@/lib/geo";
 import { baht, LANGUAGE_LABEL, shortDate, SLOT_LABEL } from "@/lib/labels";
-import type { Language, MatchCard, Slot } from "@/lib/types";
+import type { Area, Language, MatchCard, Slot } from "@/lib/types";
+
+// MatchCard carries only the ranking fields; the profile gallery (desktop) also shows the Thai
+// name, area and a bio excerpt, looked up from the seed JSON. Mobile keeps the compact card.
+const MONK = new Map(monks.map((m) => [m.id, m]));
+const TEMPLE = new Map(temples.map((t) => [t.id, t]));
 
 export default function MonkCard({ card, top }: { card: MatchCard; top?: boolean }) {
   const [lo, hi] = card.donationRange;
+  const monk = MONK.get(card.monkId);
+  const temple = monk ? TEMPLE.get(monk.templeId) : undefined;
+  const area = temple ? AREA_CENTROIDS[temple.area as Area]?.label : undefined;
   return (
     <Link
       href={`/monk/${card.monkId}`}
-      className="flex w-[82%] shrink-0 snap-center flex-col gap-3 rounded-card bg-navy-2 p-5 ring-1 ring-cream/10 active:scale-[0.99]"
+      className="flex w-[82%] shrink-0 snap-center flex-col gap-3 rounded-card bg-navy-2 p-5 shadow-sm shadow-navy/5 ring-1 ring-navy/10 transition active:scale-[0.99] lg:w-auto lg:snap-align-none lg:p-6 lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:shadow-orange/10 lg:hover:ring-saffron/50"
     >
       <div className="flex items-center justify-between">
         {top ? <span className="bg-brand whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold text-navy">Closest match</span> : <span />}
-        <span className={`whitespace-nowrap text-xs ${card.availableOnDate ? "text-saffron" : "text-muted"}`}>
+        <span className={`whitespace-nowrap text-xs ${card.availableOnDate ? "text-rice-deep" : "text-muted"}`}>
           {card.availableOnDate ? "● Available on your date" : "○ Not on your date"}
         </span>
       </div>
-      <div className="flex items-center gap-4">
-        <div className="bg-brand flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-2xl font-bold text-navy" aria-hidden>
+      <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
+        <div
+          className="bg-brand flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-2xl font-bold text-navy shadow-md shadow-orange/20 lg:h-24 lg:w-24 lg:text-4xl"
+          aria-hidden
+        >
           {card.name.replace(/^Phra\s+/, "").charAt(0)}
         </div>
         <div>
-          <h2 className="text-xl font-semibold leading-tight">{card.name}</h2>
-          <p className="text-sm text-muted">{card.temple}</p>
+          <h2 className="text-xl font-semibold leading-tight lg:text-2xl">{card.name}</h2>
+          {monk ? (
+            <p lang="th" className="hidden text-sm text-muted lg:block">
+              {monk.nameThai}
+            </p>
+          ) : null}
+          <p className="text-sm text-muted">
+            {card.temple}
+            {area ? ` · ${area}` : ""}
+          </p>
         </div>
       </div>
-      <p className="text-sm text-cream/90">{card.why}</p>
+      {monk ? <p className="hidden text-sm leading-relaxed text-navy/80 lg:line-clamp-2">{monk.bio}</p> : null}
+      <p className="text-sm text-navy/90">
+        <span className="hidden text-xs uppercase tracking-wide text-muted lg:block">Why this monk</span>
+        {card.why}
+      </p>
       <div className="flex flex-wrap gap-1.5">
         {card.languages.map((l) => (
           <Chip key={l}>{LANGUAGE_LABEL[l as Language] ?? l}</Chip>
         ))}
       </div>
-      <dl className="mt-auto grid grid-cols-3 gap-2 border-t border-cream/10 pt-3 text-sm">
+      <dl className="mt-auto grid grid-cols-3 gap-2 border-t border-navy/10 pt-3 text-sm">
         <div>
           <dt className="text-xs text-muted">Distance</dt>
           <dd>{card.distanceKm === null ? "—" : `${card.distanceKm} km`}</dd>

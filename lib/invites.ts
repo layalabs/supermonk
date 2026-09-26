@@ -63,7 +63,7 @@ export function buildInvite(body: Partial<CreateInviteRequest>, data: SeedData =
   };
 }
 
-function thaiDate(iso: string): string {
+export function thaiDate(iso: string): string {
   return new Date(`${iso}T00:00:00Z`).toLocaleDateString("th-TH", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 }
 
@@ -77,7 +77,7 @@ export function buildCard(invite: Invite, data: SeedData = loadData()): Confirma
       ? invite.address ?? (areaLabel ? `Your place in ${areaLabel}` : "Your place")
       : `${temple?.name ?? "The temple"}${temple?.address ? `, ${temple.address}` : ""}`;
   const areaThai = invite.area ? AREA_CENTROIDS[invite.area]?.labelThai : undefined;
-  const whereThai = invite.mode === "monk_comes" ? invite.address ?? areaThai ?? "" : temple?.nameThai ?? "";
+  const whereThai = invite.mode === "monk_comes" ? invite.address ?? areaThai ?? "บ้านเจ้าภาพ" : temple?.nameThai ?? "";
   const slotThai = (meta.slotThai as Record<Slot, string>)[invite.slot];
   // Thai runs words together ("ที่นิมมาน"); keep the template's space only before Latin text such as a typed address.
   const template = /^[\u0E00-\u0E7F]/.test(whereThai)

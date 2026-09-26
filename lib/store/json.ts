@@ -58,13 +58,27 @@ export class JsonInviteStore implements InviteStore {
     return newestFirst(await this.read());
   }
 
-  setStatus(code: string, status: InviteStatus): Promise<Invite | null> {
+  setDelivery(code: string, via: "line" | "web"): Promise<void> {
+    return this.locked(async () => {
+      const invites = await this.read();
+      const invite = invites.find((i) => i.code === code);
+      if (!invite) return;
+      invite.deliveredVia = via;
+      await this.write(invites);
+    });
+  }
+
+  setStatus(code: string, status: InviteStatus, respondedBy?: string): Promise<Invite | null> {
     return this.locked(async () => {
       const invites = await this.read();
       const invite = invites.find((i) => i.code === code);
       if (!invite) return null;
       invite.status = status;
       invite.updatedAt = new Date().toISOString();
+      if (respondedBy) {
+        invite.respondedBy = respondedBy;
+        invite.respondedAt = invite.updatedAt;
+      }
       await this.write(invites);
       return invite;
     });

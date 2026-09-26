@@ -1,4 +1,4 @@
-import { loadData } from "@/lib/data";
+import { loadAllData } from "@/lib/data";
 import { availableOn } from "@/lib/match";
 import { AREA_CENTROIDS, haversineKm } from "@/lib/geo";
 import { clampWords, defaultWhyLine } from "@/lib/llm/why";
@@ -11,7 +11,7 @@ export async function explain(
   llm: LlmAdapter,
   location?: { lat: number; lng: number },
 ): Promise<{ why: Record<string, string>; source: string }> {
-  const { monks, temples } = loadData();
+  const { monks, temples } = await loadAllData();
   const point = location ?? (extracted.area ? AREA_CENTROIDS[extracted.area] : undefined);
   const summaries: MonkSummary[] = monkIds
     .slice(0, 5)

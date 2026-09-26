@@ -89,6 +89,10 @@ export type Invite = {
   createdAt: string;
   updatedAt: string;
   note?: string;
+  /** P1: how the temple side was told, and which LINE user answered. */
+  deliveredVia?: "line" | "web";
+  respondedBy?: string;
+  respondedAt?: string;
 };
 
 export type Extracted = {
