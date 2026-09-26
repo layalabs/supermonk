@@ -3,6 +3,7 @@ import type { SeedData } from "@/lib/data";
 import { AREA_CENTROIDS } from "@/lib/geo";
 import { thaiDate } from "@/lib/invites";
 import type { Invite, Slot } from "@/lib/types";
+import { contactLine } from "@/lib/outreach/contact";
 import { TH } from "./copy";
 import type { LineMessage } from "./types";
 
@@ -58,6 +59,7 @@ export function inviteFlex(invite: Invite, data: SeedData, baseUrl: string, host
     row("เจ้าภาพ", [hostName, TH.hostLanguage(invite.language)].filter(Boolean).join(" · ")),
     ...(invite.guests ? [row("ผู้ร่วมงาน", TH.guests(invite.guests))] : []),
     row("ปัจจัย", TH.donation(invite.donation || range[0], invite.donation || range[1])),
+    ...(invite.hostContact ? [row(TH.hostContact, contactLine(invite.hostContact))] : []),
   ];
   return {
     type: "flex",

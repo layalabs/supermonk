@@ -11,6 +11,7 @@ const STATUS_STYLE: Record<InviteStatus, string> = {
   pending: "bg-saffron/25 text-ember",
   accepted: "bg-rice/30 text-rice-deep",
   declined: "bg-cape/15 text-cape-deep",
+  withdrawn: "bg-navy/10 text-muted",
 };
 
 export default function MyInvitesPage() {

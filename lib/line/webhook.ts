@@ -1,4 +1,6 @@
 import type { SeedData } from "@/lib/data";
+import { answerInvite } from "@/lib/outreach/answer";
+import type { HostNotifier } from "@/lib/outreach/notify";
 import type { InviteStore } from "@/lib/store";
 import { TH } from "./copy";
 import { parsePostback, roleQuestion } from "./flex";
@@ -23,6 +25,8 @@ export type WebhookDeps = {
   lineStore: LineStore;
   data: () => Promise<SeedData>;
   baseUrl: string;
+  /** tells hosts (email / WhatsApp) when a temple answers; optional so tests can leave it out */
+  notify?: HostNotifier;
 };
 
 export class SignatureError extends Error {}
@@ -99,13 +103,19 @@ export async function handleWebhook(rawBody: string, signature: string | null, d
       done.push("invite:not-yours");
       continue;
     }
-    if (invite.status !== "pending") {
-      await reply([text(TH.already(invite.status))]);
-      done.push(`invite:already-${invite.status}`);
+    const status = pb.action === "accept" ? "accepted" : "declined";
+    const res = await answerInvite(invite.code, status, userId, { store: deps.invites, data: await deps.data(), notify: deps.notify, baseUrl: deps.baseUrl });
+    if (res.outcome === "filled") {
+      await reply([text(TH.filled)]);
+      done.push("invite:filled");
       continue;
     }
-    const status = pb.action === "accept" ? "accepted" : "declined";
-    await deps.invites.setStatus(invite.code, status, userId);
+    if (res.outcome !== "answered") {
+      const now = res.invite?.status ?? invite.status;
+      await reply([text(TH.already(now))]);
+      done.push(`invite:already-${now}`);
+      continue;
+    }
     await reply([text(status === "accepted" ? TH.accepted : TH.declined)]);
     done.push(`invite:${status}`);
   }

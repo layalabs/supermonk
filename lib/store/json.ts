@@ -68,11 +68,19 @@ export class JsonInviteStore implements InviteStore {
     });
   }
 
-  setStatus(code: string, status: InviteStatus, respondedBy?: string): Promise<Invite | null> {
+  answerIfPending(code: string, status: InviteStatus, respondedBy?: string): Promise<Invite | null> {
+    return this.setStatus(code, status, respondedBy, true);
+  }
+
+  async listByRequest(requestId: string): Promise<Invite[]> {
+    return (await this.read()).filter((i) => i.requestId === requestId);
+  }
+
+  setStatus(code: string, status: InviteStatus, respondedBy?: string, onlyIfPending = false): Promise<Invite | null> {
     return this.locked(async () => {
       const invites = await this.read();
       const invite = invites.find((i) => i.code === code);
-      if (!invite) return null;
+      if (!invite || (onlyIfPending && invite.status !== "pending")) return null;
       invite.status = status;
       invite.updatedAt = new Date().toISOString();
       if (respondedBy) {

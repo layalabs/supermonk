@@ -14,3 +14,4 @@ data/verifications.json
 data/line.json
 data/line-outbox.json
 data/sms-outbox.json
+data/host-outbox.json

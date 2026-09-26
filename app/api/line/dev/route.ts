@@ -3,6 +3,7 @@ import { lineConfig, readOutbox } from "@/lib/line/adapter";
 import { webhookDeps } from "@/lib/line/deps";
 import { lineSignature } from "@/lib/line/signature";
 import { readSmsOutbox } from "@/lib/line/sms";
+import { readHostOutbox } from "@/lib/outreach/notify";
 import { getLineStore } from "@/lib/line/store";
 import { handleWebhook } from "@/lib/line/webhook";
 
@@ -15,7 +16,7 @@ const off = () => NextResponse.json({ error: "mock LINE is off (real LINE keys a
 export async function GET() {
   if (!lineConfig().mock) return off();
   const store = getLineStore();
-  return NextResponse.json({ outbox: (await readOutbox()).slice(-50).reverse(), sms: (await readSmsOutbox()).slice(-20).reverse(), profiles: await store.listProfiles(), monks: await store.listMonks() });
+  return NextResponse.json({ outbox: (await readOutbox()).slice(-50).reverse(), sms: (await readSmsOutbox()).slice(-20).reverse(), hosts: (await readHostOutbox()).slice(-20).reverse(), profiles: await store.listProfiles(), monks: await store.listMonks() });
 }
 
 export async function POST(req: Request) {

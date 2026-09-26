@@ -72,7 +72,9 @@ function InviteStatus() {
       ? "Invite sent"
       : data.invite.status === "accepted"
         ? `${data.card.monkName} accepted`
-        : `${data.card.monkName} can't make it`;
+        : data.invite.status === "withdrawn"
+          ? "Another temple accepted first"
+          : `${data.card.monkName} can't make it`;
   const live = (
     <p role="status" aria-live="polite" className="sr-only">
       {status}
@@ -142,6 +144,16 @@ function InviteStatus() {
                 Ask SuperMonk again
               </Link>
             )}
+          </div>
+        ) : null}
+
+        {invite.status === "withdrawn" ? (
+          <div className="flex flex-col gap-4">
+            <h1 className="text-2xl font-bold">Another temple accepted first</h1>
+            <p className="text-muted">SuperMonk asked a few temples at once for you; this one was no longer needed. Check your other invites.</p>
+            <Link href="/my" className="text-ember underline">
+              My invites
+            </Link>
           </div>
         ) : null}
 
