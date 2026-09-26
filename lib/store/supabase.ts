@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import type { DeliveryVia, Invite, InviteStatus } from "@/lib/types";
+import type { DeliveryVia, HostContact, Invite, InviteStatus } from "@/lib/types";
 import type { InviteStore } from "./types";
 
 type Row = {
@@ -23,6 +23,8 @@ type Row = {
   delivered_via?: DeliveryVia | null;
   responded_by?: string | null;
   responded_at?: string | null;
+  host_contact?: HostContact | null;
+  request_id?: string | null;
 };
 
 export function toRow(i: Invite): Row {
@@ -46,6 +48,8 @@ export function toRow(i: Invite): Row {
     note: i.note ?? null,
     ...(i.deliveredVia && { delivered_via: i.deliveredVia }),
     ...(i.respondedBy && { responded_by: i.respondedBy, responded_at: i.respondedAt ?? null }),
+    ...(i.hostContact && { host_contact: i.hostContact }),
+    ...(i.requestId && { request_id: i.requestId }),
   };
 }
 
@@ -71,6 +75,8 @@ export function fromRow(r: Row): Invite {
     ...(r.delivered_via != null && { deliveredVia: r.delivered_via }),
     ...(r.responded_by != null && { respondedBy: r.responded_by }),
     ...(r.responded_at != null && { respondedAt: r.responded_at }),
+    ...(r.host_contact != null && { hostContact: r.host_contact }),
+    ...(r.request_id != null && { requestId: r.request_id }),
   };
 }
 
@@ -114,14 +120,27 @@ export class SupabaseInviteStore implements InviteStore {
     if (error) throw new Error(`supabase update failed: ${error.message}`);
   }
 
-  async setStatus(code: string, status: InviteStatus, respondedBy?: string): Promise<Invite | null> {
+  answerIfPending(code: string, status: InviteStatus, respondedBy?: string): Promise<Invite | null> {
+    return this.setStatus(code, status, respondedBy, true);
+  }
+
+  async listByRequest(requestId: string): Promise<Invite[]> {
+    const { data, error } = await this.db.from("invites").select().eq("request_id", requestId);
+    if (error) throw new Error(`supabase select failed: ${error.message}`);
+    return (data as Row[]).map(fromRow);
+  }
+
+  async setStatus(code: string, status: InviteStatus, respondedBy?: string, onlyIfPending = false): Promise<Invite | null> {
     const now = new Date().toISOString();
-    const { data, error } = await this.db
+    let q = this.db
       .from("invites")
       .update({ status, updated_at: now, ...(respondedBy && { responded_by: respondedBy, responded_at: now }) })
-      .eq("code", code)
-      .select()
-      .maybeSingle();
+      .eq("code", code);
+    // Conditional update: two offices answering at once cannot both win.
+    if (onlyIfPending) q = q.eq("status", "pending");
+    const { data, error } = await q.select().maybeSingle();
+    // invites_one_accept_per_request: another temple in this outreach request accepted first.
+    if (error?.code === "23505" && onlyIfPending) return null;
     if (error) throw new Error(`supabase update failed: ${error.message}`);
     return data ? fromRow(data as Row) : null;
   }

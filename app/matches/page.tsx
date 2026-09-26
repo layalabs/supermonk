@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import monks from "@/data/monks.json";
 import temples from "@/data/temples.json";
+import InviteChoices from "@/components/InviteChoices";
 import MonkCard from "@/components/MonkCard";
 import type { TempleHighlights } from "@/components/TempleMap";
 import { Header, Pill, Segmented, Stage } from "@/components/ui";
@@ -99,6 +100,11 @@ export default function MatchesPage() {
               {LANGUAGE_LABEL[l as Language] ?? l}
             </Pill>
           ))}
+        </div>
+
+        {/* Two invite paths (Oppo); Fab's list + map layout reserves this slot at the top of the list column. */}
+        <div id="invite-choices" className="mt-4">
+          <InviteChoices matches={flow.matches!} extracted={e} />
         </div>
 
         {view === "map" ? (

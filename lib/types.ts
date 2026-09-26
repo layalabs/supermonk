@@ -11,7 +11,8 @@ export type ServiceId =
 export type Mode = "monk_comes" | "you_go";
 export type Slot = "morning" | "afternoon" | "evening";
 export type Language = "th" | "en" | "zh" | "ja" | "kham_mueang";
-export type InviteStatus = "pending" | "accepted" | "declined";
+/** withdrawn: another temple already accepted the same outreach request. */
+export type InviteStatus = "pending" | "accepted" | "declined" | "withdrawn";
 
 export type Area =
   | "nimman"
@@ -109,7 +110,13 @@ export type Invite = {
   deliveredVia?: DeliveryVia;
   respondedBy?: string;
   respondedAt?: string;
+  /** How the temple can reach the host; only sent to temples the host chose or asked us to contact. */
+  hostContact?: HostContact;
+  /** Outreach: invites sent to several temples for one host request; the first acceptance wins. */
+  requestId?: string;
 };
+
+export type HostContact = { email: string; whatsapp?: string; lineId?: string; consentAt: string };
 
 export type Extracted = {
   serviceId?: ServiceId;
@@ -171,6 +178,8 @@ export type CreateInviteRequest = {
   guests?: number;
   language: "en" | "th";
   deviceId: string;
+  /** Path B (host invites a temple directly): contact shared with that temple, with consent. */
+  contact?: { email?: string; whatsapp?: string; lineId?: string; consent?: boolean };
 };
 
 export type InviteResponse = { invite: Invite; card: ConfirmationCard };

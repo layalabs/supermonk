@@ -42,3 +42,12 @@ alter table public.line_monks disable row level security;
 alter table public.invites add column if not exists delivered_via text;
 alter table public.invites add column if not exists responded_by text;
 alter table public.invites add column if not exists responded_at timestamptz;
+
+-- Invite modes (outreach + direct with host contact). "withdrawn" = another temple accepted the same request.
+alter table public.invites add column if not exists host_contact jsonb;
+alter table public.invites add column if not exists request_id text;
+create index if not exists invites_request_id_idx on public.invites (request_id) where request_id is not null;
+-- First acceptance wins across server instances: a second "accepted" in one request fails (23505).
+create unique index if not exists invites_one_accept_per_request on public.invites (request_id) where status = 'accepted';
+alter table public.invites drop constraint if exists invites_status_check;
+alter table public.invites add constraint invites_status_check check (status in ('pending','accepted','declined','withdrawn'));

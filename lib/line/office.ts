@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import type { SeedData } from "@/lib/data";
 import { thaiDate } from "@/lib/invites";
 import type { Invite, Temple } from "@/lib/types";
+import { contactLine } from "@/lib/outreach/contact";
 import { TH } from "./copy";
 import type { LineProfile } from "./types";
 
@@ -44,7 +45,9 @@ export function joinMessage(temple: Temple, secret: string, baseUrl: string, inv
   const lines: string[] = [TH.joinIntro];
   if (invite) {
     const service = data?.services.find((s) => s.id === invite.serviceId)?.nameThai ?? invite.serviceId;
-    lines.push(TH.joinInvite(temple.nameThai, `${service} ${thaiDate(invite.date)}`), `${TH.joinWeb} ${baseUrl}/office?code=${invite.code}`);
+    lines.push(TH.joinInvite(temple.nameThai, `${service} ${thaiDate(invite.date)}`));
+    if (invite.hostContact) lines.push(`${TH.hostContact}: ${contactLine(invite.hostContact)}`);
+    lines.push(`${TH.joinWeb} ${baseUrl}/office?code=${invite.code}`);
   }
   lines.push(`${TH.joinAdd} ${addFriendUrl()}`, `${TH.joinLink} ${bindChatUrl(joinCode(secret, temple.id))}`);
   return lines.join("\n");

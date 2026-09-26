@@ -4,12 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 import { Card, ErrorNote, GhostButton, Pill } from "@/components/ui";
 import type { OutboxEntry } from "@/lib/line/adapter";
 import type { SmsEntry } from "@/lib/line/sms";
+import type { HostMessage } from "@/lib/outreach/notify";
 import type { LineMonk, LineProfile } from "@/lib/line/types";
 
 // Mock LINE console (P1): stands in for the phone of a temple office or a monk until the real
 // Official Account exists. Every button goes through the same signed webhook handler as LINE.
 
-type Dev = { outbox: OutboxEntry[]; sms?: SmsEntry[]; profiles: LineProfile[]; monks: LineMonk[] };
+type Dev = { outbox: OutboxEntry[]; sms?: SmsEntry[]; hosts?: HostMessage[]; profiles: LineProfile[]; monks: LineMonk[] };
 type Action = { type: string; label: string; data?: string; uri?: string };
 const USERS = [
   { id: "Uoffice0001", label: "Temple office (Wat Suan Dok steward)" },
@@ -78,6 +79,22 @@ export default function DevLine() {
                 SMS → {m.to} · {new Date(m.at).toLocaleTimeString()}
               </p>
               <SmsMsg text={m.text} onBind={(t) => void send("message", undefined, t)} />
+            </Card>
+          ))}
+        </>
+      ) : null}
+
+      {dev?.hosts?.length ? (
+        <>
+          <h2 className="text-sm uppercase tracking-wide text-muted">Email / WhatsApp to hosts (mock, newest first)</h2>
+          {dev.hosts.map((m) => (
+            <Card key={`host-${m.id}`} className="flex flex-col gap-1 text-sm">
+              <p className="text-xs text-muted">
+                → {m.email}
+                {m.whatsapp ? ` · WhatsApp ${m.whatsapp}` : ""} · {new Date(m.at).toLocaleTimeString()}
+              </p>
+              <p className="font-semibold">{m.subject}</p>
+              <p className="break-words">{m.text}</p>
             </Card>
           ))}
         </>

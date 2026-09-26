@@ -11,7 +11,11 @@ export const TH = {
   pendingTemple: "ข้อมูลของท่านรอสำนักงานวัดยืนยันครับ",
   accepted: "รับทราบครับ ได้แจ้งเจ้าภาพแล้วว่าท่านรับนิมนต์ 🙏",
   declined: "รับทราบครับ ได้แจ้งเจ้าภาพแล้วว่าไม่สะดวกในวันดังกล่าว",
-  already: (status: string) => `กิจนิมนต์นี้ได้ตอบไว้แล้ว (${status === "accepted" ? "รับนิมนต์" : "ไม่สะดวก"})`,
+  already: (status: string) =>
+    status === "withdrawn" ? "เจ้าภาพได้พระจากวัดอื่นแล้วครับ ขอบพระคุณที่ตอบรับครับ 🙏" : `กิจนิมนต์นี้ได้ตอบไว้แล้ว (${status === "accepted" ? "รับนิมนต์" : "ไม่สะดวก"})`,
+  // Invite modes: how the host can be reached directly, and a request another temple already took.
+  hostContact: "ติดต่อเจ้าภาพ",
+  filled: "เจ้าภาพได้พระจากวัดอื่นแล้วครับ ขอบพระคุณที่ตอบรับครับ 🙏",
   notFound: "ไม่พบกิจนิมนต์นี้ในระบบครับ",
   confirmAsk: (name: string) => `${name} ขอรับกิจนิมนต์ในนามวัดนี้ กรุณารับรองพระรูปนี้`,
   confirmButton: "รับรอง",
