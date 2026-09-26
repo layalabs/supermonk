@@ -3,11 +3,11 @@ import type { Area } from "@/lib/types";
 
 // Neighbourhood centroids from the seed (data/areas.json), used when the user has not shared geolocation.
 export const AREA_CENTROIDS = Object.fromEntries(
-  Object.entries(areas as Record<string, { name: string; lat: number; lng: number }>).map(([id, a]) => [
+  Object.entries(areas as Record<string, { name: string; nameThai?: string; lat: number; lng: number }>).map(([id, a]) => [
     id,
-    { lat: a.lat, lng: a.lng, label: a.name },
+    { lat: a.lat, lng: a.lng, label: a.name, labelThai: a.nameThai ?? a.name },
   ]),
-) as Record<Area, { lat: number; lng: number; label: string }>;
+) as Record<Area, { lat: number; lng: number; label: string; labelThai: string }>;
 
 export function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
   const rad = Math.PI / 180;

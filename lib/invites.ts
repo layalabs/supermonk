@@ -76,9 +76,14 @@ export function buildCard(invite: Invite, data: SeedData = loadData()): Confirma
     invite.mode === "monk_comes"
       ? invite.address ?? (areaLabel ? `Your place in ${areaLabel}` : "Your place")
       : `${temple?.name ?? "The temple"}${temple?.address ? `, ${temple.address}` : ""}`;
-  const whereThai = invite.mode === "monk_comes" ? invite.address ?? areaLabel ?? "" : temple?.nameThai ?? "";
+  const areaThai = invite.area ? AREA_CENTROIDS[invite.area]?.labelThai : undefined;
+  const whereThai = invite.mode === "monk_comes" ? invite.address ?? areaThai ?? "" : temple?.nameThai ?? "";
   const slotThai = (meta.slotThai as Record<Slot, string>)[invite.slot];
-  const thaiLine = (service?.thaiLine ?? "")
+  // Thai runs words together ("ที่นิมมาน"); keep the template's space only before Latin text such as a typed address.
+  const template = /^[\u0E00-\u0E7F]/.test(whereThai)
+    ? (service?.thaiLine ?? "").replace(/\s+\{where\}/, "{where}")
+    : service?.thaiLine ?? "";
+  const thaiLine = template
     .replace("{monkThai}", monk?.nameThai ?? "")
     .replace("{templeThai}", temple?.nameThai ?? "")
     .replace("{where}", whereThai)
