@@ -1,6 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import type { Invite, InviteStatus } from "@/lib/types";
+import type { DeliveryVia, Invite, InviteStatus } from "@/lib/types";
 import type { InviteStore } from "./types";
 
 // Next dev can load this module once per route bundle, so the write queue lives on
@@ -58,7 +58,7 @@ export class JsonInviteStore implements InviteStore {
     return newestFirst(await this.read());
   }
 
-  setDelivery(code: string, via: "line" | "web"): Promise<void> {
+  setDelivery(code: string, via: DeliveryVia): Promise<void> {
     return this.locked(async () => {
       const invites = await this.read();
       const invite = invites.find((i) => i.code === code);

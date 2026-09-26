@@ -1,6 +1,8 @@
 import { loadAllData } from "@/lib/data";
 import { getStore } from "@/lib/store";
 import { getLine, lineConfig } from "./adapter";
+import type { DeliverDeps } from "./deliver";
+import { getSms } from "./sms";
 import { getLineStore } from "./store";
 import type { WebhookDeps } from "./webhook";
 
@@ -15,4 +17,8 @@ export function baseUrl(req: Request): string {
 
 export function webhookDeps(req: Request): WebhookDeps {
   return { secret: lineConfig().secret, line: getLine(), invites: getStore(), lineStore: getLineStore(), data: loadAllData, baseUrl: baseUrl(req) };
+}
+
+export function deliverDeps(req: Request): DeliverDeps {
+  return { line: getLine(), sms: getSms(), store: getStore(), lineStore: getLineStore(), secret: lineConfig().secret, baseUrl: baseUrl(req) };
 }

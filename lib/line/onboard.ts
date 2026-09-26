@@ -107,6 +107,7 @@ export function buildRecords(
     displayName: who.displayName || form.name,
     templeId: form.templeId,
     monkIds: [...new Set([...(opts.existing?.monkIds ?? []), ...monks.map((m) => m.id)])],
+    ...(opts.existing?.boundOffice && opts.existing.templeId === form.templeId && { boundOffice: true }),
     createdAt: opts.existing?.createdAt ?? opts.now,
     updatedAt: opts.now,
   };
