@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { voiceError } from "@/lib/client/voice";
 
 // Web Speech API (Safari iOS, Chrome). English only for the MVP. Hidden where unsupported,
 // so the text box is always the fallback.
@@ -23,6 +22,16 @@ function getRecognition(): (new () => Recognition) | undefined {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition;
 }
 
+// Web Speech error codes → what the person should do. iOS reports missing Dictation as network / service-not-allowed.
+const SPEECH_ERRORS: Record<string, string> = {
+  "not-allowed": "Microphone blocked. Allow it in Safari settings, or type.",
+  "service-not-allowed": "Speech is off on this phone. Settings → General → Keyboard → Enable Dictation.",
+  network: "Speech needs the network (on iPhone: Dictation must be on). Try again or type.",
+  "no-speech": "Heard nothing. Tap the mic, then speak right away.",
+  "audio-capture": "No microphone found. Type instead.",
+  aborted: "Stopped listening.",
+};
+
 export default function VoiceButton({
   onInterim,
   onFinal,
@@ -39,7 +48,9 @@ export default function VoiceButton({
   const finalText = useRef("");
 
   useEffect(() => {
-    setSupported(Boolean(getRecognition()));
+    // Chrome and Firefox on iOS ship WebKit's constructor but cannot use Apple's recogniser; only Safari can.
+    const iosNonSafari = /iP(hone|ad|od)/.test(navigator.userAgent) && /CriOS|FxiOS|EdgiOS/.test(navigator.userAgent);
+    setSupported(Boolean(getRecognition()) && !iosNonSafari);
     return () => rec.current?.abort();
   }, []);
 
@@ -66,7 +77,9 @@ export default function VoiceButton({
       }
       onInterim((finalText.current + interim).trim());
     };
-    r.onerror = (e) => setError(voiceError(e.error));
+    r.onerror = (e) => {
+      setError(SPEECH_ERRORS[e.error] ?? `Speech failed (${e.error}). Type instead.`);
+    };
     r.onend = () => {
       setListening(false);
       const text = finalText.current.trim();
@@ -93,8 +106,7 @@ export default function VoiceButton({
           <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z" />
         </svg>
       </button>
-      {error ? <span role="alert" className="max-w-48 text-right text-xs text-cape">{error}</span> : null}
+      {error ? <span className="max-w-48 text-right text-xs text-cape">{error}</span> : null}
     </div>
   );
 }
-

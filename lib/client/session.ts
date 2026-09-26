@@ -47,40 +47,35 @@ export function deviceId(): string {
   return id;
 }
 
-const TIMEOUT_MS = 25_000;
+const NETWORK_MESSAGE = "Connection dropped before SuperMonk answered. Check your signal and tap Try again.";
 
-/**
- * fetch with a timeout and one retry on a network failure (Safari reports "Load failed" when a
- * mobile connection drops mid-request). HTTP errors are not retried; they carry the API's message.
- */
-async function request<T>(url: string, init: RequestInit = {}): Promise<T> {
-  let lastError: unknown;
-  for (let attempt = 0; attempt < 2; attempt++) {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
-    try {
-      const res = await fetch(url, { ...init, signal: ctrl.signal, cache: "no-store" });
-      const json = (await res.json().catch(() => ({}))) as T & { error?: string };
-      if (!res.ok) throw Object.assign(new Error(json.error ?? `request failed (${res.status})`), { http: true });
-      return json;
-    } catch (error) {
-      if ((error as { http?: boolean }).http) throw error;
-      lastError = error;
-      if (attempt === 0) await new Promise((r) => setTimeout(r, 800));
-    } finally {
-      clearTimeout(timer);
-    }
+/** POST with a 20 s timeout and one automatic retry on a network failure (Safari reports those as "Load failed"). */
+export async function postJson<T>(url: string, body: unknown, attempt = 0): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(20_000),
+    });
+  } catch (e) {
+    if (attempt < 1) return postJson<T>(url, body, attempt + 1);
+    throw new Error(NETWORK_MESSAGE, { cause: e });
   }
-  const timedOut = (lastError as Error)?.name === "AbortError";
-  throw new Error(
-    timedOut ? "SuperMonk is taking too long. Try again." : "Couldn't reach SuperMonk. Check your connection and try again.",
-  );
+  const json = (await res.json().catch(() => ({}))) as T & { error?: string };
+  if (!res.ok) throw new Error(json.error ?? `request failed (${res.status})`);
+  return json;
 }
 
-export function postJson<T>(url: string, body: unknown): Promise<T> {
-  return request<T>(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
-}
-
-export function getJson<T>(url: string): Promise<T> {
-  return request<T>(url);
+export async function getJson<T>(url: string): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(20_000) });
+  } catch (e) {
+    throw new Error(NETWORK_MESSAGE, { cause: e });
+  }
+  const json = (await res.json().catch(() => ({}))) as T & { error?: string };
+  if (!res.ok) throw new Error(json.error ?? `request failed (${res.status})`);
+  return json;
 }
