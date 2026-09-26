@@ -3,13 +3,13 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useState } from "react";
 import VerifiedBadge from "@/components/VerifiedBadge";
-import { Card, ErrorNote, GhostButton, Header, PrimaryButton } from "@/components/ui";
+import { Card, ErrorNote, FOCUS_RING, GhostButton, Header, PrimaryButton } from "@/components/ui";
 import { deviceId, postJson } from "@/lib/client/session";
 import { fetchStatus } from "@/lib/verify/client";
 import type { StatusResponse, VerifyTier } from "@/lib/verify/types";
 
 type Step = "consent" | "phone" | "code" | "document" | "waiting" | "done";
-const INPUT = "rounded-xl bg-navy px-3 py-3 text-lg text-cream ring-1 ring-cream/15 focus:outline-none focus:ring-2 focus:ring-saffron";
+const INPUT = "rounded-xl bg-surface px-3 py-3 text-lg text-navy ring-1 ring-navy/15 placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-ember";
 
 // Only same-origin paths may be a `next` target.
 function safeNext(raw: string | null): string {
@@ -115,7 +115,7 @@ function Verify() {
       {step === "consent" ? (
         <Card className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold">Before we start</h2>
-          <ul className="flex list-disc flex-col gap-2 pl-5 text-sm text-cream/90">
+          <ul className="flex list-disc flex-col gap-2 pl-5 text-sm text-navy/90">
             <li>
               To verify a host we ask for a photo of an ID document and a selfie. Under Thailand&apos;s PDPA (s.26) these are{" "}
               <strong>sensitive personal data</strong> and we may only collect them with your explicit consent.
@@ -131,8 +131,8 @@ function Verify() {
             รูปถ่ายบัตรประจำตัวและภาพเซลฟี่เป็นข้อมูลส่วนบุคคลที่อ่อนไหว (PDPA ม.26) ประมวลผลโดยผู้ให้บริการยืนยันตัวตนซึ่งอาจอยู่นอกประเทศไทย (ม.28) SuperMonk เก็บเฉพาะผลการตรวจสอบ
             ไม่เก็บรูปภาพ ชื่อ หรือเลขเอกสาร
           </p>
-          <label className="flex items-start gap-3 rounded-xl bg-navy p-3 ring-1 ring-cream/15">
-            <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 h-5 w-5 accent-saffron" />
+          <label className="flex items-start gap-3 rounded-xl bg-cream p-3 ring-1 ring-navy/15">
+            <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className={`mt-1 h-5 w-5 accent-saffron ${FOCUS_RING}`} />
             <span className="text-sm">I explicitly consent to the processing of my ID photo and selfie as described above.</span>
           </label>
           <PrimaryButton disabled={!consent} onClick={() => setStep(level >= 1 ? "document" : "phone")}>
@@ -145,15 +145,10 @@ function Verify() {
         <Card className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold">Step 1 · Your phone</h2>
           <p className="text-sm text-muted">We send a one-time code. Only a masked number (+66•••••••78) is kept.</p>
-          <input
-            inputMode="tel"
-            autoComplete="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="+66 81 234 5678"
-            aria-label="Phone number"
-            className={INPUT}
-          />
+          <label className="flex flex-col gap-1">
+            <span className="text-sm font-medium">Phone number</span>
+            <input inputMode="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+66 81 234 5678" className={INPUT} />
+          </label>
           <PrimaryButton disabled={busy || phone.replace(/\D/g, "").length < 8} onClick={() => void sendCode()}>
             {busy ? "Sending…" : "Send code"}
           </PrimaryButton>
@@ -166,15 +161,17 @@ function Verify() {
           <p className="text-sm text-muted">
             Sent to {phone}.{status?.config.otp === "mock" ? " Demo mode: the code is 1234." : ""}
           </p>
-          <input
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            value={code}
-            onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-            placeholder="1234"
-            aria-label="One-time code"
-            className={`${INPUT} tracking-[0.4em]`}
-          />
+          <label className="flex flex-col gap-1">
+            <span className="text-sm font-medium">One-time code</span>
+            <input
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="1234"
+              className={`${INPUT} tracking-[0.4em]`}
+            />
+          </label>
           <PrimaryButton disabled={busy || code.length < 4} onClick={() => void confirmCode()}>
             {busy ? "Checking…" : "Confirm"}
           </PrimaryButton>
@@ -198,7 +195,7 @@ function Verify() {
 
       {step === "waiting" ? (
         <div className="flex flex-col items-center gap-4 py-8 text-center" role="status" aria-live="polite">
-          <div className="h-14 w-14 animate-spin rounded-full border-4 border-saffron/20 border-t-saffron" aria-hidden />
+          <div className="h-14 w-14 rounded-full border-4 border-saffron/20 border-t-saffron motion-safe:animate-spin motion-reduce:border-saffron/60" aria-hidden />
           <h2 className="text-xl font-semibold">Checking your documents…</h2>
           <p className="text-sm text-muted">This page updates when the provider answers.</p>
         </div>

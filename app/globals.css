@@ -92,8 +92,17 @@ body {
 .sm-ring {
   animation: sm-ring 1.6s ease-out forwards;
 }
+@keyframes sm-fade {
+  from { opacity: 0.9; }
+  to { opacity: 0; }
+}
+/* Reduced motion: the flight, twinkle and ring stop; the breath circle cross-fades instead of scaling
+   (data-phase is set by FlyingMonk; the inline transform is overridden so the scale never runs). */
 @media (prefers-reduced-motion: reduce) {
   .sm-fly, .sm-twinkle { animation: none; }
+  .sm-ring { animation: sm-fade 1s ease-out forwards; }
+  .sm-breath { transition-property: opacity; transform: none !important; }
+  .sm-breath[data-phase="out"] { opacity: 0.55; }
 }
 
 /* Temple map pins and popover (components/TempleMap.tsx). Markers are plain buttons that MapLibre
@@ -153,7 +162,7 @@ body {
   outline: none;
 }
 .sm-pin:focus-visible svg {
-  outline: 2px solid var(--color-saffron);
+  outline: 2px solid var(--color-ember);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -195,7 +204,7 @@ body {
   border-radius: 12px;
 }
 .maplibregl-canvas:focus-visible {
-  outline: 2px solid var(--color-saffron);
+  outline: 2px solid var(--color-ember);
 }
 @media (prefers-reduced-motion: reduce) {
   .sm-pin { transition: none; }

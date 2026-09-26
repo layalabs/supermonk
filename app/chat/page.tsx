@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Bubble, ErrorNote, GhostButton, Header, Pill, Stage } from "@/components/ui";
+import { Bubble, ErrorNote, FOCUS_RING, GhostButton, Header, Pill, Stage } from "@/components/ui";
 import VoiceButton from "@/components/VoiceButton";
 import { postJson, readFlow, writeFlow, type Flow } from "@/lib/client/session";
 import { AREA_CENTROIDS, haversineKm } from "@/lib/geo";
@@ -111,9 +111,9 @@ export default function ChatPage() {
           {busy ? (
             <Bubble from="assistant">
               <span className="inline-flex gap-1" aria-label="SuperMonk is thinking">
-                <span className="animate-bounce">•</span>
-                <span className="animate-bounce [animation-delay:120ms]">•</span>
-                <span className="animate-bounce [animation-delay:240ms]">•</span>
+                <span className="motion-safe:animate-bounce">•</span>
+                <span className="motion-safe:animate-bounce [animation-delay:120ms]">•</span>
+                <span className="motion-safe:animate-bounce [animation-delay:240ms]">•</span>
               </span>
             </Bubble>
           ) : null}
@@ -148,11 +148,11 @@ export default function ChatPage() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Type an answer…"
-            className="flex-1 rounded-full bg-navy-2 px-4 py-3 text-navy shadow-sm shadow-navy/5 ring-1 ring-navy/15 placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-saffron"
+            className="flex-1 rounded-full bg-navy-2 px-4 py-3 text-navy shadow-sm shadow-navy/5 ring-1 ring-navy/15 placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-ember"
             aria-label="Your answer"
           />
           <VoiceButton onInterim={setText} onFinal={answer} />
-          <button type="submit" disabled={!text.trim() || busy} className="bg-brand rounded-full px-5 font-semibold text-navy disabled:opacity-40">
+          <button type="submit" disabled={!text.trim() || busy} className={`bg-brand rounded-full px-5 font-semibold text-navy disabled:pointer-events-none disabled:bg-none! disabled:bg-saffron/40 ${FOCUS_RING}`}>
             Send
           </button>
         </form>

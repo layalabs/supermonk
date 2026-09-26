@@ -20,7 +20,7 @@ export default function Monk({ breathing, phase, phaseMs, onTap }: Props) {
       onClick={onTap}
       aria-pressed={breathing}
       aria-label={breathing ? "Stop breathing with SuperMonk" : "Tap SuperMonk to breathe with him"}
-      className="group relative touch-manipulation rounded-full outline-none focus-visible:ring-2 focus-visible:ring-saffron focus-visible:ring-offset-4 focus-visible:ring-offset-cream"
+      className="group relative touch-manipulation rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ember focus-visible:ring-offset-4 focus-visible:ring-offset-cream"
     >
       <span className={`${styles.float} block`}>
         <span

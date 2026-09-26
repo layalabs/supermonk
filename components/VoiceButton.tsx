@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { FOCUS_RING } from "@/components/ui";
 
 // Web Speech API (Safari iOS, Chrome). English only for the MVP. Hidden where unsupported,
 // so the text box is always the fallback.
@@ -98,8 +99,8 @@ export default function VoiceButton({
         onClick={toggle}
         aria-label={listening ? "Stop listening" : "Speak your request"}
         aria-pressed={listening}
-        className={`flex h-11 w-11 items-center justify-center rounded-full transition active:scale-95 ${
-          listening ? "animate-pulse bg-cape text-cream" : "bg-brand text-navy"
+        className={`flex h-11 w-11 items-center justify-center rounded-full transition active:scale-95 ${FOCUS_RING} ${
+          listening ? "motion-safe:animate-pulse bg-cape text-cream" : "bg-brand text-navy"
         }`}
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden>

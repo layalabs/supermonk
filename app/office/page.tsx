@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
-import { Card, ErrorNote, Stage } from "@/components/ui";
+import { Card, ErrorNote, FOCUS_RING, Stage } from "@/components/ui";
 import VerifiedBadge from "@/components/VerifiedBadge";
 import { getJson, postJson } from "@/lib/client/session";
 import { baht, SERVICE_NAME } from "@/lib/labels";
@@ -91,14 +91,14 @@ function Office() {
                   <button
                     disabled={busy === r.code}
                     onClick={() => void decide(r.code, "declined")}
-                    className="rounded-card border border-cape/60 py-3 font-semibold text-cape transition hover:bg-cape/10 disabled:opacity-40"
+                    className={`rounded-card border border-cape/60 py-3 font-semibold text-cape transition hover:bg-cape/10 disabled:opacity-40 ${FOCUS_RING}`}
                   >
                     Decline
                   </button>
                   <button
                     disabled={busy === r.code}
                     onClick={() => void decide(r.code, "accepted")}
-                    className="bg-brand rounded-card py-3 font-semibold text-navy disabled:opacity-40"
+                    className={`bg-brand rounded-card py-3 font-semibold text-navy disabled:opacity-40 ${FOCUS_RING}`}
                   >
                     Accept
                   </button>

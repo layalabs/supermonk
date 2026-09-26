@@ -17,6 +17,8 @@ import { useActive } from "./useActive";
 const NOTES = ["G", "A", "B", "D", "E"];
 const MAX_SPARKLES = 6;
 
+const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 type Phase = "in" | "out";
 
 export default function SuperMonkGame({ className = "" }: { className?: string }) {
@@ -134,11 +136,12 @@ export default function SuperMonkGame({ className = "" }: { className?: string }
   }, [rain]);
 
   // Breathing pacer: 4 s in, 6 s out, a soft chime on each turn. Pauses while inactive.
+  // Reduced motion drops the repeating phase chime; one-shot sounds (start chime, bowl strikes) stay.
   useEffect(() => {
     if (!breathing || !active) return;
     const t = setTimeout(() => {
       setPhase((p) => (p === "in" ? "out" : "in"));
-      engineRef.current?.chime(phase === "in" ? 3 : 4, 0.35);
+      if (!reducedMotion()) engineRef.current?.chime(phase === "in" ? 3 : 4, 0.35);
     }, BREATH_PHASES[phase].ms);
     return () => clearTimeout(t);
   }, [breathing, phase, active]);
@@ -212,7 +215,7 @@ export default function SuperMonkGame({ className = "" }: { className?: string }
       </div>
 
       {audioUnavailable ? (
-        <p className="absolute inset-x-0 bottom-1 text-center text-[11px] text-navy/60">Sound is not available in this browser; the bowls still ripple.</p>
+        <p className="absolute inset-x-0 bottom-1 text-center text-[11px] text-navy/80">Sound is not available in this browser; the bowls still ripple.</p>
       ) : null}
     </section>
   );

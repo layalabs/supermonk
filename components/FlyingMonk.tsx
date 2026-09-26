@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { strikeBowl } from "@/lib/client/bowl";
+import { FOCUS_RING } from "@/components/ui";
 
 // The waiting game (SPEC T9): SuperMonk flies across a night sky while the user breathes
 // with him, and can tap the singing bowl. It must look intentional at 3 s and never block.
@@ -58,8 +59,9 @@ export default function FlyingMonk({ message = "Finding your monk…" }: { messa
 
       <div className="relative flex flex-col items-center gap-8">
         <div
-          className="flex h-28 w-28 items-center justify-center rounded-full bg-saffron/10 ring-1 ring-saffron/30 transition-transform ease-in-out"
+          className="sm-breath flex h-28 w-28 items-center justify-center rounded-full bg-saffron/10 ring-1 ring-saffron/30 transition-transform ease-in-out"
           style={{ transform: `scale(${inhale ? 1.25 : 0.85})`, transitionDuration: `${BREATH[phase].ms}ms` }}
+          data-phase={inhale ? "in" : "out"}
           aria-hidden
         >
           <div className="h-10 w-10 rounded-full bg-brand opacity-80" />
@@ -71,7 +73,7 @@ export default function FlyingMonk({ message = "Finding your monk…" }: { messa
 
       <button
         onClick={strike}
-        className="relative mb-4 mt-auto flex flex-col items-center gap-1 pt-8 active:scale-95"
+        className={`relative mb-4 mt-auto flex flex-col items-center gap-1 rounded-2xl pt-8 active:scale-95 ${FOCUS_RING}`}
         aria-label="Strike the singing bowl"
       >
         {rings.map((id) => (
