@@ -23,7 +23,7 @@ If something required is missing, ask exactly ONE short question and offer up to
 If nothing required is missing, set ready to true and give no question.
 Convert relative dates ("Saturday", "tomorrow") to ISO dates on or after today.
 
-Reply with ONLY a JSON object, no prose, no code fence:
+Reply with ONLY a JSON object of this shape (when a tool is offered, call it with this object). No thinking, no preamble, no prose:
 {"ready": boolean, "question": string | null, "pills": string[], "extracted": {"serviceId"?: string, "mode"?: "monk_comes"|"you_go", "date"?: "YYYY-MM-DD", "slot"?: string, "area"?: string, "language"?: "en"|"th", "guests"?: number}}`;
 }
 
@@ -48,9 +48,25 @@ function stripFreeText(e: Partial<Extracted>) {
 }
 
 /** Pull the first JSON object out of a model reply, tolerating a stray code fence. */
+/** Extract the first balanced JSON object from a reply, ignoring any preamble or trailing prose. */
 export function parseJsonReply(text: string): unknown {
   const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("no JSON object in model reply");
-  return JSON.parse(text.slice(start, end + 1));
+  if (start < 0) throw new Error("no JSON object in model reply");
+  let depth = 0;
+  let inString = false;
+  for (let i = start; i < text.length; i++) {
+    const c = text[i];
+    if (inString) {
+      if (c === "\\") i++;
+      else if (c === '"') inString = false;
+      continue;
+    }
+    if (c === '"') inString = true;
+    else if (c === "{") depth++;
+    else if (c === "}") {
+      depth--;
+      if (depth === 0) return JSON.parse(text.slice(start, i + 1));
+    }
+  }
+  throw new Error("truncated JSON in model reply");
 }

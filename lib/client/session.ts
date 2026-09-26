@@ -47,15 +47,34 @@ export function deviceId(): string {
   return id;
 }
 
-export async function postJson<T>(url: string, body: unknown): Promise<T> {
-  const res = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+const NETWORK_MESSAGE = "Connection dropped before SuperMonk answered. Check your signal and tap Try again.";
+
+/** POST with a 20 s timeout and one automatic retry on a network failure (Safari reports those as "Load failed"). */
+export async function postJson<T>(url: string, body: unknown, attempt = 0): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(20_000),
+    });
+  } catch (e) {
+    if (attempt < 1) return postJson<T>(url, body, attempt + 1);
+    throw new Error(NETWORK_MESSAGE, { cause: e });
+  }
   const json = (await res.json().catch(() => ({}))) as T & { error?: string };
   if (!res.ok) throw new Error(json.error ?? `request failed (${res.status})`);
   return json;
 }
 
 export async function getJson<T>(url: string): Promise<T> {
-  const res = await fetch(url, { cache: "no-store" });
+  let res: Response;
+  try {
+    res = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(20_000) });
+  } catch (e) {
+    throw new Error(NETWORK_MESSAGE, { cause: e });
+  }
   const json = (await res.json().catch(() => ({}))) as T & { error?: string };
   if (!res.ok) throw new Error(json.error ?? `request failed (${res.status})`);
   return json;

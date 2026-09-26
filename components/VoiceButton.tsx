@@ -22,6 +22,16 @@ function getRecognition(): (new () => Recognition) | undefined {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition;
 }
 
+// Web Speech error codes → what the person should do. iOS reports missing Dictation as network / service-not-allowed.
+const SPEECH_ERRORS: Record<string, string> = {
+  "not-allowed": "Microphone blocked. Allow it in Safari settings, or type.",
+  "service-not-allowed": "Speech is off on this phone. Settings → General → Keyboard → Enable Dictation.",
+  network: "Speech needs the network (on iPhone: Dictation must be on). Try again or type.",
+  "no-speech": "Heard nothing. Tap the mic, then speak right away.",
+  "audio-capture": "No microphone found. Type instead.",
+  aborted: "Stopped listening.",
+};
+
 export default function VoiceButton({
   onInterim,
   onFinal,
@@ -38,7 +48,9 @@ export default function VoiceButton({
   const finalText = useRef("");
 
   useEffect(() => {
-    setSupported(Boolean(getRecognition()));
+    // Chrome and Firefox on iOS ship WebKit's constructor but cannot use Apple's recogniser; only Safari can.
+    const iosNonSafari = /iP(hone|ad|od)/.test(navigator.userAgent) && /CriOS|FxiOS|EdgiOS/.test(navigator.userAgent);
+    setSupported(Boolean(getRecognition()) && !iosNonSafari);
     return () => rec.current?.abort();
   }, []);
 
@@ -66,7 +78,7 @@ export default function VoiceButton({
       onInterim((finalText.current + interim).trim());
     };
     r.onerror = (e) => {
-      setError(e.error === "not-allowed" ? "Microphone blocked. Type instead." : "Didn't catch that. Try again or type.");
+      setError(SPEECH_ERRORS[e.error] ?? `Speech failed (${e.error}). Type instead.`);
     };
     r.onend = () => {
       setListening(false);
