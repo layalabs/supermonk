@@ -1,0 +1,156 @@
+// Contract types shared by the UI and the API. Source of truth: docs/SPEC.md §6–7.
+
+export type ServiceId =
+  | "house_blessing"
+  | "shop_blessing"
+  | "memorial"
+  | "vehicle_blessing"
+  | "monk_chat"
+  | "meditation";
+
+export type Mode = "monk_comes" | "you_go";
+export type Slot = "morning" | "afternoon" | "evening";
+export type Language = "th" | "en" | "zh" | "ja" | "kham_mueang";
+export type InviteStatus = "pending" | "accepted" | "declined";
+
+export type Area =
+  | "nimman"
+  | "old_city"
+  | "santitham"
+  | "chang_khlan"
+  | "ping_river"
+  | "wat_ket"
+  | "hang_dong"
+  | "mae_rim"
+  | "san_kamphaeng"
+  | "doi_suthep"
+  | "san_sai"
+  | "saraphi";
+
+export type Service = {
+  id: ServiceId;
+  name: string;
+  nameThai: string;
+  mode: Mode;
+  durationMin: number;
+  donationRange: [number, number];
+  prepare: string[];
+  thaiLine: string;
+  /** slots this service is normally held in; the clarifier defaults to the first */
+  preferredSlots?: Slot[];
+  /** starter pill labels shown on the Ask screen */
+  pills?: string[];
+};
+
+export type Temple = {
+  id: string;
+  name: string;
+  nameThai: string;
+  area: Area;
+  lat: number;
+  lng: number;
+  address: string;
+  notes?: string;
+  /** seed coordinates are hand-entered and approximate (~200 m) */
+  coordsApproximate?: boolean;
+};
+
+export type Availability = { date: string; slots: Slot[] };
+
+export type Monk = {
+  id: string;
+  name: string;
+  nameThai: string;
+  templeId: string;
+  yearsOrdained: number;
+  languages: Language[];
+  services: ServiceId[];
+  travels: boolean;
+  bio: string;
+  availability: Availability[];
+  donationHint?: Partial<Record<ServiceId, [number, number]>>;
+};
+
+export type Invite = {
+  code: string;
+  deviceId: string;
+  userId?: string | null;
+  monkId: string;
+  serviceId: ServiceId;
+  date: string;
+  slot: Slot;
+  mode: Mode;
+  address?: string;
+  area?: Area;
+  guests?: number;
+  language: "en" | "th";
+  donation: number;
+  status: InviteStatus;
+  createdAt: string;
+  updatedAt: string;
+  note?: string;
+};
+
+export type Extracted = {
+  serviceId?: ServiceId;
+  mode?: Mode;
+  date?: string;
+  slot?: Slot;
+  area?: Area;
+  language?: "en" | "th";
+  guests?: number;
+  freeText: string;
+};
+
+export type ChatMessage = { role: "user" | "assistant"; content: string };
+
+export type ClarifyRequest = { messages: ChatMessage[]; context: Partial<Extracted> };
+export type ClarifyResponse = {
+  ready: boolean;
+  question?: string;
+  pills?: string[];
+  extracted: Extracted;
+};
+
+export type MatchCard = {
+  monkId: string;
+  name: string;
+  temple: string;
+  distanceKm: number | null;
+  languages: string[];
+  nextSlot: { date: string; slot: string } | null;
+  availableOnDate: boolean;
+  donationRange: [number, number];
+  why: string;
+  score: number;
+};
+
+export type MatchRequest = { extracted: Extracted; location?: { lat: number; lng: number } };
+export type MatchResponse = { matches: MatchCard[]; runnerUp?: MatchCard };
+
+export type ConfirmationCard = {
+  code: string;
+  monkName: string;
+  templeName: string;
+  when: string;
+  where: string;
+  donation: number;
+  prepare: string[];
+  thaiLine: string;
+  icsUrl: string;
+};
+
+export type CreateInviteRequest = {
+  monkId: string;
+  serviceId: ServiceId;
+  date: string;
+  slot: Slot;
+  donation: number;
+  address?: string;
+  area?: Area;
+  guests?: number;
+  language: "en" | "th";
+  deviceId: string;
+};
+
+export type InviteResponse = { invite: Invite; card: ConfirmationCard };

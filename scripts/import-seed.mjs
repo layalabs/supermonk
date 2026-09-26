@@ -44,7 +44,7 @@ const monks = lines.map(r => {
 });
 
 const temples = new Set(JSON.parse(readFileSync(join(root, "temples.json"), "utf8")).map(t => t.id));
-const services = new Set(JSON.parse(readFileSync(join(root, "services.json"), "utf8")).services.map(s => s.id));
+const services = new Set(JSON.parse(readFileSync(join(root, "services.json"), "utf8")).map(s => s.id));
 for (const m of monks) {
   if (!temples.has(m.templeId)) throw new Error(`${m.id}: unknown temple ${m.templeId}`);
   for (const s of m.services) if (!services.has(s)) throw new Error(`${m.id}: unknown service ${s}`);

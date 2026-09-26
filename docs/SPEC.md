@@ -1,4 +1,3 @@
-
 # SuperMonk MVP: plan and build spec
 
 Decisions come from the grilling in `PLANS/SUPERMONK_MVP_DESIGN_TREE.md` (thread root

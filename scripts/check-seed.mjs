@@ -8,7 +8,7 @@ import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "data");
 const load = f => JSON.parse(readFileSync(join(root, f), "utf8"));
-const monks = load("monks.json"), temples = load("temples.json"), services = load("services.json").services;
+const monks = load("monks.json"), temples = load("temples.json"), services = load("services.json");
 
 const demo = { serviceId: "house_blessing", mode: "monk_comes", date: "2026-10-03", slot: "morning", language: "en" };
 const hard = monks.filter(m => m.services.includes(demo.serviceId) && (demo.mode !== "monk_comes" || m.travels)

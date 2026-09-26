@@ -219,8 +219,10 @@ temples = [{"id": t[0], "name": t[1], "nameThai": t[2], "area": t[3], "lat": t[4
             "coordsApproximate": True} for t in TEMPLES]
 (ROOT / "temples.json").write_text(json.dumps(temples, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 (ROOT / "areas.json").write_text(json.dumps(AREAS, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-(ROOT / "services.json").write_text(json.dumps({"slotThai": SLOT_THAI, "thaiReviewed": False, "services": SERVICES},
-                                               ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+(ROOT / "services.json").write_text(json.dumps(SERVICES, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+(ROOT / "meta.json").write_text(json.dumps({"slotThai": SLOT_THAI, "thaiReviewed": False,
+    "note": "Thai lines and checklists are unreviewed drafts; a Thai speaker must check them before the pitch."},
+    ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 (ROOT / "monks.json").write_text(json.dumps(monks, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 with (ROOT / "seed.csv").open("w", newline="", encoding="utf-8") as f:
