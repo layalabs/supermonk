@@ -4,13 +4,15 @@ import path from "node:path";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import IllustratedMap, { COMPACT_VIEWBOX, handleMapKey, type ResolvedMatch } from "@/components/IllustratedMap";
+import IllustratedMap, { COMPACT_VIEWBOX, CORE_VIEWBOX, fitViewBox, handleMapKey, type ResolvedMatch } from "@/components/IllustratedMap";
+import TempleCard, { groupByTemple, templeCardId } from "@/components/TempleCard";
 import { SYMBOL_IDS, TEMPLE_SYMBOLS, TempleGlyph } from "@/components/illustrated/templeSymbols";
 import { boundsRect, layoutSymbols, MAP_BOUNDS, project, PX_PER_KM, unproject, VIEW } from "@/lib/map/projection";
 import { haversineKm } from "@/lib/geo";
 import { match } from "@/lib/match";
 import { readMapPainting } from "@/lib/mapPainting";
-import type { Extracted, Monk, Service, Temple } from "@/lib/types";
+import { LANGUAGE_LABEL } from "@/lib/labels";
+import type { Extracted, Language, Monk, Service, Temple } from "@/lib/types";
 
 const load = <T,>(f: string): T => JSON.parse(readFileSync(path.join(process.cwd(), "data", f), "utf8")) as T;
 const temples = load<Temple[]>("temples.json");
@@ -76,6 +78,29 @@ describe("projection", () => {
       expect(p.x, t.id).toBeLessThan(COMPACT_VIEWBOX.x + COMPACT_VIEWBOX.width);
       expect(p.y, t.id).toBeGreaterThan(COMPACT_VIEWBOX.y);
       expect(p.y, t.id).toBeLessThan(COMPACT_VIEWBOX.y + COMPACT_VIEWBOX.height);
+    }
+  });
+
+  it("fitViewBox keeps the core visible at any container aspect and never letterboxes", () => {
+    for (const [w, h] of [
+      [1200, 720], [650, 780], [700, 700], [1600, 500], [900, 1400],
+    ]) {
+      const vb = fitViewBox(w, h);
+      expect(vb.width / vb.height, `${w}x${h}`).toBeCloseTo(w / h, 3);
+      expect(vb.x).toBeLessThanOrEqual(CORE_VIEWBOX.x);
+      expect(vb.y).toBeLessThanOrEqual(CORE_VIEWBOX.y);
+      expect(vb.x + vb.width).toBeGreaterThanOrEqual(CORE_VIEWBOX.x + CORE_VIEWBOX.width - 0.2);
+      expect(vb.y + vb.height).toBeGreaterThanOrEqual(CORE_VIEWBOX.y + CORE_VIEWBOX.height - 0.2);
+      expect(vb.x).toBeGreaterThanOrEqual(0);
+      expect(vb.y).toBeGreaterThanOrEqual(0);
+    }
+    // every temple sits inside the core, so it is visible in every fitted viewBox
+    for (const t of temples) {
+      const p = project(t.lat, t.lng);
+      expect(p.x, t.id).toBeGreaterThan(CORE_VIEWBOX.x);
+      expect(p.x, t.id).toBeLessThan(CORE_VIEWBOX.x + CORE_VIEWBOX.width);
+      expect(p.y, t.id).toBeGreaterThan(CORE_VIEWBOX.y);
+      expect(p.y, t.id).toBeLessThan(CORE_VIEWBOX.y + CORE_VIEWBOX.height);
     }
   });
 
@@ -176,6 +201,15 @@ describe("IllustratedMap", () => {
     expect(html.split("<button").slice(1).find((b) => b.includes(`data-temple="${id}"`))).toContain('aria-expanded="true"');
   });
 
+  it("controlled: the `selected` prop opens the popover and marks the symbol expanded", () => {
+    const id = hotIds[0];
+    const html = renderToStaticMarkup(createElement(IllustratedMap, { temples, matches, painting: null, selected: id, onSelect: () => undefined }));
+    expect(html).toContain('role="dialog"');
+    expect(html.split("<button").slice(1).find((b) => b.includes(`data-temple="${id}"`))).toContain('aria-expanded="true"');
+    const none = renderToStaticMarkup(createElement(IllustratedMap, { temples, matches, painting: null, selected: null, onSelect: () => undefined, initialSelected: id }));
+    expect(none).not.toContain('role="dialog"');
+  });
+
   it("does not open a popover for a temple without matches", () => {
     const cold = temples.find((t) => !hotIds.includes(t.id))!;
     const html = renderToStaticMarkup(createElement(IllustratedMap, { temples, matches, painting: null, initialSelected: cold.id }));
@@ -191,7 +225,8 @@ describe("IllustratedMap", () => {
 
   it("draws the scene: parchment, grain, river, moat, airport, area badges", () => {
     const html = renderToStaticMarkup(createElement(IllustratedMap, { temples, matches: [], painting: null }));
-    expect(html).toContain('viewBox="300 130 1080 648"');
+    const vb = fitViewBox(1200, 720);
+    expect(html).toContain(`viewBox="${vb.x} ${vb.y} ${vb.width} ${vb.height}"`);
     expect(html).toContain('preserveAspectRatio="xMidYMid meet"');
     expect(html).toContain("feTurbulence");
     expect(html).toContain("sm-imap-water");
@@ -232,5 +267,57 @@ describe("readMapPainting", () => {
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
+  });
+});
+
+describe("temple list (results column)", () => {
+  const extracted: Extracted = { serviceId: "house_blessing", mode: "monk_comes", date: "2026-10-03", slot: "morning", area: "nimman", language: "en", freeText: "" };
+  const result = match(extracted, { monks, temples, services }, { today: "2026-09-27" });
+  const groups = groupByTemple(result.matches);
+  const monkTemple = new Map(monks.map((m) => [m.id, m.templeId]));
+
+  it("groups real matches by temple in ranking order, one group per temple", () => {
+    expect(groups.length).toBeGreaterThan(0);
+    expect(groups.map((g) => g.temple.id)).toEqual([...new Set(result.matches.map((c) => monkTemple.get(c.monkId)))]);
+    expect(groups.flatMap((g) => g.cards.map((c) => c.monkId)).sort()).toEqual(result.matches.map((c) => c.monkId).sort());
+    for (const g of groups) {
+      for (const c of g.cards) expect(monkTemple.get(c.monkId)).toBe(g.temple.id);
+      expect(g.services.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("card ids match what the map's selection scrolls to, and aria-current marks the selected one", () => {
+    const g = groups[0];
+    const html = renderToStaticMarkup(createElement(TempleCard, { group: g, selected: true, onSelect: () => undefined, topMonkId: result.matches[0].monkId }));
+    expect(html).toContain(`id="${templeCardId(g.temple.id)}"`);
+    expect(templeCardId(g.temple.id)).toBe(`temple-${g.temple.id}`);
+    expect(html).toContain('aria-current="true"');
+    expect(html).toContain('aria-pressed="true"');
+    expect(html).toContain("ring-saffron");
+    const plain = renderToStaticMarkup(createElement(TempleCard, { group: g, selected: false }));
+    expect(plain).not.toContain("aria-current");
+  });
+
+  it("shows the choosing signals and nothing else (no address, no rating)", () => {
+    for (const g of groups) {
+      const html = renderToStaticMarkup(createElement(TempleCard, { group: g, topMonkId: result.matches[0].monkId }));
+      expect(html).toContain(g.temple.name);
+      expect(html).toContain(g.temple.nameThai);
+      expect(html).toContain(`${g.cards.length} ${g.cards.length === 1 ? "monk matches" : "monks match"}`);
+      expect(html).toContain("Services at this temple");
+      for (const c of g.cards) {
+        const monk = monks.find((m) => m.id === c.monkId)!;
+        expect(html).toContain(c.name);
+        expect(html).toContain(`${monk.yearsOrdained} years ordained`);
+        expect(html).toContain(`href="/monk/${c.monkId}"`);
+        for (const l of c.languages) expect(html).toContain(LANGUAGE_LABEL[l as Language]);
+        expect(html).toContain(c.availableOnDate ? "Available on your date" : "Not on your date");
+      }
+      expect(html).not.toContain(g.temple.address);
+      expect(html).not.toMatch(/rating|★|stars/i);
+      expect(html).toContain("focus-visible:ring-ember");
+    }
+    const withTop = renderToStaticMarkup(createElement(TempleCard, { group: groups[0], topMonkId: groups[0].cards[0].monkId }));
+    expect(withTop).toContain("Closest match");
   });
 });

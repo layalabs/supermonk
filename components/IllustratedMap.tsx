@@ -13,6 +13,9 @@ import type { MatchCard, Temple } from "@/lib/types";
 // the popover so they stay legible at any width. Geometry comes from lib/map/projection.ts, so
 // every pin lands where the temple really is; overlapping symbols are nudged apart and tethered
 // to a dot at the true position. The Streets view (TempleMap) remains the tile map.
+//
+// Selection is controlled when `selected`/`onSelect` are given (the results page keeps the
+// temple list and the map in step); otherwise the map keeps its own.
 
 export type ResolvedMatch = MatchCard & { templeId: string };
 
@@ -22,23 +25,45 @@ export type IllustratedMapProps = {
   onInvite?: (monkId: string) => void;
   /** Overrides the painted-background context (tests, previews). */
   painting?: MapPainting | null;
-  /** Opens a popover on first render (tests). */
+  /** Opens a popover on first render when uncontrolled (tests). */
   initialSelected?: string | null;
+  /** Controlled selection (temple id with matches, or null). */
+  selected?: string | null;
+  onSelect?: (templeId: string | null) => void;
+  /** Fill the parent's height (sticky desktop column) instead of a 5:3 box. */
+  fill?: boolean;
 };
 
-type ViewBox = { x: number; y: number; width: number; height: number };
-/** The scene is authored in 1600 x 1000 (MAP_BOUNDS); desktop shows a 5:3 crop from Doi Suthep to the east-bank fields. */
-export const FULL_VIEWBOX: ViewBox = { x: 300, y: 130, width: 1080, height: 648 };
-/** Below 640 px the scene crops further to the city (Doi Suthep to the east bank, airport at the bottom). */
+export type ViewBox = { x: number; y: number; width: number; height: number };
+/** The scene is authored in 1600 x 1000 (MAP_BOUNDS). This is the part that must always be visible: Doi Suthep to the east bank, Wat Jed Yod to the airport. */
+export const CORE_VIEWBOX: ViewBox = { x: 370, y: 190, width: 770, height: 500 };
+/** Below 640 px the scene crops to the city (Doi Suthep to the east bank, airport at the bottom) in a horizontal scroller. */
 export const COMPACT_VIEWBOX: ViewBox = { x: 330, y: 150, width: 940, height: 720 };
 const COMPACT_BELOW_PX = 640;
 /** Narrow containers get a 680 px scene in a horizontal scroller (symbols are fixed-px and cannot shrink). */
 const COMPACT_SCENE_PX = 680;
-/** Wide containers cap the scene so the whole map fits a 900 px-tall viewport. */
-const MAX_SCENE_PX = 1000;
 const SYMBOL_PX = { full: 56, compact: 44 };
 const LABEL_H = 30;
+/** Below this map width only matched temples keep a name badge; the rest rely on their tooltip. */
+const ALL_LABELS_FROM_PX = 760;
 const DEFAULT_WIDTH = 1200;
+const DEFAULT_HEIGHT = 720;
+
+/**
+ * ViewBox for a container of w x h px: the largest scale at which CORE_VIEWBOX still fits, then
+ * widened or heightened to the container's aspect ratio so the scene never letterboxes.
+ */
+export function fitViewBox(w: number, h: number): ViewBox {
+  const s = Math.min(w / CORE_VIEWBOX.width, h / CORE_VIEWBOX.height);
+  const width = w / s;
+  const height = h / s;
+  const cx = CORE_VIEWBOX.x + CORE_VIEWBOX.width / 2;
+  const cy = CORE_VIEWBOX.y + CORE_VIEWBOX.height / 2;
+  const x = Math.max(0, Math.min(VIEW.width - width, cx - width / 2));
+  const y = Math.max(0, Math.min(VIEW.height - height, cy - height / 2));
+  const r = (v: number) => Math.round(v * 10) / 10;
+  return { x: r(x), y: r(y), width: r(width), height: r(height) };
+}
 
 /** Keyboard reducer for the popover, exported so the Escape rule is unit-tested without a DOM. */
 export function handleMapKey(key: string, selected: string | null): string | null {
@@ -137,26 +162,48 @@ const pct = (v: number, off: number, span: number) => `${(((v - off) / span) * 1
 
 // ---- Component ------------------------------------------------------------------------------
 
-export default function IllustratedMap({ temples, matches, onInvite, painting: paintingProp, initialSelected = null }: IllustratedMapProps) {
+export default function IllustratedMap({
+  temples,
+  matches,
+  onInvite,
+  painting: paintingProp,
+  initialSelected = null,
+  selected: selectedProp,
+  onSelect,
+  fill = false,
+}: IllustratedMapProps) {
   const ctxPainting = useMapPainting();
   const painting = paintingProp === undefined ? ctxPainting : paintingProp;
   const scroller = useRef<HTMLDivElement>(null);
   const wrap = useRef<HTMLDivElement>(null);
   const buttons = useRef(new Map<string, HTMLButtonElement>());
-  const [containerWidth, setContainerWidth] = useState(DEFAULT_WIDTH);
-  const [selected, setSelected] = useState<string | null>(initialSelected);
+  const [box, setBox] = useState({ w: DEFAULT_WIDTH, h: DEFAULT_HEIGHT });
+  const [ownSelected, setOwnSelected] = useState<string | null>(initialSelected);
+  const controlled = selectedProp !== undefined;
+  const selected = controlled ? selectedProp : ownSelected;
+  const setSelected = (next: string | null) => {
+    if (!controlled) setOwnSelected(next);
+    onSelect?.(next);
+  };
 
   useEffect(() => {
     const el = scroller.current;
     if (!el) return;
-    const ro = new ResizeObserver(([entry]) => setContainerWidth(entry.contentRect.width || DEFAULT_WIDTH));
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      setBox({ w: width || DEFAULT_WIDTH, h: height || DEFAULT_HEIGHT });
+    });
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
-  const compact = containerWidth < COMPACT_BELOW_PX;
-  const width = compact ? COMPACT_SCENE_PX : Math.min(containerWidth, MAX_SCENE_PX);
-  const vb = compact ? COMPACT_VIEWBOX : FULL_VIEWBOX;
+  // `fill` (the desktop split column) is never compact: the column can be narrower than 640 px
+  // but it is tall, and fitViewBox scales the scene to it.
+  const compact = !fill && box.w < COMPACT_BELOW_PX;
+  const containerWidth = box.w;
+  const width = compact ? COMPACT_SCENE_PX : box.w;
+  const height = compact ? (COMPACT_SCENE_PX * COMPACT_VIEWBOX.height) / COMPACT_VIEWBOX.width : fill ? box.h : Math.round(box.w * 0.6);
+  const vb = useMemo(() => (compact ? COMPACT_VIEWBOX : fitViewBox(width, height)), [compact, width, height]);
   const symbolPx = compact ? SYMBOL_PX.compact : SYMBOL_PX.full;
   const scale = width / vb.width;
 
@@ -177,22 +224,49 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
     () => layoutSymbols(temples, (t) => project(t.lat, t.lng), (symbolPx * 0.95) / scale),
     [temples, symbolPx, scale],
   );
+  const allLabels = !compact && width >= ALL_LABELS_FROM_PX;
+  const badges = useMemo(() => {
+    // Area badges in px, kept inside the map (a badge that would sit off the edge is dropped).
+    const out: { name: string; x: number; y: number; w: number }[] = [];
+    for (const a of AREAS) {
+      const b = badgeBox(a, vb, scale, compact);
+      const cx = Math.min(width - b.w / 2 - 6, Math.max(b.w / 2 + 6, b.x + b.w / 2));
+      const cy = b.y + b.h / 2;
+      if (cy < 12 || cy > height - 12 || Math.abs(cx - (b.x + b.w / 2)) > b.w) continue;
+      out.push({ name: a.name, x: cx, y: cy, w: b.w });
+    }
+    return out;
+  }, [vb, scale, compact, width, height]);
   const labels = useMemo(() => {
     const px = (p: Point) => ({ x: (p.x - vb.x) * scale, y: (p.y - vb.y) * scale });
-    const items = placed.map((p) => {
-      const c = px(p.at);
+    const items = placed.flatMap((p) => {
       const hot = Boolean(byTemple[p.item.id]?.length);
+      if (!hot && !allLabels) return [];
+      const c = px(p.at);
       // rendered size: 2 px padding each side, then the CSS scale (1.12 hot / 0.72 muted) about the bottom centre
       const size = (symbolPx + 4) * (hot ? 1.12 : 0.72);
-      return { key: p.item.id, symbol: { x: c.x - size / 2, y: c.y - size, w: size, h: size }, label: labelSize(p.item), priority: hot ? 1 : 0 };
+      return [{ key: p.item.id, symbol: { x: c.x - size / 2, y: c.y - size, w: size, h: size }, label: labelSize(p.item), priority: hot ? 1 : 0 }];
     });
-    return layoutLabels(items, AREAS.map((a) => badgeBox(a, vb, scale, compact)), { w: vb.width * scale, h: vb.height * scale });
-  }, [placed, byTemple, vb, scale, symbolPx, compact]);
+    const obstacles = [
+      ...AREAS.map((a) => badgeBox(a, vb, scale, compact)),
+      // every symbol is an obstacle, labelled or not
+      ...placed.map((p) => {
+        const c = px(p.at);
+        const size = (symbolPx + 4) * (byTemple[p.item.id]?.length ? 1.12 : 0.72);
+        return { x: c.x - size / 2, y: c.y - size, w: size, h: size };
+      }),
+    ];
+    return layoutLabels(items, obstacles, { w: vb.width * scale, h: vb.height * scale });
+  }, [placed, byTemple, vb, scale, symbolPx, compact, allLabels]);
 
   // A popover for a temple that is no longer matched closes itself.
   useEffect(() => {
-    if (selected && !byTemple[selected]?.length) setSelected(null);
-  }, [selected, byTemple]);
+    if (selected && !byTemple[selected]?.length) {
+      if (!controlled) setOwnSelected(null);
+      onSelect?.(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, byTemple, controlled]);
 
   const close = () => {
     if (selected) buttons.current.get(selected)?.focus();
@@ -205,19 +279,23 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
 
   return (
     <div
-      className="sm-imap rounded-[12px] bg-[#f0e2c4] text-navy"
+      className={`sm-imap rounded-[12px] bg-[#f0e2c4] text-navy ${fill ? "flex min-h-0 flex-1 flex-col" : ""}`}
       role="region"
       aria-label="Illustrated map of Chiang Mai temples"
       onKeyDown={(e) => {
         if (handleMapKey(e.key, selected) !== selected) close();
       }}
     >
-    <div ref={scroller} className={`no-scrollbar w-full rounded-[12px] ${compact ? "overflow-x-auto" : "overflow-hidden"}`} data-compact={compact ? "true" : undefined}>
-    <div ref={wrap} className="relative mx-auto overflow-hidden rounded-[12px] bg-[#f6ecd6]" style={{ width }}>
+    <div
+      ref={scroller}
+      className={`no-scrollbar w-full rounded-[12px] ${compact ? "overflow-x-auto" : "overflow-hidden"} ${fill ? "min-h-0 flex-1" : ""}`}
+      data-compact={compact ? "true" : undefined}
+    >
+    <div ref={wrap} className="relative mx-auto overflow-hidden rounded-[12px] bg-[#f6ecd6]" style={{ width, height }}>
       <svg
         viewBox={`${vb.x} ${vb.y} ${vb.width} ${vb.height}`}
         preserveAspectRatio="xMidYMid meet"
-        className="block h-auto w-full"
+        className="block h-full w-full"
         aria-hidden="true"
         focusable="false"
         onClick={() => selected && setSelected(null)}
@@ -261,8 +339,8 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
           </filter>
         </defs>
 
-        {/* Ground */}
-        <rect x="-50" y="-50" width={VIEW.width + 100} height={VIEW.height + 100} fill="url(#sm-parchment)" />
+        {/* Ground (oversized: very wide or tall containers see past the 1600 x 1000 scene) */}
+        <rect x="-2000" y="-2000" width={VIEW.width + 4000} height={VIEW.height + 4000} fill="url(#sm-parchment)" />
 
         {paintRect ? (
           <image href={painting!.src} x={paintRect.x} y={paintRect.y} width={paintRect.width} height={paintRect.height} preserveAspectRatio="none" />
@@ -371,7 +449,7 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
             ))}
         </g>
 
-        {/* River name along the water, scale bar (both hidden when compact) */}
+        {/* River name along the water (hidden when compact) */}
         {!compact ? (
           <g className="sm-imap-caption" fontFamily="ui-rounded, 'SF Pro Rounded', system-ui, sans-serif">
             <defs>
@@ -382,13 +460,6 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
                 Ping River · แม่น้ำปิง
               </textPath>
             </text>
-            <g transform="translate(330 745)" stroke="#4a3222" strokeWidth="2">
-              <path d={`M0,0 H${2 * PX_PER_KM}`} />
-              <path d={`M0,-6 V6 M${PX_PER_KM},-4 V4 M${2 * PX_PER_KM},-6 V6`} />
-              <text x={PX_PER_KM} y="-12" fontSize="18" textAnchor="middle" stroke="none" fill="#4a3222">
-                2 km
-              </text>
-            </g>
           </g>
         ) : null}
 
@@ -397,13 +468,13 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
       </svg>
 
       {/* Area badges */}
-      {AREAS.map((a) => (
+      {badges.map((a) => (
         <span
           key={a.name}
           className={`pointer-events-none absolute z-[1] -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-[#4a3222] font-bold uppercase tracking-[0.14em] text-saffron shadow-md shadow-navy/20 ring-1 ring-[#fffdf8]/40 ${
             compact ? "px-2 py-0.5 text-[8px]" : "px-3 py-1 text-[11px]"
           }`}
-          style={{ left: pct(a.at.x, vb.x, vb.width), top: pct(a.at.y, vb.y, vb.height) }}
+          style={{ left: a.x, top: a.y }}
           aria-hidden="true"
         >
           {a.name}
@@ -457,7 +528,7 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
               aria-expanded={hot ? selected === t.id : undefined}
               onClick={(e) => {
                 e.stopPropagation();
-                if (hot) setSelected((cur) => (cur === t.id ? null : t.id));
+                if (hot) setSelected(selected === t.id ? null : t.id);
               }}
               className={`sm-isym ${hot ? "sm-isym--hot" : "sm-isym--muted"} relative block rounded-lg ${FOCUS_RING}`}
             >
@@ -467,7 +538,7 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
         );
       })}
 
-      {/* Popover (floating; on narrow screens it is a card under the map instead, see below) */}
+      {/* Popover (floating; narrow screens show the temple list under the map instead) */}
       {selectedPlaced && selectedCards.length && !compact ? (
         <Popover placed={selectedPlaced.at} vb={vb} onClose={close}>
           <TemplePopover temple={selectedPlaced.item} cards={selectedCards} onInvite={onInvite} />
@@ -492,20 +563,23 @@ export default function IllustratedMap({ temples, matches, onInvite, painting: p
         </text>
       </svg>
       {!compact ? <Legend compact={false} /> : null}
+      {!compact ? (
+        <svg className="pointer-events-none absolute bottom-3 left-3" width={2 * PX_PER_KM * scale + 16} height="30" viewBox={`-8 -22 ${2 * PX_PER_KM * scale + 16} 30`} aria-hidden="true">
+          <g stroke="#4a3222" strokeWidth="2" strokeLinecap="round">
+            <path d={`M0,0 H${2 * PX_PER_KM * scale}`} />
+            <path d={`M0,-5 V5 M${PX_PER_KM * scale},-3 V3 M${2 * PX_PER_KM * scale},-5 V5`} />
+          </g>
+          <text x={PX_PER_KM * scale} y="-9" fontSize="12" fontWeight="600" textAnchor="middle" fill="#4a3222" fontFamily="ui-rounded, system-ui, sans-serif">
+            2 km
+          </text>
+        </svg>
+      ) : null}
     </div>
     </div>
       {compact ? (
         <div className="flex items-center justify-between gap-2 px-2 pb-1 pt-1.5 text-[10px] text-muted">
           <span>Swipe the map to pan</span>
           <Legend compact inline />
-        </div>
-      ) : null}
-      {selectedPlaced && selectedCards.length && compact ? (
-        <div role="dialog" aria-label="Matched monks at this temple" className="sm-ipop relative mx-1 mb-1 rounded-card bg-navy-2 shadow-[0_8px_24px_rgba(43,29,18,0.14)] ring-1 ring-navy/10">
-          <button type="button" onClick={close} aria-label="Close" className={`absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none text-muted hover:bg-navy/5 hover:text-navy ${FOCUS_RING}`}>
-            ×
-          </button>
-          <TemplePopover temple={selectedPlaced.item} cards={selectedCards} onInvite={onInvite} />
         </div>
       ) : null}
     </div>
