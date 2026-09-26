@@ -28,6 +28,8 @@ export function denominations([lo, hi]: [number, number]): number[] {
   return [...new Set([lo, mid, hi])].filter((v) => v > 0);
 }
 
+/** Pre-select the middle rung (lower middle on even ladders): 500 of 300/500/1,000, 100 of 0/100/200. */
 export function defaultDonation(options: number[]): number | null {
-  return options.includes(1000) ? 1000 : options.includes(100) ? 100 : options[0] ?? null;
+  if (!options.length) return null;
+  return options[Math.floor((options.length - 1) / 2)];
 }

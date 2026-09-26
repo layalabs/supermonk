@@ -95,3 +95,108 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .sm-fly, .sm-twinkle { animation: none; }
 }
+
+/* Temple map pins and popover (components/TempleMap.tsx). Markers are plain buttons that MapLibre
+   positions; the glyph is an inline SVG chedi, the ring is a ground halo so it reads under pitch. */
+.sm-pin {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+  filter: drop-shadow(0 6px 8px rgba(43, 29, 18, 0.28));
+  transition: transform 0.15s ease;
+  transform-origin: 50% 100%;
+}
+.sm-pin svg {
+  display: block;
+}
+.sm-pin--muted {
+  transform: scale(0.55);
+  opacity: 0.6;
+  filter: saturate(0.4) drop-shadow(0 3px 4px rgba(43, 29, 18, 0.2));
+}
+.sm-pin--muted:hover,
+.sm-pin--muted:focus-visible {
+  opacity: 1;
+  filter: saturate(0.8) drop-shadow(0 4px 6px rgba(43, 29, 18, 0.25));
+  transform: scale(0.7);
+}
+.sm-pin--hot {
+  transform: scale(1.15);
+  z-index: 2; /* MapLibre positions the marker absolutely, so this lifts it over muted pins */
+}
+.sm-pin--hot:hover,
+.sm-pin--hot:focus-visible {
+  z-index: 3;
+}
+.sm-pin--hot:hover,
+.sm-pin--hot:focus-visible {
+  transform: scale(1.25);
+}
+.sm-pin--hot::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 52px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 2.5px solid var(--color-saffron);
+  background: color-mix(in srgb, var(--color-saffron) 30%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-saffron) 18%, transparent);
+  z-index: -1;
+}
+.sm-pin:focus-visible {
+  outline: none;
+}
+.sm-pin:focus-visible svg {
+  outline: 2px solid var(--color-saffron);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.sm-pin--muted[data-name]::after {
+  content: attr(data-name);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--color-navy);
+  color: var(--color-cream);
+  font-size: 18px; /* the parent is scaled to ~0.6, so this renders at ~11 px */
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+.sm-pin--muted:hover::after,
+.sm-pin--muted:focus-visible::after {
+  opacity: 1;
+}
+.maplibregl-popup.sm-popup .maplibregl-popup-content {
+  padding: 0;
+  border-radius: var(--radius-card);
+  background: var(--color-navy-2);
+  box-shadow: 0 12px 32px rgba(43, 29, 18, 0.18);
+  border: 1px solid rgba(43, 29, 18, 0.1);
+  font-family: var(--font-sans);
+}
+.maplibregl-popup.sm-popup .maplibregl-popup-tip {
+  border-top-color: var(--color-navy-2);
+  border-bottom-color: var(--color-navy-2);
+}
+.maplibregl-ctrl-group {
+  border-radius: 12px;
+}
+.maplibregl-canvas:focus-visible {
+  outline: 2px solid var(--color-saffron);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sm-pin { transition: none; }
+}

@@ -102,9 +102,39 @@ describe("donation options", () => {
   it("ladders small ranges and spreads ceremony ranges", () => {
     expect(denominations([0, 200])).toEqual([100, 200]);
     expect(denominations([0, 500])).toEqual([100, 200, 300, 500]);
+    expect(denominations([300, 1000])).toEqual([300, 500, 1000]);
+    expect(denominations([100, 500])).toEqual([100, 200, 300, 500]);
     expect(denominations([1000, 3000])).toEqual([1000, 2000, 3000]);
-    expect(denominations([200, 500])).toEqual([200, 300, 500]);
-    expect(defaultDonation([1000, 2000, 3000])).toBe(1000);
+  });
+
+  it("defaults to the middle of the ladder, never the top", () => {
+    expect(defaultDonation([300, 500, 1000])).toBe(500);
+    expect(defaultDonation([0, 100, 200])).toBe(100);
     expect(defaultDonation([100, 200])).toBe(100);
+    expect(defaultDonation([0, 100, 200, 300, 500])).toBe(200);
+    expect(defaultDonation([])).toBeNull();
+  });
+
+  it("seed ranges follow published Thai norms and yield sensible buttons", () => {
+    const range = Object.fromEntries(data.services.map((s) => [s.id, s.donationRange]));
+    expect(range).toEqual({
+      house_blessing: [300, 1000],
+      shop_blessing: [300, 1000],
+      memorial: [300, 1000],
+      vehicle_blessing: [100, 500],
+      monk_chat: [0, 200],
+      meditation: [0, 500],
+    });
+    for (const s of data.services) {
+      const [lo, hi] = s.donationRange;
+      const options = [...(lo === 0 ? [0] : []), ...denominations(s.donationRange)];
+      expect(options.length, s.id).toBeGreaterThanOrEqual(2);
+      expect(options.every((v) => v >= lo && v <= hi), s.id).toBe(true);
+      expect(options.includes(hi), s.id).toBe(true);
+      if (s.mode === "monk_comes") expect(options).toEqual([300, 500, 1000]);
+      const text = s.prepare.join(" ");
+      expect(text, `${s.id} prepare list should say as your faith allows`).toContain("ตามกำลังศรัทธา (as your faith allows)");
+    }
+    expect([0, ...denominations(range.monk_chat)]).toEqual([0, 100, 200]);
   });
 });
