@@ -11,7 +11,8 @@ export type ServiceId =
 export type Mode = "monk_comes" | "you_go";
 export type Slot = "morning" | "afternoon" | "evening";
 export type Language = "th" | "en" | "zh" | "ja" | "kham_mueang";
-export type InviteStatus = "pending" | "accepted" | "declined";
+/** withdrawn: another temple already accepted the same outreach request. */
+export type InviteStatus = "pending" | "accepted" | "declined" | "withdrawn";
 
 export type Area =
   | "nimman"
@@ -53,7 +54,23 @@ export type Temple = {
   notes?: string;
   /** seed coordinates are hand-entered and approximate (~200 m) */
   coordsApproximate?: boolean;
+  /** P1 addendum: the temple office's own contacts; "public" = seeded by us from the web, unverified. */
+  office?: OfficeContact;
 };
+
+export type OfficeContact = {
+  /** LINE ID as published (not a Messaging API userId; we can never push to it). */
+  lineId?: string;
+  phone?: string;
+  whatsapp?: string;
+  email?: string;
+  source: "public" | "office";
+  /** where a public contact was found, and what it is really for */
+  sourceUrl?: string;
+  note?: string;
+};
+
+export type DeliveryVia = "line" | "sms" | "manual" | "web";
 
 export type Availability = { date: string; slots: Slot[] };
 
@@ -90,10 +107,16 @@ export type Invite = {
   updatedAt: string;
   note?: string;
   /** P1: how the temple side was told, and which LINE user answered. */
-  deliveredVia?: "line" | "web";
+  deliveredVia?: DeliveryVia;
   respondedBy?: string;
   respondedAt?: string;
+  /** How the temple can reach the host; only sent to temples the host chose or asked us to contact. */
+  hostContact?: HostContact;
+  /** Outreach: invites sent to several temples for one host request; the first acceptance wins. */
+  requestId?: string;
 };
+
+export type HostContact = { email: string; whatsapp?: string; lineId?: string; consentAt: string };
 
 export type Extracted = {
   serviceId?: ServiceId;
@@ -155,6 +178,8 @@ export type CreateInviteRequest = {
   guests?: number;
   language: "en" | "th";
   deviceId: string;
+  /** Path B (host invites a temple directly): contact shared with that temple, with consent. */
+  contact?: { email?: string; whatsapp?: string; lineId?: string; consent?: boolean };
 };
 
 export type InviteResponse = { invite: Invite; card: ConfirmationCard };

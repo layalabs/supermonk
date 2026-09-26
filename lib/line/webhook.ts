@@ -1,11 +1,14 @@
 import type { SeedData } from "@/lib/data";
+import { answerInvite } from "@/lib/outreach/answer";
+import type { HostNotifier } from "@/lib/outreach/notify";
 import type { InviteStore } from "@/lib/store";
 import { TH } from "./copy";
 import { parsePostback, roleQuestion } from "./flex";
 import { recipientsFor } from "./deliver";
+import { officeUsers, parseJoin } from "./office";
 import { linkToken, verifyLineSignature } from "./signature";
 import type { LineStore } from "./store";
-import type { LineAdapter, LineMessage, LineMonk } from "./types";
+import type { LineAdapter, LineMessage, LineMonk, LineProfile } from "./types";
 
 type LineEvent = {
   type: string;
@@ -22,6 +25,8 @@ export type WebhookDeps = {
   lineStore: LineStore;
   data: () => Promise<SeedData>;
   baseUrl: string;
+  /** tells hosts (email / WhatsApp) when a temple answers; optional so tests can leave it out */
+  notify?: HostNotifier;
 };
 
 export class SignatureError extends Error {}
@@ -48,6 +53,11 @@ export async function handleWebhook(rawBody: string, signature: string | null, d
     }
     if (ev.type === "message") {
       const profile = await deps.lineStore.getProfile(userId);
+      const templeId = parseJoin(deps.secret, ev.message?.text);
+      if (templeId || ev.message?.text?.includes(TH.joinCommand)) {
+        done.push(await bindOffice(userId, templeId, profile, deps, reply));
+        continue;
+      }
       await reply([profile ? text(TH.formDone) : roleQuestion()]);
       done.push(profile ? "message:known" : "message:new");
       continue;
@@ -88,22 +98,59 @@ export async function handleWebhook(rawBody: string, signature: string | null, d
       done.push("invite:not-found");
       continue;
     }
-    if (!recipientsFor(invite, await deps.data()).includes(userId)) {
+    if (!recipientsFor(invite, await deps.data(), await deps.lineStore.listProfiles()).includes(userId)) {
       await reply([text(TH.notYours)]);
       done.push("invite:not-yours");
       continue;
     }
-    if (invite.status !== "pending") {
-      await reply([text(TH.already(invite.status))]);
-      done.push(`invite:already-${invite.status}`);
+    const status = pb.action === "accept" ? "accepted" : "declined";
+    const res = await answerInvite(invite.code, status, userId, { store: deps.invites, data: await deps.data(), notify: deps.notify, baseUrl: deps.baseUrl });
+    if (res.outcome === "filled") {
+      await reply([text(TH.filled)]);
+      done.push("invite:filled");
       continue;
     }
-    const status = pb.action === "accept" ? "accepted" : "declined";
-    await deps.invites.setStatus(invite.code, status, userId);
+    if (res.outcome !== "answered") {
+      const now = res.invite?.status ?? invite.status;
+      await reply([text(TH.already(now))]);
+      done.push(`invite:already-${now}`);
+      continue;
+    }
     await reply([text(status === "accepted" ? TH.accepted : TH.declined)]);
     done.push(`invite:${status}`);
   }
   return done;
+}
+
+/** First contact from a temple office reached by SMS or by hand: bind this LINE account to the temple. */
+async function bindOffice(userId: string, templeId: string | null, profile: LineProfile | null, deps: WebhookDeps, reply: (m: LineMessage[]) => Promise<void>) {
+  const temple = templeId ? (await deps.data()).temples.find((t) => t.id === templeId) : undefined;
+  if (!temple) {
+    await reply([text(TH.joinBad)]);
+    return "join:bad-code";
+  }
+  if (profile && (profile.role !== "office" || (profile.templeId && profile.templeId !== temple.id))) {
+    await reply([text(TH.joinOtherTemple)]);
+    return "join:other-temple";
+  }
+  // One bound office per temple: a leaked or forwarded join message cannot add a second account.
+  if (officeUsers(await deps.lineStore.listProfiles(), temple.id).some((id) => id !== userId)) {
+    await reply([text(TH.joinTaken)]);
+    return "join:taken";
+  }
+  const now = new Date().toISOString();
+  await deps.lineStore.upsertProfile({
+    lineUserId: userId,
+    role: "office",
+    displayName: profile?.displayName ?? temple.nameThai,
+    templeId: temple.id,
+    monkIds: profile?.monkIds ?? [],
+    boundOffice: true,
+    createdAt: profile?.createdAt ?? now,
+    updatedAt: now,
+  });
+  await reply([text(TH.officeLinked(temple.nameThai))]);
+  return `join:${temple.id}`;
 }
 
 export type { LineMonk };

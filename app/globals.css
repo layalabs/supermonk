@@ -64,21 +64,14 @@ body {
   display: none;
 }
 
-/* Flying monk screen (components/FlyingMonk.tsx) */
-@keyframes sm-fly {
-  0% { transform: translate(-60%, 30px) rotate(-6deg); }
-  25% { transform: translate(15%, -10px) rotate(-2deg); }
-  50% { transform: translate(95%, 20px) rotate(3deg); }
-  75% { transform: translate(40%, -20px) rotate(-3deg); }
-  100% { transform: translate(-60%, 30px) rotate(-6deg); }
+/* Seated monk (components/SeatedMonk.tsx): the chest group eases between the inline inhale /
+   exhale transforms; the duration is set inline per phase. */
+.sm-seated-body {
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
 }
-@keyframes sm-bob {
-  0%, 100% { margin-top: 0; }
-  50% { margin-top: -12px; }
-}
-.sm-fly {
-  animation: sm-fly 9s ease-in-out infinite, sm-bob 1.6s ease-in-out infinite;
-}
+
+/* Waiting screen (components/MeditationWait.tsx) */
 @keyframes sm-twinkle {
   0%, 100% { opacity: 0.15; }
   50% { opacity: 0.9; }
@@ -97,12 +90,14 @@ body {
   from { opacity: 0.9; }
   to { opacity: 0; }
 }
-/* Reduced motion: the flight, twinkle and ring stop; the breath circle cross-fades instead of scaling
-   (data-phase is set by FlyingMonk; the inline transform is overridden so the scale never runs). */
+/* Reduced motion: the twinkle and ring stop; the seated monk holds still (his clock keeps running
+   so onCycle timing is unchanged); the breath circle cross-fades instead of scaling
+   (data-phase is set by MeditationWait; the inline transform is overridden so the scale never runs). */
 @media (prefers-reduced-motion: reduce) {
-  .sm-fly, .sm-twinkle { animation: none; }
+  .sm-twinkle { animation: none; }
   .sm-ring { animation: sm-fade 1s ease-out forwards; }
-  .sm-breath { transition-property: opacity; transform: none !important; }
+  .sm-seated-body { transition: none; transform: none !important; }
+  .sm-breath { transition-property: opacity; transform: translate(-50%, -50%) !important; }
   .sm-breath[data-phase="out"] { opacity: 0.55; }
 }
 

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { handle } from "@/lib/http";
 import { loadAllData } from "@/lib/data";
 import { buildCard } from "@/lib/invites";
+import { withoutContact } from "@/lib/outreach/contact";
 import { getStore } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
@@ -11,6 +12,6 @@ export function GET() {
   return handle(async () => {
     const invites = await getStore().listAll();
     const data = await loadAllData();
-    return NextResponse.json({ invites: invites.map((invite) => ({ ...invite, card: buildCard(invite, data) })) });
+    return NextResponse.json({ invites: invites.map((invite) => ({ ...withoutContact(invite), card: buildCard(invite, data) })) });
   });
 }

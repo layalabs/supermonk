@@ -3,17 +3,24 @@
 import { useCallback, useEffect, useState } from "react";
 import { Card, ErrorNote, GhostButton, Pill } from "@/components/ui";
 import type { OutboxEntry } from "@/lib/line/adapter";
+import type { SmsEntry } from "@/lib/line/sms";
+import type { HostMessage } from "@/lib/outreach/notify";
 import type { LineMonk, LineProfile } from "@/lib/line/types";
 
 // Mock LINE console (P1): stands in for the phone of a temple office or a monk until the real
 // Official Account exists. Every button goes through the same signed webhook handler as LINE.
 
-type Dev = { outbox: OutboxEntry[]; profiles: LineProfile[]; monks: LineMonk[] };
+type Dev = { outbox: OutboxEntry[]; sms?: SmsEntry[]; hosts?: HostMessage[]; profiles: LineProfile[]; monks: LineMonk[] };
 type Action = { type: string; label: string; data?: string; uri?: string };
 const USERS = [
   { id: "Uoffice0001", label: "Temple office (Wat Suan Dok steward)" },
   { id: "Umonk00001", label: "A monk registering himself" },
+  { id: "Uwatoffice01", label: "A temple office reached by SMS or by hand" },
 ];
+
+// The bind link in a join message is line.me/R/oaMessage/<oa>/?<text>: LINE opens our chat with
+// that text typed in. Here "tapping" it sends the same text as the selected user.
+const bindText = (uri: string) => (/line\.me\/R\/oaMessage\//.test(uri) ? decodeURIComponent(uri.split("/?")[1] ?? "") : null);
 
 export default function DevLine() {
   const [dev, setDev] = useState<Dev | null>(null);
@@ -32,12 +39,12 @@ export default function DevLine() {
     return () => clearInterval(t);
   }, [load]);
 
-  const send = async (action: string, data?: string) => {
+  const send = async (action: string, data?: string, text?: string) => {
     setError(null);
     const res = await fetch("/api/line/dev", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ action, userId: user, data }),
+      body: JSON.stringify({ action, userId: user, data, text }),
     });
     if (!res.ok) setError((await res.json().catch(() => ({}))).error ?? `failed (${res.status})`);
     await load();
@@ -63,6 +70,36 @@ export default function DevLine() {
       </div>
       {error ? <ErrorNote message={error} /> : null}
 
+      {dev?.sms?.length ? (
+        <>
+          <h2 className="text-sm uppercase tracking-wide text-muted">SMS join messages to temple offices (mock, newest first)</h2>
+          {dev.sms.map((m) => (
+            <Card key={`sms-${m.id}`} className="flex flex-col gap-2">
+              <p className="text-xs text-muted">
+                SMS → {m.to} · {new Date(m.at).toLocaleTimeString()}
+              </p>
+              <SmsMsg text={m.text} onBind={(t) => void send("message", undefined, t)} />
+            </Card>
+          ))}
+        </>
+      ) : null}
+
+      {dev?.hosts?.length ? (
+        <>
+          <h2 className="text-sm uppercase tracking-wide text-muted">Email / WhatsApp to hosts (mock, newest first)</h2>
+          {dev.hosts.map((m) => (
+            <Card key={`host-${m.id}`} className="flex flex-col gap-1 text-sm">
+              <p className="text-xs text-muted">
+                → {m.email}
+                {m.whatsapp ? ` · WhatsApp ${m.whatsapp}` : ""} · {new Date(m.at).toLocaleTimeString()}
+              </p>
+              <p className="font-semibold">{m.subject}</p>
+              <p className="break-words">{m.text}</p>
+            </Card>
+          ))}
+        </>
+      ) : null}
+
       <h2 className="text-sm uppercase tracking-wide text-muted">Messages from SuperMonk (newest first)</h2>
       {dev?.outbox.length ? null : <p className="text-muted">Nothing yet. Tap "Add the Official Account".</p>}
       {dev?.outbox.map((e) =>
@@ -84,6 +121,23 @@ export default function DevLine() {
         </Card>
       ))}
     </section>
+  );
+}
+
+function SmsMsg({ text, onBind }: { text: string; onBind: (t: string) => void }) {
+  return (
+    <div lang="th">
+      <p className="whitespace-pre-wrap break-all text-sm">{text}</p>
+      {text
+        .match(/https:\/\/line\.me\/R\/oaMessage\/\S+/g)
+        ?.map((u) => bindText(u))
+        .filter((t): t is string => Boolean(t))
+        .map((t) => (
+          <GhostButton key={t} className="mt-2" onClick={() => onBind(t)}>
+            Tap the bind link as the selected user
+          </GhostButton>
+        ))}
+    </div>
   );
 }
 

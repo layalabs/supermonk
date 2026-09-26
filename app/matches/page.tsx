@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import monks from "@/data/monks.json";
 import temples from "@/data/temples.json";
 import IllustratedMap, { type ResolvedMatch } from "@/components/IllustratedMap";
+import InviteChoices from "@/components/InviteChoices";
 import MonkCard from "@/components/MonkCard";
 import TempleCard, { groupByTemple, templeCardId } from "@/components/TempleCard";
 import type { TempleHighlights } from "@/components/TempleMap";
@@ -163,8 +164,10 @@ export default function MatchesPage() {
           {/* List column. Below lg its children are laid out in the page column (`contents`) so the
               filters sit above the map and the list below it. */}
           <div className="contents lg:flex lg:min-w-0 lg:flex-col lg:gap-4">
-            {/* Reserved: the invite-mode chooser mounts here (another agent). */}
-            <div id="invite-choices" className="order-1 lg:order-none" />
+            {/* Two invite paths (Oppo): top of the list column on desktop, above the filters and results on phones. */}
+            <div className="order-1 lg:order-none">
+              <InviteChoices matches={flow.matches!} extracted={e} />
+            </div>
             <div className="order-1 lg:order-none">{filters}</div>
             {showList ? (
               <div className="order-3 lg:order-none">{list}</div>

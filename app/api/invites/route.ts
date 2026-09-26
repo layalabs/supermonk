@@ -2,12 +2,11 @@ import { NextResponse } from "next/server";
 import { loadAllData } from "@/lib/data";
 import { handle, readJson } from "@/lib/http";
 import { buildCard, buildInvite, InviteError } from "@/lib/invites";
-import { getLine } from "@/lib/line/adapter";
-import { baseUrl } from "@/lib/line/deps";
+import { deliverDeps } from "@/lib/line/deps";
 import { deliverInvite } from "@/lib/line/deliver";
 import { getStore } from "@/lib/store";
-import { levelOf, requiredTier } from "@/lib/verify";
-import { getVerificationStore } from "@/lib/verify/store";
+import { parseHostContact } from "@/lib/outreach/contact";
+import { verificationGate } from "@/lib/verify/gate";
 import type { CreateInviteRequest } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -16,21 +15,16 @@ export function POST(req: Request) {
   return handle(async () => {
     const data = await loadAllData();
     const store = getStore();
-    const draft = buildInvite(await readJson<Partial<CreateInviteRequest>>(req), data);
+    const body = await readJson<Partial<CreateInviteRequest>>(req);
+    const draft = buildInvite(body, data);
+    // Path B: the host invites this temple directly and shares a contact with it (with consent).
+    if (body.contact) draft.hostContact = parseHostContact(body.contact);
     // P2 gate, enforced here and not only on the monk page's button (docs/VERIFICATION.md).
-    const need = requiredTier(draft.mode);
-    if (need > 0) {
-      const level = levelOf(await getVerificationStore().get(draft.deviceId));
-      if (level < need) {
-        return NextResponse.json(
-          { error: `Please verify first (${need === 2 ? "ID check" : "phone"}) before inviting a monk.`, requiredTier: need, level, verifyUrl: `/verify?tier=${need}` },
-          { status: 403 },
-        );
-      }
-    }
+    const blocked = await verificationGate(draft.deviceId, draft.mode);
+    if (blocked) return blocked;
     const invite = await store.create(draft);
-    // P1: monks onboarded through LINE get the invite card there; seed monks stay web-only (/office).
-    const delivery = await deliverInvite(invite, data, getLine(), store, baseUrl(req));
+    // P1: LINE push to linked temple accounts, else a join message by SMS or by hand, else /office.
+    const delivery = await deliverInvite(invite, data, deliverDeps(req));
     return NextResponse.json({ invite: { ...invite, deliveredVia: delivery.via }, card: buildCard(invite, data) }, { status: 201 });
   });
 }

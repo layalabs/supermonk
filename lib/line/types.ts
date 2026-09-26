@@ -9,6 +9,8 @@ export type LineProfile = {
   displayName: string;
   templeId?: string;
   monkIds: string[];
+  /** Bound to templeId through a join code (P1 addendum); only these get invites for the temple's other monks. */
+  boundOffice?: boolean;
   createdAt: string;
   updatedAt: string;
 };
