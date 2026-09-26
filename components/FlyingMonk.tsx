@@ -39,12 +39,12 @@ export default function FlyingMonk({ message = "Finding your monk…" }: { messa
   const inhale = phase === 0;
 
   return (
-    <div className="relative -mx-5 flex flex-1 flex-col items-center overflow-hidden px-5" aria-live="polite">
+    <div className="relative -mx-5 flex flex-1 flex-col items-center overflow-hidden px-5 lg:mx-0 lg:min-h-[600px] lg:rounded-card lg:bg-navy-2/60 lg:ring-1 lg:ring-navy/10" aria-live="polite">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         {STARS.map((s, i) => (
           <span
             key={i}
-            className="sm-twinkle absolute rounded-full bg-cream"
+            className="sm-twinkle absolute rounded-full bg-saffron"
             style={{ left: `${s.left}%`, top: `${s.top}%`, width: s.size, height: s.size, animationDelay: `${s.delay}s` }}
           />
         ))}
@@ -52,8 +52,8 @@ export default function FlyingMonk({ message = "Finding your monk…" }: { messa
 
       <p className="relative mt-10 text-sm uppercase tracking-[0.3em] text-muted">{message}</p>
 
-      <div className="relative mt-6 h-64 w-full" aria-hidden>
-        <img src="/mascot.png" alt="" className="sm-fly absolute left-0 top-10 w-44 drop-shadow-[0_10px_30px_rgba(242,107,29,0.35)]" />
+      <div className="relative mt-6 h-64 w-full lg:h-80" aria-hidden>
+        <img src="/mascot.png" alt="" className="sm-fly absolute left-0 top-10 w-44 drop-shadow-[0_10px_30px_rgba(232,121,43,0.35)] lg:w-52" />
       </div>
 
       <div className="relative flex flex-col items-center gap-8">
@@ -64,7 +64,7 @@ export default function FlyingMonk({ message = "Finding your monk…" }: { messa
         >
           <div className="h-10 w-10 rounded-full bg-brand opacity-80" />
         </div>
-        <p className="text-3xl font-semibold text-cream" role="status">
+        <p className="text-3xl font-semibold text-navy" role="status">
           {BREATH[phase].word}
         </p>
       </div>

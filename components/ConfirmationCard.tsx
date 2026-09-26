@@ -8,7 +8,7 @@ export default function ConfirmationCard({ card }: { card: CardData }) {
     <Card className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <span className="text-xs uppercase tracking-wide text-muted">Invite</span>
-        <span className="font-mono text-lg font-bold tracking-widest text-saffron">{card.code}</span>
+        <span className="font-mono text-lg font-bold tracking-widest text-ember">{card.code}</span>
       </div>
       <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
         <dt className="text-muted">Monk</dt>
@@ -29,7 +29,7 @@ export default function ConfirmationCard({ card }: { card: CardData }) {
         <ul className="flex flex-col gap-1.5 text-sm">
           {card.prepare.map((item) => (
             <li key={item} className="flex gap-2">
-              <span className="text-saffron" aria-hidden>
+              <span className="text-rice-deep" aria-hidden>
                 ✓
               </span>
               {item}
@@ -38,7 +38,7 @@ export default function ConfirmationCard({ card }: { card: CardData }) {
         </ul>
       </div>
 
-      <div className="rounded-xl bg-cream p-4 text-navy">
+      <div className="rounded-xl bg-mist/40 p-4 text-navy ring-1 ring-mist">
         <p className="mb-1 text-xs uppercase tracking-wide opacity-70">Show this at the temple office</p>
         <p lang="th" className="text-lg leading-relaxed">
           {card.thaiLine}
@@ -46,7 +46,7 @@ export default function ConfirmationCard({ card }: { card: CardData }) {
         {!meta.thaiReviewed ? <p className="mt-2 text-xs opacity-60">Draft Thai, not yet checked by a native speaker.</p> : null}
       </div>
 
-      <a href={card.icsUrl} className="text-center text-sm text-saffron underline">
+      <a href={card.icsUrl} className="text-center text-sm text-ember underline">
         Add to calendar
       </a>
     </Card>
