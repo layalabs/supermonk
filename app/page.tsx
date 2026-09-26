@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import services from "@/data/services.json";
@@ -19,7 +20,12 @@ export default function AskPage() {
 
   return (
     <section className="flex flex-1 flex-col">
-      <Header />
+      <div className="flex items-start justify-between">
+        <Header />
+        <Link href="/my" className="mt-1 text-sm text-saffron">
+          My invites
+        </Link>
+      </div>
       <div className="mt-6 flex flex-col gap-2">
         <h1 className="text-3xl font-bold leading-tight">
           What can a monk <span className="text-brand">help you with?</span>
