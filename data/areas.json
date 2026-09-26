@@ -1,61 +1,73 @@
 {
   "nimman": {
     "name": "Nimman",
+    "nameThai": "นิมมาน",
     "lat": 18.7995,
     "lng": 98.9673
   },
   "old_city": {
     "name": "Old City",
+    "nameThai": "เมืองเก่า",
     "lat": 18.7883,
     "lng": 98.9853
   },
   "santitham": {
     "name": "Santitham",
+    "nameThai": "สันติธรรม",
     "lat": 18.802,
     "lng": 98.98
   },
   "chang_khlan": {
     "name": "Chang Khlan / Night Bazaar",
+    "nameThai": "ช้างคลาน",
     "lat": 18.785,
     "lng": 98.999
   },
   "ping_river": {
     "name": "Ping River",
+    "nameThai": "ริมแม่น้ำปิง",
     "lat": 18.788,
     "lng": 99.001
   },
   "wat_ket": {
     "name": "Wat Ket",
+    "nameThai": "วัดเกต",
     "lat": 18.793,
     "lng": 99.004
   },
   "hang_dong": {
     "name": "Hang Dong",
+    "nameThai": "หางดง",
     "lat": 18.687,
     "lng": 98.919
   },
   "mae_rim": {
     "name": "Mae Rim",
+    "nameThai": "แม่ริม",
     "lat": 18.916,
     "lng": 98.943
   },
   "san_kamphaeng": {
     "name": "San Kamphaeng",
+    "nameThai": "สันกำแพง",
     "lat": 18.745,
     "lng": 99.119
   },
   "doi_suthep": {
     "name": "Doi Suthep",
+    "nameThai": "ดอยสุเทพ",
     "lat": 18.8048,
     "lng": 98.9217
   },
   "san_sai": {
     "name": "San Sai",
+    "nameThai": "สันทราย",
     "lat": 18.853,
     "lng": 99.01
   },
   "saraphi": {
     "name": "Saraphi",
+    "nameThai": "สารภี",
     "lat": 18.71,
     "lng": 99.033
   }

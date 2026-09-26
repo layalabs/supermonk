@@ -12,18 +12,18 @@ ROOT.mkdir(exist_ok=True)
 
 # --- areas (centroids approximate, for distance when geolocation is denied) --------------
 AREAS = {
-    "nimman":        {"name": "Nimman",            "lat": 18.7995, "lng": 98.9673},
-    "old_city":      {"name": "Old City",          "lat": 18.7883, "lng": 98.9853},
-    "santitham":     {"name": "Santitham",         "lat": 18.8020, "lng": 98.9800},
-    "chang_khlan":   {"name": "Chang Khlan / Night Bazaar", "lat": 18.7850, "lng": 98.9990},
-    "ping_river":    {"name": "Ping River",        "lat": 18.7880, "lng": 99.0010},
-    "wat_ket":       {"name": "Wat Ket",           "lat": 18.7930, "lng": 99.0040},
-    "hang_dong":     {"name": "Hang Dong",         "lat": 18.6870, "lng": 98.9190},
-    "mae_rim":       {"name": "Mae Rim",           "lat": 18.9160, "lng": 98.9430},
-    "san_kamphaeng": {"name": "San Kamphaeng",     "lat": 18.7450, "lng": 99.1190},
-    "doi_suthep":    {"name": "Doi Suthep",        "lat": 18.8048, "lng": 98.9217},
-    "san_sai":       {"name": "San Sai",           "lat": 18.8530, "lng": 99.0100},
-    "saraphi":       {"name": "Saraphi",           "lat": 18.7100, "lng": 99.0330},
+    "nimman":        {"name": "Nimman", "nameThai": "นิมมาน",            "lat": 18.7995, "lng": 98.9673},
+    "old_city":      {"name": "Old City", "nameThai": "เมืองเก่า",          "lat": 18.7883, "lng": 98.9853},
+    "santitham":     {"name": "Santitham", "nameThai": "สันติธรรม",         "lat": 18.8020, "lng": 98.9800},
+    "chang_khlan":   {"name": "Chang Khlan / Night Bazaar", "nameThai": "ช้างคลาน", "lat": 18.7850, "lng": 98.9990},
+    "ping_river":    {"name": "Ping River", "nameThai": "ริมแม่น้ำปิง",        "lat": 18.7880, "lng": 99.0010},
+    "wat_ket":       {"name": "Wat Ket", "nameThai": "วัดเกต",           "lat": 18.7930, "lng": 99.0040},
+    "hang_dong":     {"name": "Hang Dong", "nameThai": "หางดง",         "lat": 18.6870, "lng": 98.9190},
+    "mae_rim":       {"name": "Mae Rim", "nameThai": "แม่ริม",           "lat": 18.9160, "lng": 98.9430},
+    "san_kamphaeng": {"name": "San Kamphaeng", "nameThai": "สันกำแพง",     "lat": 18.7450, "lng": 99.1190},
+    "doi_suthep":    {"name": "Doi Suthep", "nameThai": "ดอยสุเทพ",        "lat": 18.8048, "lng": 98.9217},
+    "san_sai":       {"name": "San Sai", "nameThai": "สันทราย",           "lat": 18.8530, "lng": 99.0100},
+    "saraphi":       {"name": "Saraphi", "nameThai": "สารภี",           "lat": 18.7100, "lng": 99.0330},
 }
 
 # --- temples (real places, coordinates approximate to ~200 m, demo use only) ---------------
