@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Bubble, ErrorNote, GhostButton, Header, Pill } from "@/components/ui";
+import VoiceButton from "@/components/VoiceButton";
 import { postJson, readFlow, writeFlow, type Flow } from "@/lib/client/session";
 import { AREA_CENTROIDS, haversineKm } from "@/lib/geo";
 import type { ClarifyResponse } from "@/lib/types";
@@ -149,6 +150,7 @@ export default function ChatPage() {
           className="flex-1 rounded-full bg-navy-2 px-4 py-3 text-cream ring-1 ring-cream/15 placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-saffron"
           aria-label="Your answer"
         />
+        <VoiceButton onInterim={setText} onFinal={answer} />
         <button type="submit" disabled={!text.trim() || busy} className="bg-brand rounded-full px-5 font-semibold text-navy disabled:opacity-40">
           Send
         </button>

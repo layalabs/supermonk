@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import services from "@/data/services.json";
+import VoiceButton from "@/components/VoiceButton";
 import { Header, Pill, PrimaryButton } from "@/components/ui";
 import { startFlow } from "@/lib/client/session";
 
@@ -55,7 +56,7 @@ export default function AskPage() {
             className="w-full resize-none rounded-card bg-navy-2 p-4 pr-14 text-base text-cream ring-1 ring-cream/15 placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-saffron"
             aria-label="What do you need?"
           />
-          <div id="voice-slot" className="absolute bottom-3 right-3" />
+          <VoiceButton className="absolute bottom-3 right-3" onInterim={setText} onFinal={go} />
         </div>
         <PrimaryButton type="submit" disabled={!text.trim()}>
           Ask SuperMonk
