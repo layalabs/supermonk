@@ -2,7 +2,10 @@
 
 const WEEKDAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
+/** Today in Bangkok. DEMO_TODAY=YYYY-MM-DD pins it so a rehearsal or recording is repeatable. */
 export function todayBangkok(now = new Date()): string {
+  const pinned = process.env.DEMO_TODAY;
+  if (pinned && /^\d{4}-\d{2}-\d{2}$/.test(pinned)) return pinned;
   return new Date(now.getTime() + 7 * 3600_000).toISOString().slice(0, 10);
 }
 

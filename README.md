@@ -24,6 +24,7 @@ fixed question flow. Add keys to switch to the real services:
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Invites persist in Supabase (`STORE=supabase`); run `supabase/schema.sql` first |
 | `STORE` | `json` or `supabase` (overrides the default) |
 | `LLM` | `anthropic`, `claude-cli` (local dev, shells out to `claude -p`) or `fixed` |
+| `DEMO_TODAY` | Pin "today" (`2026-09-27`) so rehearsals and recordings are repeatable |
 
 Copy `env.example` to `.env.local` for local keys. Never commit it.
 
