@@ -10,3 +10,5 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 data/invites.json
+data/line.json
+data/line-outbox.json
