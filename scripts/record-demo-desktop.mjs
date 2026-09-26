@@ -1,7 +1,7 @@
 // Records the desktop happy path (docs/demo-desktop.mp4) over raw CDP. No project dependency.
-//   npm run build && STORE=json LLM=fixed DEMO_TODAY=2026-09-27 npm run start -- -p 3216
+//   npm run build && STORE=json LLM=fixed DEMO_TODAY=2026-09-27 npm run start -- -p 3219
 //   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
-//     --remote-debugging-port=9337 --user-data-dir=/tmp/chrome-demo --window-size=1440,900 \
+//     --remote-debugging-port=9339 --user-data-dir=/tmp/chrome-demo --window-size=1440,900 \
 //     --force-device-scale-factor=2 --hide-scrollbars
 //   (the screencast only emits device pixels when Chrome itself runs at scale 2; the CDP
 //   emulation override alone yields 1440x900 frames)
@@ -9,11 +9,16 @@
 // 1440x900 CSS px at device scale factor 2, so the frames are 2880x1800. Every click is a real
 // mouse event at the element's centre; the text is typed key by key. The invite is a real one
 // (data/invites.json); the temple office reply is a POST to /api/office/invites/<code>.
+//
+// Stages: home (bowls, gongs, the typed ask) -> chat (Nimman pill) -> matching (one full breath,
+// then it leaves by itself) -> matches (desktop split: temple list + illustrated map; the Wat Suan
+// Dok card lights its symbol and opens the popover; Phra Somchai's Invite) -> monk (Sat 3 Oct
+// morning, 500 THB, send) -> invite (pending, office accepts, confirmation card).
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = process.env.ORIGIN ?? "http://localhost:3216";
-const CDP = process.env.CDP ?? "http://127.0.0.1:9337";
+const ORIGIN = process.env.ORIGIN ?? "http://localhost:3219";
+const CDP = process.env.CDP ?? "http://127.0.0.1:9339";
 const OUT = process.argv[2] ?? "/tmp/demo-frames";
 const W = 1440, H = 900, DSF = 2;
 const QUERY = "I just moved into a condo and want a house blessing on Saturday";
@@ -139,18 +144,27 @@ await sleep(600);
 t0 = performance.now();
 await send("Page.startScreencast", { format: "jpeg", quality: 92, maxWidth: W * DSF, maxHeight: H * DSF, everyNthFrame: 1 });
 stamp("recording starts on /");
-await sleep(2500);
+await moveTo(980, 520, 900);
+await sleep(3200);
 
-// 1. Home: two bowls, then the question.
-await moveTo(1100, 600, 500);
+// 1. Home: the game is the hero. Two bowls, switch to gongs, two gongs, then the question.
 await click('button[aria-label^="Strike bowl 2"]');
 stamp("bowl 2");
-await sleep(650);
+await sleep(900);
 await click('button[aria-label^="Strike bowl 4"]');
 stamp("bowl 4");
-await sleep(500);
+await sleep(1100);
+await click('section[data-instrument] [role="group"][aria-label="Instrument set"] button', "Gongs");
+stamp("Gongs");
+await sleep(1100);
+await click('button[aria-label^="Strike gong 1"]');
+stamp("gong 1");
+await sleep(1000);
+await click('button[aria-label^="Strike gong 3"]');
+stamp("gong 3");
+await sleep(1000);
 await still("1-home");
-await sleep(1200);
+await sleep(1000);
 await click("#ask");
 await sleep(400);
 await type(QUERY);
@@ -162,67 +176,48 @@ stamp("Enter on the ask box");
 await waitFor("location.pathname === '/chat' && document.body.innerText.includes('Which area')", "area question");
 await sleep(400);
 await moveTo(700, 520, 400);
-await sleep(2200);
+await sleep(2500);
 await still("2-chat");
 await click("button", "Nimman");
 stamp("Nimman pill");
 
-// 3. Matching: the flying monk.
+// 3. Matching: the seated monk meditates for at least one full breath, then the page leaves by itself.
 await waitFor("location.pathname === '/matching'", "matching");
-await sleep(1500);
+await moveTo(720, 700, 600);
+await sleep(2500);
 await still("3-matching");
+await waitFor("location.pathname === '/matches'", "matches (breath gate)", 40000);
 
-// 4. Matches: grid, map with popover, grid, Phra Somchai.
-await waitFor("location.pathname === '/matches' && document.querySelectorAll('a[href^=\"/monk/\"]').length >= 3", "matches grid");
-const cards = await evaluate("document.querySelectorAll('a[href^=\"/monk/\"]').length");
-stamp(`matches grid with ${cards} cards`);
-await moveTo(720, 620, 500);
-await sleep(3200);
-await click("button", "Map");
-stamp("Map view");
+// 4. Matches: temple list left, illustrated map right. The Wat Suan Dok card lights its symbol and opens the popover.
+await waitFor("document.querySelectorAll('article[data-temple]').length >= 1 && !!document.querySelector('[aria-label=\"Illustrated map of Chiang Mai temples\"]')", "matches split");
+const cards = await evaluate("document.querySelectorAll('article[data-temple]').length");
+stamp(`matches split with ${cards} temple cards, view ${await evaluate("[...document.querySelectorAll('[aria-label=\"Results view\"] button')].find((b) => b.getAttribute('aria-pressed') === 'true')?.textContent")}`);
+await moveTo(360, 560, 500);
+await sleep(3000);
+await click('article[data-temple="wat_suan_dok"] button[aria-label^="Wat Suan Dok"]');
+stamp("Wat Suan Dok card");
+await sleep(300);
+await waitFor("document.querySelector('button[data-temple=\"wat_suan_dok\"]')?.getAttribute('aria-expanded') === 'true' && !!document.querySelector('[role=\"dialog\"][aria-label=\"Matched monks at this temple\"]')", "popover", 5000).catch((e) => problems.push(e.message));
+stamp(`popover: ${await evaluate("(document.querySelector('[role=\"dialog\"][aria-label=\"Matched monks at this temple\"]')?.innerText ?? 'none').split('\\n').filter(Boolean).slice(0, 4).join(' / ')")}`);
 {
-  const start = Date.now();
-  let state = "loading";
-  while (Date.now() - start < 20000) {
-    state = await evaluate(
-      "(() => { const t = document.body.innerText; if (t.includes('not reachable')) return 'failed'; if (document.querySelector('.maplibregl-canvas') && !t.includes('Loading the map') && document.querySelector('.sm-pin--hot')) return 'ready'; return 'loading'; })()",
-    );
-    if (state !== "loading") break;
-    await sleep(250);
-  }
-  stamp(`map ${state}, hot pins ${await evaluate("document.querySelectorAll('.sm-pin--hot').length")}`);
+  const sym = await centre('button[data-temple="wat_suan_dok"]');
+  await moveTo(sym.x + 30, sym.y + 60, 700);
 }
-await sleep(2200);
-{
-  // The pin is a rendered button; the popover opens on click, so hover first, then click.
-  const pin = await centre(".sm-pin--hot");
-  await moveTo(pin.x, pin.y - 8, 700);
-  await sleep(700);
-  await clickAt(pin.x, pin.y - 8);
-  stamp("pin clicked");
-  await waitFor("/wat /i.test(document.querySelector('.maplibregl-popup')?.innerText ?? '')", "popover", 5000).catch((e) => problems.push(e.message));
-  stamp(`popover: ${await evaluate("(document.querySelector('.maplibregl-popup')?.innerText ?? 'none').split('\\n').slice(1, 4).join(' / ')")}`);
-  await sleep(1000);
-  await moveTo(pin.x + 40, pin.y - 140, 500);
-  await sleep(1800);
-  await still("4-map");
-  await sleep(800);
-}
-await click("button", "Grid");
-stamp("Grid view");
-await sleep(2200);
-await click('a[href="/monk/monk_01"]');
-stamp("Phra Somchai card");
+await sleep(2300);
+await still("4-matches");
+await sleep(700);
+await click('[role="dialog"] a[href="/monk/monk_01"]');
+stamp("Phra Somchai Invite (popover)");
 
-// 5. Monk: Sat 3 Oct morning, ฿500, send.
-await waitFor("location.pathname === '/monk/monk_01' && document.body.innerText.includes('Send invite')", "monk page");
-await sleep(2400);
+// 5. Monk: Sat 3 Oct morning, 500 THB, send.
+await waitFor("location.pathname === '/monk/monk_01' && !!document.querySelector('button[aria-label=\"Sat 3 Oct Morning\"]')", "monk page");
+await sleep(3000);
 await click('button[aria-label="Sat 3 Oct Morning"]');
 stamp("Sat 3 Oct morning");
 await sleep(1200);
 await click("button", "฿500");
 stamp("฿500");
-await sleep(1200);
+await sleep(1500);
 await still("5-monk");
 await sleep(500);
 await click("button", "Send invite");
@@ -240,7 +235,7 @@ await waitFor("document.body.innerText.includes('accepted')", "accepted card");
 stamp("confirmation card");
 await sleep(1200);
 await still("6-accepted");
-await sleep(3500);
+await sleep(3400);
 await send("Page.stopScreencast");
 stamp("recording ends");
 await sleep(300);
