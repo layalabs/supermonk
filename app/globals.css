@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* Design tokens from the SuperMonk logo. Restyle here, not in components. */
+@theme {
+  --color-navy: #0f1a2e;
+  --color-navy-2: #18253d;
+  --color-saffron: #f5a623;
+  --color-orange: #f26b1d;
+  --color-cape: #d7263d;
+  --color-cream: #f7f3ea;
+  --color-muted: #a9b3c4;
+  --radius-card: 16px;
+  --font-sans: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root {
+  --gradient-brand: linear-gradient(135deg, var(--color-saffron), var(--color-orange));
+}
+
+html,
+body {
+  background: var(--color-navy);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bg-brand {
+  background-image: var(--gradient-brand);
+}
+
+.text-brand {
+  background-image: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
