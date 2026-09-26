@@ -8,6 +8,8 @@ import MonkCard from "@/components/MonkCard";
 import { ErrorNote, Header } from "@/components/ui";
 import { getJson, postJson, readFlow } from "@/lib/client/session";
 import type { InviteResponse, MatchCard } from "@/lib/types";
+import { fetchLevels } from "@/lib/verify/client";
+import type { VerifyTier } from "@/lib/verify/types";
 
 const POLL_MS = 2000;
 const AUTO_ACCEPT_MS = 5000;
@@ -18,6 +20,12 @@ function InviteStatus() {
   const [data, setData] = useState<InviteResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [next, setNext] = useState<MatchCard | undefined>();
+  const [verified, setVerified] = useState<VerifyTier | undefined>();
+
+  useEffect(() => {
+    const id = data?.invite.deviceId;
+    if (id) fetchLevels([id]).then((l) => setVerified(l[id]), () => undefined);
+  }, [data?.invite.deviceId]);
 
   useEffect(() => {
     let stop = false;
@@ -88,7 +96,7 @@ function InviteStatus() {
             </h1>
             <p className="mt-1 text-muted">Here is everything you need for the day.</p>
           </div>
-          <ConfirmationCard card={card} />
+          <ConfirmationCard card={card} verified={verified} />
         </>
       ) : null}
 

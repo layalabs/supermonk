@@ -1,13 +1,18 @@
 import meta from "@/data/meta.json";
 import { Card } from "@/components/ui";
+import VerifiedBadge from "@/components/VerifiedBadge";
 import { baht } from "@/lib/labels";
 import type { ConfirmationCard as CardData } from "@/lib/types";
+import type { VerifyTier } from "@/lib/verify/types";
 
-export default function ConfirmationCard({ card }: { card: CardData }) {
+export default function ConfirmationCard({ card, verified }: { card: CardData; verified?: VerifyTier }) {
   return (
     <Card className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <span className="text-xs uppercase tracking-wide text-muted">Invite</span>
+        <span className="flex items-center gap-2 text-xs uppercase tracking-wide text-muted">
+          Invite
+          <VerifiedBadge level={verified} className="normal-case tracking-normal" />
+        </span>
         <span className="font-mono text-lg font-bold tracking-widest text-saffron">{card.code}</span>
       </div>
       <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">

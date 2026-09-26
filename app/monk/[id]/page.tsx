@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Card, Chip, ErrorNote, Header, Pill, PrimaryButton } from "@/components/ui";
 import { deviceId, getJson, postJson, readFlow, type Flow } from "@/lib/client/session";
 import { baht, defaultDonation, denominations, LANGUAGE_LABEL, shortDate, SLOT_LABEL } from "@/lib/labels";
+import { verificationGate } from "@/lib/verify/client";
 import type { Availability, InviteResponse, Language, Monk, Service, ServiceId, Slot, Temple } from "@/lib/types";
 
 type MonkResponse = { monk: Monk; temple: Temple | null; services: Service[]; availability: Availability[] };
@@ -61,6 +62,9 @@ export default function MonkPage() {
     setSending(true);
     setError(null);
     try {
+      // Host verification (docs/VERIFICATION.md): only redirects when VERIFY_REQUIRED=1 and the level is short.
+      const gate = await verificationGate(service.mode, `/monk/${monk.id}`);
+      if (gate) return router.push(gate);
       const res = await postJson<InviteResponse>("/api/invites", {
         monkId: monk.id,
         serviceId: service.id,
