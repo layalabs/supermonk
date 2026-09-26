@@ -35,7 +35,7 @@ export default function Bowl({ index, note, struckAt, ripples, onStrike, onRippl
         if (e.button === 0 || e.pointerType !== "mouse") onStrike(index);
       }}
       onKeyDown={onKeyDown}
-      className="relative shrink-0 touch-manipulation rounded-full outline-none focus-visible:ring-2 focus-visible:ring-saffron focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+      className="relative shrink-0 touch-manipulation rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ember focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
       style={{ width, maxWidth: 108 }}
     >
       {ripples.map((r) => (
@@ -59,7 +59,10 @@ export default function Bowl({ index, note, struckAt, ripples, onStrike, onRippl
           {/* highlight */}
           <path d="M22 22 Q30 40 46 50" className="stroke-cream/60" strokeWidth="3" strokeLinecap="round" fill="none" />
         </svg>
-        <span className="mt-1 block text-center text-[10px] font-medium uppercase tracking-widest text-navy/50 md:text-[11px]">{note}</span>
+        {/* Decorative: the button's aria-label already names the note. navy/80 clears AA over the saffron wash (6.9:1); muted only reaches 3.8. */}
+        <span aria-hidden className="mt-1 block text-center text-[10px] font-medium uppercase tracking-widest text-navy/80 md:text-[11px]">
+          {note}
+        </span>
       </span>
     </button>
   );

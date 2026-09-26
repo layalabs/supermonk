@@ -82,7 +82,7 @@ function InviteStatus() {
         <Header back="/my" />
         {invite.status === "pending" ? (
           <div className="flex flex-col items-center gap-4 py-8 text-center" role="status" aria-live="polite">
-            <div className="h-14 w-14 animate-spin rounded-full border-4 border-saffron/20 border-t-saffron" aria-hidden />
+            <div className="h-14 w-14 rounded-full border-4 border-saffron/20 border-t-saffron motion-safe:animate-spin motion-reduce:border-saffron/60" aria-hidden />
             <h1 className="text-2xl font-bold">Invite sent</h1>
             <p className="text-muted">
               The office at {card.templeName} has your invite for {card.monkName}. This page updates when they reply.

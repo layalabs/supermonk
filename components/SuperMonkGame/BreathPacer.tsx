@@ -20,7 +20,7 @@ export default function BreathPacer({ phase }: Props) {
       />
       <div role="status" aria-live="polite" className="pointer-events-none absolute inset-x-0 top-[60%] text-center md:top-[62%]">
         <p className="text-2xl font-semibold tracking-wide text-navy md:text-3xl">{word}…</p>
-        <p className="mt-1 text-xs text-navy/60">4 s in · 6 s out · tap the monk to stop</p>
+        <p className="mt-1 text-xs text-navy/80">4 s in · 6 s out · tap the monk to stop</p>
       </div>
     </>
   );

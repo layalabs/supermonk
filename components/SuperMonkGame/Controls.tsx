@@ -21,7 +21,7 @@ export default function Controls({ merit, sparkles, onSparkleEnd, loop, onToggle
   return (
     <div className="relative z-10 flex items-start justify-between gap-3 px-4 pt-3 md:px-5 md:pt-4">
       <div>
-        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-navy/55">Healing bowls</p>
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-muted">Healing bowls</p>
         <p className="relative mt-0.5 text-sm text-navy" aria-live="polite" aria-atomic>
           <span className="text-saffron" aria-hidden>
             ✦
@@ -39,7 +39,7 @@ export default function Controls({ merit, sparkles, onSparkleEnd, loop, onToggle
             </span>
           ))}
         </p>
-        <p className="mt-1 hidden text-[11px] text-navy/45 md:block">Keys 1–5 strike the bowls · space breathes</p>
+        <p className="mt-1 hidden text-[11px] text-muted md:block">Keys 1–5 strike the bowls · space breathes</p>
       </div>
 
       <div className="flex items-center gap-1.5">
@@ -78,7 +78,7 @@ function Toggle({ pressed, onClick, label, children }: { pressed: boolean; onCli
       aria-pressed={pressed}
       aria-label={label}
       title={label}
-      className={`flex h-9 min-w-9 touch-manipulation items-center justify-center gap-1.5 rounded-full px-2.5 text-xs font-medium ring-1 transition outline-none focus-visible:ring-2 focus-visible:ring-saffron active:scale-95 ${
+      className={`flex h-11 min-w-11 touch-manipulation items-center justify-center gap-1.5 rounded-full px-2.5 text-xs font-medium ring-1 transition outline-none focus-visible:ring-2 focus-visible:ring-ember active:scale-95 ${
         pressed ? "bg-saffron text-navy ring-saffron" : "bg-navy/5 text-navy ring-navy/10 hover:bg-navy/10"
       }`}
     >

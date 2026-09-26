@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { Card, ErrorNote, Header, PrimaryButton } from "@/components/ui";
+import { Card, ErrorNote, FOCUS_RING, Header, PrimaryButton } from "@/components/ui";
 import { postJson } from "@/lib/client/session";
 
 // Stand-in for the vendor's hosted document + selfie flow. Pass / Fail call the same
@@ -33,7 +33,7 @@ function MockProvider() {
       <Header title="Demo verifier" />
       <Card className="flex flex-col gap-3">
         <p className="text-xs uppercase tracking-wide text-muted">Mock provider · no camera, nothing stored</p>
-        <p className="text-sm text-cream/90">
+        <p className="text-sm text-navy/90">
           A real provider would now scan an ID document and take a selfie. For the demo, choose the outcome.
         </p>
         <p className="font-mono text-xs text-muted">session {session || "(missing)"}</p>
@@ -42,7 +42,7 @@ function MockProvider() {
           <button
             disabled={busy || !session}
             onClick={() => void finish("fail")}
-            className="rounded-card border border-cape/60 py-3 font-semibold text-cream disabled:opacity-40"
+            className={`rounded-card border border-cape/60 py-3 font-semibold text-cape disabled:opacity-40 ${FOCUS_RING}`}
           >
             Fail
           </button>

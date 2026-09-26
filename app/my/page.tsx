@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Card, ErrorNote, Header, Stage } from "@/components/ui";
+import { Card, ErrorNote, FOCUS_RING, Header, Stage } from "@/components/ui";
 import { deviceId, getJson } from "@/lib/client/session";
 import { baht, SERVICE_NAME, shortDate, SLOT_LABEL } from "@/lib/labels";
 import type { Invite, InviteStatus } from "@/lib/types";
@@ -39,8 +39,8 @@ export default function MyInvitesPage() {
         ) : null}
         <div className="grid gap-4 lg:grid-cols-2">
           {invites?.map((i) => (
-            <Link key={i.code} href={`/invite/${i.code}`}>
-              <Card className="flex items-center justify-between gap-3 transition lg:hover:-translate-y-0.5 lg:hover:shadow-md lg:hover:shadow-orange/10">
+            <Link key={i.code} href={`/invite/${i.code}`} className={`rounded-card ${FOCUS_RING}`}>
+              <Card className="flex items-center justify-between gap-3 transition motion-safe:lg:hover:-translate-y-0.5 lg:hover:shadow-md lg:hover:shadow-orange/10">
                 <div>
                   <p className="font-semibold">{SERVICE_NAME[i.serviceId]}</p>
                   <p className="text-sm text-muted">

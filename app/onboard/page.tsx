@@ -5,7 +5,7 @@ import { Suspense, useState } from "react";
 import services from "@/data/services.json";
 import temples from "@/data/temples.json";
 import areas from "@/data/areas.json";
-import { Card, ErrorNote, Pill, PrimaryButton } from "@/components/ui";
+import { Card, ErrorNote, FOCUS_RING, Pill, PrimaryButton } from "@/components/ui";
 import type { Slot } from "@/lib/types";
 
 // Temple-side onboarding, opened from the LINE bot's signed link. Thai first, English second.
@@ -109,15 +109,17 @@ function Onboard() {
             ))}
           </select>
           {!templeId ? (
-            <input value={templeName} onChange={(e) => setTempleName(e.target.value)} placeholder="ชื่อวัด" className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember" />
+            <input value={templeName} onChange={(e) => setTempleName(e.target.value)} placeholder="ชื่อวัด" aria-label="ชื่อวัด" className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember" />
           ) : null}
         </label>
       </Card>
 
       {role === "office" ? (
-        <Card className="flex flex-col gap-1">
-          <span className="text-sm text-muted">รายชื่อพระที่รับกิจนิมนต์ (บรรทัดละหนึ่งรูป)</span>
-          <textarea value={monks} onChange={(e) => setMonks(e.target.value)} rows={4} className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember" />
+        <Card>
+          <label className="flex flex-col gap-1">
+            <span className="text-sm text-muted">รายชื่อพระที่รับกิจนิมนต์ (บรรทัดละหนึ่งรูป)</span>
+            <textarea value={monks} onChange={(e) => setMonks(e.target.value)} rows={4} className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember" />
+          </label>
         </Card>
       ) : null}
 
@@ -187,7 +189,7 @@ function Row({ label, value, onToggle }: { label: string; value: Slot[]; onToggl
           onClick={() => onToggle(s)}
           aria-pressed={value.includes(s)}
           aria-label={`${label} ${l}`}
-          className={`h-11 rounded-lg ${value.includes(s) ? "bg-brand" : "bg-cream/10 ring-1 ring-saffron/30"}`}
+          className={`h-11 rounded-lg ${FOCUS_RING} ${value.includes(s) ? "bg-brand" : "bg-cream/10 ring-1 ring-saffron/30"}`}
         >
           {value.includes(s) ? "✓" : ""}
         </button>

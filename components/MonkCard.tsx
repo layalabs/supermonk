@@ -1,7 +1,7 @@
 import Link from "next/link";
 import monks from "@/data/monks.json";
 import temples from "@/data/temples.json";
-import { Chip } from "@/components/ui";
+import { Chip, FOCUS_RING } from "@/components/ui";
 import { AREA_CENTROIDS } from "@/lib/geo";
 import { baht, LANGUAGE_LABEL, shortDate, SLOT_LABEL } from "@/lib/labels";
 import type { Area, Language, MatchCard, Slot } from "@/lib/types";
@@ -19,7 +19,7 @@ export default function MonkCard({ card, top }: { card: MatchCard; top?: boolean
   return (
     <Link
       href={`/monk/${card.monkId}`}
-      className="flex w-[82%] shrink-0 snap-center flex-col gap-3 rounded-card bg-navy-2 p-5 shadow-sm shadow-navy/5 ring-1 ring-navy/10 transition active:scale-[0.99] lg:w-auto lg:snap-align-none lg:p-6 lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:shadow-orange/10 lg:hover:ring-saffron/50"
+      className={`flex w-[82%] shrink-0 snap-center flex-col gap-3 rounded-card bg-navy-2 p-5 shadow-sm shadow-navy/5 ring-1 ring-navy/10 transition active:scale-[0.99] lg:w-auto lg:snap-align-none lg:p-6 motion-safe:lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:shadow-orange/10 lg:hover:ring-saffron/50 ${FOCUS_RING}`}
     >
       <div className="flex items-center justify-between">
         {top ? <span className="bg-brand whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold text-navy">Closest match</span> : <span />}

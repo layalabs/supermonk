@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { shortDate, SLOT_LABEL } from "@/lib/labels";
 import type { MatchCard, Slot, Temple } from "@/lib/types";
+import { FOCUS_RING } from "@/components/ui";
 
 // Interactive Chiang Mai map for /matches. Loaded only on the client, only in Map view
 // (app/matches/page.tsx uses next/dynamic), so the grid never pays for MapLibre.
@@ -212,7 +213,7 @@ function PopoverCard({ temple, cards }: { temple: Temple; cards: MatchCard[] }) 
             </div>
             <Link
               href={`/monk/${c.monkId}`}
-              className="bg-brand shrink-0 rounded-full px-3 py-1.5 text-xs font-bold text-navy shadow-sm shadow-orange/20 transition hover:brightness-105 active:scale-95"
+              className={`bg-brand inline-flex min-h-11 shrink-0 items-center rounded-full px-3 py-1.5 text-xs font-bold text-navy shadow-sm shadow-orange/20 transition hover:brightness-105 active:scale-95 ${FOCUS_RING}`}
             >
               Invite
             </Link>

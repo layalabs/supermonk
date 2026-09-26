@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Card, Chip, ErrorNote, Header, Pill, PrimaryButton, Stage, StageAside } from "@/components/ui";
+import { Card, Chip, ErrorNote, FOCUS_RING, Header, Pill, PrimaryButton, Stage, StageAside } from "@/components/ui";
 import { deviceId, getJson, postJson, readFlow, type Flow } from "@/lib/client/session";
 import { baht, defaultDonation, denominations, LANGUAGE_LABEL, shortDate, SLOT_LABEL } from "@/lib/labels";
 import { verificationGate } from "@/lib/verify/client";
@@ -112,7 +112,7 @@ export default function MonkPage() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Condo name, soi, room (optional)"
-              className="rounded-xl bg-cream px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-saffron"
+              className="rounded-xl bg-cream px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember"
             />
           </label>
         </Card>
@@ -140,7 +140,7 @@ export default function MonkPage() {
             onChange={(e) => setCustom(e.target.value.replace(/\D/g, "").slice(0, 6))}
             placeholder="Other ฿"
             aria-label="Custom donation in baht"
-            className="w-28 rounded-full bg-cream px-4 py-2 text-sm text-navy ring-1 ring-saffron/50 focus:outline-none focus:ring-2 focus:ring-saffron"
+            className="min-h-11 w-28 rounded-full bg-cream px-4 py-2 text-sm text-navy ring-1 ring-saffron/50 focus:outline-none focus:ring-2 focus:ring-ember"
           />
         </div>
       </Card>
@@ -217,7 +217,7 @@ function DayRow({ day, pick, onPick }: { day: Availability; pick: { date: string
             onClick={() => onPick({ date: day.date, slot: s })}
             aria-label={`${shortDate(day.date)} ${SLOT_LABEL[s]}${open ? "" : " (unavailable)"}`}
             aria-pressed={on}
-            className={`h-9 rounded-lg transition ${on ? "bg-brand text-navy" : open ? "bg-saffron/15 ring-1 ring-saffron/40 hover:bg-saffron/30" : "bg-transparent opacity-30"}`}
+            className={`h-11 rounded-lg transition ${FOCUS_RING} ${on ? "bg-brand text-navy" : open ? "bg-saffron/15 ring-1 ring-saffron/40 hover:bg-saffron/30" : "bg-transparent opacity-30"}`}
           >
             {open ? (on ? "✓" : "") : "·"}
           </button>

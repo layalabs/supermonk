@@ -3,11 +3,18 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 // Dumb building blocks. Colours come from the @theme tokens in app/globals.css.
 
+/** Keyboard focus ring shared by every control. Ember, not saffron: saffron on cream is 1.99:1. */
+export const FOCUS_RING = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember focus-visible:ring-offset-2 ring-offset-cream";
+
 export function PrimaryButton({ className = "", ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
+  // Disabled keeps the label at full ink on a flat pale saffron (navy on saffron/40 over cream: 11.5:1).
+  // Fading the whole button washed the label out on a projector; opacity-70 only reaches 2.9:1 on the orange end.
+  // `bg-none!` is needed because .bg-brand lives outside Tailwind's utilities layer.
   return (
     <button
+      aria-disabled={props.disabled || undefined}
       {...props}
-      className={`bg-brand w-full rounded-card px-5 py-4 text-lg font-semibold text-navy shadow-lg shadow-orange/20 transition hover:brightness-105 active:scale-[0.98] disabled:opacity-40 ${className}`}
+      className={`bg-brand w-full rounded-card px-5 py-4 text-lg font-semibold text-navy shadow-lg shadow-orange/20 transition hover:brightness-105 active:scale-[0.98] disabled:pointer-events-none disabled:bg-none! disabled:bg-saffron/40 disabled:shadow-none ${FOCUS_RING} ${className}`}
     />
   );
 }
@@ -16,7 +23,7 @@ export function GhostButton({ className = "", ...props }: ButtonHTMLAttributes<H
   return (
     <button
       {...props}
-      className={`w-full rounded-card border border-navy/15 bg-navy-2 px-5 py-3 text-base text-navy transition hover:border-navy/30 active:scale-[0.98] disabled:opacity-40 ${className}`}
+      className={`w-full rounded-card border border-navy/15 bg-navy-2 px-5 py-3 text-base text-navy transition hover:border-navy/30 active:scale-[0.98] disabled:opacity-40 ${FOCUS_RING} ${className}`}
     />
   );
 }
@@ -26,7 +33,7 @@ export function Pill({ active, className = "", ...props }: ButtonHTMLAttributes<
     <button
       aria-pressed={active}
       {...props}
-      className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition active:scale-95 disabled:opacity-40 ${
+      className={`min-h-11 shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition active:scale-95 disabled:opacity-40 ${FOCUS_RING} ${
         active ? "border-saffron bg-saffron text-navy" : "border-saffron/50 bg-navy-2 text-navy hover:bg-saffron/15"
       } ${className}`}
     />
@@ -57,7 +64,7 @@ export function Segmented<T extends string>({
             type="button"
             aria-pressed={on}
             onClick={() => onChange(o.value)}
-            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-saffron ${
+            className={`min-h-11 rounded-full px-4 py-1.5 text-sm font-semibold transition lg:min-h-0 ${FOCUS_RING} ${
               on ? "bg-navy-2 text-navy shadow-sm shadow-navy/10" : "text-muted hover:text-navy"
             }`}
           >
@@ -77,11 +84,11 @@ export function Header({ title, back }: { title?: string; back?: string }) {
   return (
     <header className="mb-4 flex items-center gap-3">
       {back ? (
-        <Link href={back} aria-label="Back" className="-ml-2 rounded-full px-2 py-1 text-2xl text-muted hover:text-navy">
+        <Link href={back} aria-label="Back" className={`-ml-2 flex min-h-11 min-w-11 items-center justify-center rounded-full text-2xl text-muted hover:text-navy ${FOCUS_RING}`}>
           ‹
         </Link>
       ) : null}
-      <Link href="/" className="flex items-center gap-2">
+      <Link href="/" className={`flex items-center gap-2 rounded-lg ${FOCUS_RING}`}>
         <img src="/icons/icon-192.png" alt="" className="h-8 w-8 rounded-lg" />
         {title ? null : <span className="text-lg font-bold">Super<span className="text-brand">Monk</span></span>}
       </Link>
