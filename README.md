@@ -28,6 +28,34 @@ fixed question flow. Add keys to switch to the real services:
 
 Copy `env.example` to `.env.local` for local keys. Never commit it.
 
+## Screens
+
+| Route | What |
+|---|---|
+| `/` | Ask: type or speak a request, or tap a starter |
+| `/chat` | SuperMonk asks at most two questions, with tappable answers |
+| `/matching` | Flying SuperMonk, breathing, a singing bowl to tap (`?hold=1` keeps it on screen) |
+| `/matches` | Carousel of monks, "Available on my date" and language filters |
+| `/monk/[id]` | Pick a time and a suggested donation, send the invite |
+| `/invite/[code]` | Pending → accepted (confirmation card, checklist, Thai line, calendar) or declined |
+| `/my` | Invites sent from this phone |
+| `/office` | The temple office: Accept / Decline (`?auto=1` accepts after 5 s). No login, demo only |
+
+## Demo script
+
+1. Open `/office` on a second phone.
+2. On the demo phone type *"I just moved into a condo and want a house blessing on Saturday"*.
+   SuperMonk asks which area; tap **Nimman**. (The full sentence with "in Nimman" skips the
+   question and goes straight to matching.)
+3. Tap the bowl while SuperMonk flies, pick **Phra Somchai**, Saturday morning, ฿1,000, send.
+4. Tap **Accept** on the second phone; the confirmation card appears.
+5. Second run, by voice: *"I'd like to chat with a monk tonight near the river"*.
+
+A 50 s recording of this path is in `docs/demo.mp4` (re-record with `scripts/record-demo.mjs`).
+
+No second phone? Open the invite with `?auto=1` and it accepts itself after 5 s. Run with
+`DEMO_TODAY=2026-09-27` to rehearse against the same dates the seed was built for.
+
 ## Layout
 
 | Path | What |
@@ -42,8 +70,15 @@ Copy `env.example` to `.env.local` for local keys. Never commit it.
 | `supabase/` | `schema.sql` for the invites table |
 | `docs/SPEC.md` | Product spec, API contract, matching rules, task list |
 
-## Deploy
+## Deploy (Vercel)
 
-Vercel from the public GitHub mirror. Set the env vars above in the Vercel project.
+1. vercel.com → **Add New… → Project** → import the GitHub repo. Framework: Next.js, no
+   build settings to change.
+2. **Environment Variables**: `ANTHROPIC_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
+3. **Deploy**, then open the URL on the iPhone in Safari → Share → **Add to Home Screen**.
+
+Without the Supabase keys the deploy still works, but invites live in `/tmp` on one server
+instance and can vanish between requests, so set them before the demo. Voice input needs
+HTTPS, which Vercel provides.
 
 See `CONTRIBUTING.md` for the branch → pull request flow on the Buzz relay.
