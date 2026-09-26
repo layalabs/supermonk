@@ -1,0 +1,149 @@
+/* Motion for the SuperMonk healing-bowls scene. Colours come from Tailwind classes in the
+   TSX; this file only holds keyframes so the palette can change without touching motion. */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1.2deg);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes cape {
+  0%,
+  100% {
+    transform: rotate(-4deg) scaleX(1);
+  }
+  50% {
+    transform: rotate(5deg) scaleX(1.08);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(0.75);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@keyframes strike {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  35% {
+    transform: translateY(2px) scale(1.04);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    transform: translateY(0) scale(0.3);
+    opacity: 0;
+  }
+  25% {
+    transform: translateY(-6px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+.breathe {
+  animation: breathe 5s ease-in-out infinite;
+}
+.cape {
+  transform-origin: 92% 45%;
+  animation: cape 4.5s ease-in-out infinite;
+}
+.glow {
+  animation: glow 6s ease-in-out infinite;
+}
+.ripple {
+  animation: ripple 1.4s ease-out forwards;
+}
+.strike {
+  animation: strike 0.5s ease-out;
+}
+.sparkle {
+  animation: sparkle 1.1s ease-out forwards;
+}
+
+/* The breathing pacer scales with the inhale / exhale; duration is set inline per phase. */
+.pacer {
+  transition-property: transform, opacity;
+  transition-timing-function: ease-in-out;
+}
+
+/* Off-screen or hidden tab (set by useActive): freeze every animation in the scene. */
+.paused .float,
+.paused .breathe,
+.paused .cape,
+.paused .glow,
+.paused .ripple,
+.paused .sparkle,
+.paused .strike {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float,
+  .breathe,
+  .cape,
+  .glow,
+  .strike {
+    animation: none;
+  }
+  .ripple,
+  .sparkle {
+    animation: fade 1s ease-out forwards;
+  }
+  .pacer {
+    transition-property: opacity;
+    transform: none !important;
+  }
+}

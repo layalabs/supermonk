@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import services from "@/data/services.json";
 import VoiceButton from "@/components/VoiceButton";
+import SuperMonkGame from "@/components/SuperMonkGame";
 import { Header, Pill, PrimaryButton, Stage, StageAside } from "@/components/ui";
 import { startFlow } from "@/lib/client/session";
 
@@ -21,7 +22,7 @@ export default function AskPage() {
 
   return (
     // The right column is intentionally empty: the SuperMonk game component drops into #home-aside.
-    <Stage aside={<StageAside id="home-aside" />}>
+    <Stage aside={<StageAside id="home-aside"><SuperMonkGame /></StageAside>}>
       <section className="flex flex-1 flex-col">
         <div className="flex items-start justify-between">
           <Header />
