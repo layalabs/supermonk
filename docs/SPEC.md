@@ -189,6 +189,9 @@ identity on this agent-owned Buzz repo; the GitHub mirror is techno's call.
 2. Live or recorded (90 s): type the Nimman house blessing request → one pill question →
    flying monk → 3 cards → pick Phra X → Saturday morning → 1,000 THB → invite sent →
    teammate taps Accept on `/office` → confirmation card with checklist and Thai line.
+   Recorded fallbacks: `docs/demo.mp4` (mobile, 50 s) and `docs/demo-desktop.mp4` (desktop
+   1920x1200, 55 s, adds the bowls and the Map view; contact sheet in
+   `docs/screenshots/demo-desktop-contact.png`).
 3. Second use case (30 s): say "I'd like to chat with a monk tonight near the river" into the mic
    → matches at Wat Ket / Wat Bupparam.
 4. How it works (45 s): agent extracts intent, rules match, temples curate their own monks
