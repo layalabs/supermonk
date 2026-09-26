@@ -17,8 +17,9 @@ needs tier 2 and a `you_go` service needs tier 1. With the flag off (default) no
 the app behaves exactly as before; the badge still shows whatever a host has done voluntarily.
 
 The gate is in the UI: on `/monk/[id]` the "Send invite" button asks `/api/verify/status` and routes
-to `/verify?tier=N&next=/monk/<id>` when the host's level is short. `POST /api/invites` itself is not
-gated (hackathon; add a check there before launch).
+to `/verify?tier=N&next=/monk/<id>` when the host's level is short. `POST /api/invites` enforces the
+same rule on the server: a host below the required tier gets `403 { error, requiredTier, level, verifyUrl }`
+and no invite is created (`tests/invite-gate.test.ts`).
 
 ## Env vars
 
