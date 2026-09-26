@@ -7,7 +7,11 @@
     "lat": 18.787,
     "lng": 98.9866,
     "address": "103 Prapokklao Rd, Phra Sing",
-    "coordsApproximate": true
+    "coordsApproximate": true,
+    "office": {
+      "source": "public",
+      "note": "Office contact not found yet."
+    }
   },
   {
     "id": "wat_phra_singh",
@@ -17,7 +21,11 @@
     "lat": 18.7885,
     "lng": 98.9817,
     "address": "2 Samlan Rd, Phra Sing",
-    "coordsApproximate": true
+    "coordsApproximate": true,
+    "office": {
+      "source": "public",
+      "note": "Office contact not found yet."
+    }
   },
   {
     "id": "wat_chiang_man",
@@ -57,7 +65,13 @@
     "lat": 18.7896,
     "lng": 98.9678,
     "address": "139 Suthep Rd, Suthep",
-    "coordsApproximate": true
+    "coordsApproximate": true,
+    "office": {
+      "phone": "084-609-1357",
+      "whatsapp": "+66846091357",
+      "source": "public",
+      "note": "MCU Monk Chat office at Wat Suan Dok (also 053-278-967 ext. 210), not confirmed as the temple office. Team market research, 2026-09-26."
+    }
   },
   {
     "id": "wat_umong",
@@ -67,7 +81,11 @@
     "lat": 18.7826,
     "lng": 98.949,
     "address": "135 Moo 10, Suthep",
-    "coordsApproximate": true
+    "coordsApproximate": true,
+    "office": {
+      "source": "public",
+      "note": "Office contact not found yet."
+    }
   },
   {
     "id": "wat_jed_yod",
@@ -147,7 +165,11 @@
     "lat": 18.7797,
     "lng": 98.9873,
     "address": "100 Wua Lai Rd, Hai Ya",
-    "coordsApproximate": true
+    "coordsApproximate": true,
+    "office": {
+      "source": "public",
+      "note": "Office contact not found yet."
+    }
   },
   {
     "id": "wat_doi_suthep",
@@ -157,6 +179,10 @@
     "lat": 18.8048,
     "lng": 98.9217,
     "address": "Sriwichai Rd, Suthep",
-    "coordsApproximate": true
+    "coordsApproximate": true,
+    "office": {
+      "source": "public",
+      "note": "Office contact not found yet."
+    }
   }
 ]

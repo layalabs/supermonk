@@ -53,7 +53,23 @@ export type Temple = {
   notes?: string;
   /** seed coordinates are hand-entered and approximate (~200 m) */
   coordsApproximate?: boolean;
+  /** P1 addendum: the temple office's own contacts; "public" = seeded by us from the web, unverified. */
+  office?: OfficeContact;
 };
+
+export type OfficeContact = {
+  /** LINE ID as published (not a Messaging API userId; we can never push to it). */
+  lineId?: string;
+  phone?: string;
+  whatsapp?: string;
+  email?: string;
+  source: "public" | "office";
+  /** where a public contact was found, and what it is really for */
+  sourceUrl?: string;
+  note?: string;
+};
+
+export type DeliveryVia = "line" | "sms" | "manual" | "web";
 
 export type Availability = { date: string; slots: Slot[] };
 
@@ -90,7 +106,7 @@ export type Invite = {
   updatedAt: string;
   note?: string;
   /** P1: how the temple side was told, and which LINE user answered. */
-  deliveredVia?: "line" | "web";
+  deliveredVia?: DeliveryVia;
   respondedBy?: string;
   respondedAt?: string;
 };

@@ -10,6 +10,7 @@ process.env.INVITES_PATH = path.join(dir, "invites.json");
 process.env.VERIFICATIONS_PATH = path.join(dir, "verifications.json");
 process.env.LINE_STORE_PATH = path.join(dir, "line.json");
 process.env.LINE_OUTBOX_PATH = path.join(dir, "outbox.json");
+process.env.SMS_OUTBOX_PATH = path.join(dir, "sms-outbox.json");
 
 type Route = { POST: (req: Request) => Promise<Response> };
 let route: Route;

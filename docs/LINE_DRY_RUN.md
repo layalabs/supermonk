@@ -21,6 +21,7 @@ Console. It has to start from an Official Account.
 | A4 | https://developers.line.biz/console → provider `SuperMonk` → the channel → **Basic settings** tab | Copy **Channel secret** |
 | A5 | Same channel → **Messaging API** tab → bottom → **Channel access token (long-lived)** → **Issue** | Copy the token |
 | A6 | Terminal on the Mac | Add two lines to `~/.env.local`, then tell the agent `line keys in`:<br>`LINE_CHANNEL_SECRET=…`<br>`LINE_CHANNEL_ACCESS_TOKEN=…` |
+| A7 | Same channel → **Messaging API** tab → **Bot basic ID** (starts with `@`) | Add a third line: `LINE_BASIC_ID=@…`. Not secret. The join message's add-friend and bind links use it; without it they point at a placeholder `@supermonk` |
 
 Never paste the secret or token into Buzz, GitHub or a chat.
 
@@ -31,7 +32,7 @@ service `xyz.supermonk.live`, and Next reads `.env.local` from that folder at st
 
 ```sh
 LIVE=~/.buzz/REPOS/cosmolocal-hackathon-team-1-review-thai
-grep -E '^LINE_CHANNEL_(SECRET|ACCESS_TOKEN)=' ~/.env.local >> "$LIVE/.env.local"   # never cat it
+grep -E '^LINE_(CHANNEL_SECRET|CHANNEL_ACCESS_TOKEN|BASIC_ID)=' ~/.env.local >> "$LIVE/.env.local"   # never cat it
 echo "PUBLIC_BASE_URL=https://relax-painting-morgan-those.trycloudflare.com" >> "$LIVE/.env.local"
 grep -o '^[A-Z_]*=' "$LIVE/.env.local"            # names only: expect the 3 LINE/URL lines + ANTHROPIC_API_KEY
 pkill -f 'next start -p 3400'                    # launchd restarts it in ~8 s with the new env
@@ -67,7 +68,7 @@ Phone 1 = the **temple office**. Phone 2 or a laptop = the **host**.
 
 | # | Who | Do | Expect (report the exact text if not) |
 |---|---|---|---|
-| D1 | Office phone | LINE → Add friend → scan the QR from C4 | Greeting "นมัสการครับ ยินดีต้อนรับสู่กิจนิมนต์ SuperMonk 🙏…" with two buttons: **สำนักงานวัด**, **พระภิกษุ** |
+| D1 | Office phone | LINE → Add friend → scan the QR from C4 | Greeting "สวัสดีครับ ยินดีต้อนรับสู่กิจนิมนต์ SuperMonk 🙏…" with two buttons: **สำนักงานวัด**, **พระภิกษุ** |
 | D2 | Office phone | Tap **สำนักงานวัด** | A message with a link `…/onboard?u=…&role=office&t=…` |
 | D3 | Office phone | Open the link (it opens inside LINE) and fill in: your name, วัดสวนดอก, monks `พระทดสอบ หนึ่ง` (one per line), ทำบุญขึ้นบ้านใหม่ + สนทนาธรรม, นิมมาน, อังกฤษ, ส. เช้า and อา. เช้า. Tap **บันทึก** | "บันทึกเรียบร้อยแล้ว", and in the chat "บันทึกข้อมูลเรียบร้อยแล้วครับ…" |
 | D4 | Host | On the live link, ask "house blessing in Nimman this Saturday morning" | **พระทดสอบ หนึ่ง** appears among the monks (Wat Suan Dok) |
@@ -78,6 +79,28 @@ Phone 1 = the **temple office**. Phone 2 or a laptop = the **host**.
 | D9 | Office phone | Tap **ไม่สะดวก** on the same card | "กิจนิมนต์นี้ได้ตอบไว้แล้ว (รับนิมนต์)". The answer does not flip |
 
 Done when D1–D9 all match. Post one line per row in the dev thread, e.g. `D6: card after 3 s`.
+
+## E. An office we only have a public number for (optional, ~5 min)
+
+Temple offices already run their own LINE and phones, but our Official Account can only message
+people who added it. So an office we have not met gets a **join message**: an add-friend link and a
+bind link that opens our chat with `เชื่อมบัญชีวัด <code>` already typed. Pressing send binds that
+LINE account to the temple; from then on its invites arrive as cards (D6). SMS is still a mock, so
+tonight the join message goes by hand.
+
+| # | Who | Do | Expect (report the exact text if not) |
+|---|---|---|---|
+| E1 | Host (laptop) | `/office` → **Offices** → **Wat Umong** → **Copy join message** | "Copied". The card says **Not linked** |
+| E2 | Host | Paste it into a LINE chat with the office phone (or any chat the office phone can read) | Thai text with two `line.me` links |
+| E3 | Office phone | Tap link 1 (add friend) | Our greeting, as in D1. Ignore the role buttons |
+| E4 | Office phone | Tap link 2, then press send on the typed `เชื่อมบัญชีวัด wat_umong.…` | "เชื่อมบัญชีนี้กับสำนักงานวัดอุโมงค์เรียบร้อยครับ…" |
+| E5 | Host | Refresh **Offices** | Wat Umong shows **Linked on LINE** |
+| E6 | Host | Invite any Wat Umong monk (search "monk chat", pick one from Wat Umong) | Office phone gets the card as in D6; รับนิมนต์ works as in D7 |
+
+Delivery order the app follows for every invite: LINE push to linked accounts → SMS join message to
+the office phone (mock) → by hand (the invite on `/office` says "Sent to the temple by hand") → web
+only. A LINE ID printed on a temple's website is never a push target; LINE has no API for that.
+A real SMS provider will only auto-text numbers the office gave us, never ones we found on the web.
 
 ## If something goes wrong
 
@@ -90,6 +113,8 @@ Done when D1–D9 all match. Post one line per row in the dev thread, e.g. `D6: 
 | D4 monk missing | Form saved with no Saturday morning, or pending (registered as พระภิกษุ, not office) | Re-open the link from D2 and tick ส. เช้า; an office's monks are active at once |
 | D6 no card | Push failed: token wrong or revoked, or the Free plan's 300 push messages a month are used up | App log `~/.buzz/.scratch/supermonk-live/app.log` shows `[line] push … failed: <status>`; the invite still shows on `/office` |
 | D7 no reply, host page stays pending | Webhook not reaching us: Use webhook off, or the tunnel URL changed | C1–C3 |
+| E4 "รหัสเชื่อมบัญชีไม่ถูกต้อง" | The text was edited, or the secret changed after the message was copied | Copy the join message again (E1) |
+| E4 "บัญชีนี้เชื่อมกับวัดอื่นไว้แล้ว" | The office phone already did D1–D3 for Wat Suan Dok | Use a different LINE account for E, or skip E |
 | Links in LINE point to `localhost` | `PUBLIC_BASE_URL` missing | B, second line, then restart |
 
 ## Cost

@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import type { Invite, InviteStatus } from "@/lib/types";
+import type { DeliveryVia, Invite, InviteStatus } from "@/lib/types";
 import type { InviteStore } from "./types";
 
 type Row = {
@@ -20,7 +20,7 @@ type Row = {
   created_at: string;
   updated_at: string;
   note: string | null;
-  delivered_via?: "line" | "web" | null;
+  delivered_via?: DeliveryVia | null;
   responded_by?: string | null;
   responded_at?: string | null;
 };
@@ -109,7 +109,7 @@ export class SupabaseInviteStore implements InviteStore {
     return (data as Row[]).map(fromRow);
   }
 
-  async setDelivery(code: string, via: "line" | "web"): Promise<void> {
+  async setDelivery(code: string, via: DeliveryVia): Promise<void> {
     const { error } = await this.db.from("invites").update({ delivered_via: via }).eq("code", code);
     if (error) throw new Error(`supabase update failed: ${error.message}`);
   }

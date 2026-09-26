@@ -30,5 +30,16 @@ export const TH = {
         : `ปัจจัยตามกำลังศรัทธา (ประมาณ ${lo.toLocaleString("th-TH")}–${hi.toLocaleString("th-TH")} บาท) ถวายแก่วัด`,
   hostHome: "บ้านเจ้าภาพ (แจ้งที่อยู่เมื่อรับนิมนต์)",
   guests: (n: number) => `ผู้ร่วมงานประมาณ ${n} ท่าน`,
+  // P1 addendum: reaching a temple office through its own LINE or phone before it has added us.
+  joinIntro: "สวัสดีครับ จากกิจนิมนต์ SuperMonk ช่องทางที่ช่วยให้ชาวต่างชาติในเชียงใหม่นิมนต์พระได้ตามธรรมเนียม",
+  joinInvite: (temple: string, what: string) => `มีผู้ขอนิมนต์พระจาก${temple}: ${what}`,
+  joinWeb: "ดูรายละเอียดและตอบรับทางเว็บ:",
+  joinAdd: "หากสะดวกรับกิจนิมนต์ทาง LINE 1) เพิ่มเพื่อน:",
+  joinLink: "2) แตะลิงก์นี้แล้วกดส่ง เพื่อเชื่อมบัญชีของวัด:",
+  joinCommand: "เชื่อมบัญชีวัด", // prefilled chat text; the webhook parses it
+  officeLinked: (temple: string) => `เชื่อมบัญชีนี้กับสำนักงาน${temple}เรียบร้อยครับ ต่อไปกิจนิมนต์จะส่งมาที่นี่ 🙏`,
+  joinBad: "รหัสเชื่อมบัญชีไม่ถูกต้องครับ กรุณาแตะลิงก์จากข้อความเชิญอีกครั้ง",
+  joinOtherTemple: "บัญชีนี้เชื่อมกับวัดอื่นไว้แล้วครับ",
+  joinTaken: "วัดนี้มีบัญชีสำนักงานเชื่อมไว้แล้วครับ หากต้องการเปลี่ยน กรุณาติดต่อทีม SuperMonk",
   hostLanguage: (lang: string) => (lang === "th" ? "เจ้าภาพพูดภาษาไทย" : "เจ้าภาพพูดภาษาอังกฤษ"),
 } as const;

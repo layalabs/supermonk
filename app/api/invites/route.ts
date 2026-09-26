@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import { loadAllData } from "@/lib/data";
 import { handle, readJson } from "@/lib/http";
 import { buildCard, buildInvite, InviteError } from "@/lib/invites";
-import { getLine } from "@/lib/line/adapter";
-import { baseUrl } from "@/lib/line/deps";
+import { deliverDeps } from "@/lib/line/deps";
 import { deliverInvite } from "@/lib/line/deliver";
 import { getStore } from "@/lib/store";
 import { levelOf, requiredTier } from "@/lib/verify";
@@ -29,8 +28,8 @@ export function POST(req: Request) {
       }
     }
     const invite = await store.create(draft);
-    // P1: monks onboarded through LINE get the invite card there; seed monks stay web-only (/office).
-    const delivery = await deliverInvite(invite, data, getLine(), store, baseUrl(req));
+    // P1: LINE push to linked temple accounts, else a join message by SMS or by hand, else /office.
+    const delivery = await deliverInvite(invite, data, deliverDeps(req));
     return NextResponse.json({ invite: { ...invite, deliveredVia: delivery.via }, card: buildCard(invite, data) }, { status: 201 });
   });
 }
