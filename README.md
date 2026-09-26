@@ -71,7 +71,15 @@ Without the keys everything runs on a **mock**: open `/dev/line` to play the tem
 4. Tap **Accept** on the second phone; the confirmation card appears.
 5. Second run, by voice: *"I'd like to chat with a monk tonight near the river"*.
 
-A 50 s recording of this path is in `docs/demo.mp4` (re-record with `scripts/record-demo.mjs`).
+Recordings of this path, both with the seed dates (`DEMO_TODAY=2026-09-27`):
+
+| File | Build | Length | Re-record with |
+|------|-------|--------|----------------|
+| `docs/demo.mp4` | Mobile, 390x844 | 50 s | `scripts/record-demo.mjs` (puppeteer-core) |
+| `docs/demo-desktop.mp4` | Desktop, 1440x900 at 2x, encoded 1920x1200 | 55 s | `scripts/record-demo-desktop.mjs` (raw CDP, headless Chrome) |
+
+The desktop path adds two bowl strikes on the home page and the Map view with a temple popover;
+`docs/screenshots/demo-desktop-contact.png` is a six-frame contact sheet of it.
 
 No second phone? Open the invite with `?auto=1` and it accepts itself after 5 s. Run with
 `DEMO_TODAY=2026-09-27` to rehearse against the same dates the seed was built for.
