@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { loadData, type SeedData } from "@/lib/data";
 import { buildInvite } from "@/lib/invites";
 import { deliverInvite, recipientsFor } from "@/lib/line/deliver";
-import { inviteFlex, parsePostback, roleQuestion } from "@/lib/line/flex";
+import { confirmMonkMessage, inviteFlex, parsePostback, roleQuestion } from "@/lib/line/flex";
 import { availabilityFrom, buildRecords, OnboardError, validateForm } from "@/lib/line/onboard";
 import { lineSignature, linkToken, verifyLineSignature, verifyLinkToken } from "@/lib/line/signature";
 import { JsonLineStore } from "@/lib/line/store";
@@ -63,6 +63,14 @@ describe("postbacks and messages", () => {
     expect(parsePostback("drop:table")).toBeNull();
     expect(parsePostback("accept:SM-1;rm")).toBeNull();
   });
+  it("asks the office to vouch (รับรอง) for a self-registered monk, within LINE's label limit", () => {
+    const m = confirmMonkMessage("พระใหม่", "line_abc") as { text: string; quickReply: { items: { action: { label: string; data: string } }[] } };
+    expect(m.text).toContain("กรุณารับรองพระรูปนี้");
+    expect(m.quickReply.items[0].action).toMatchObject({ label: "รับรอง", data: "confirm:line_abc" });
+  });
+  it("greets with สวัสดี (shared by offices and monks) and no ลงทะเบียน on a monk", () => {
+    expect((roleQuestion() as { text: string }).text.startsWith("สวัสดีครับ")).toBe(true);
+  });
   it("keeps quick-reply labels within LINE's 20-character limit", () => {
     const q = roleQuestion() as { quickReply: { items: { action: { label: string } }[] } };
     for (const i of q.quickReply.items) expect([...i.action.label].length).toBeLessThanOrEqual(20);
@@ -80,13 +88,13 @@ describe("onboarding form", () => {
     expect(f.travels).toBe(true);
   });
   it.each([
-    [{ role: "admin" }, /role/],
-    [{ name: "" }, /name/],
-    [{ templeId: "wat_nowhere" }, /templeId/],
-    [{ templeId: undefined }, /temple/],
-    [{ services: [] }, /service/],
-    [{ weekly: {} }, /time/],
-    [{ monks: [] }, /monk/],
+    [{ role: "admin" }, /ลิงก์/],
+    [{ name: "" }, /ชื่อ/],
+    [{ templeId: "wat_nowhere" }, /ไม่พบวัด/],
+    [{ templeId: undefined }, /เลือกวัด/],
+    [{ services: [] }, /กิจที่รับ/],
+    [{ weekly: {} }, /วันเวลา/],
+    [{ monks: [] }, /รายชื่อพระ/],
   ])("rejects %o", (patch, msg) => {
     expect(() => validateForm({ ...form, ...patch }, seed)).toThrow(OnboardError);
     expect(() => validateForm({ ...form, ...patch }, seed)).toThrow(msg);

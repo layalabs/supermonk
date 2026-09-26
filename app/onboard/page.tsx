@@ -49,7 +49,7 @@ function Onboard() {
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
 
-  if (!u || !t) return <ErrorNote message="ลิงก์ไม่ถูกต้อง กรุณาเปิดจากแชท LINE อีกครั้ง (open this link from the LINE chat)" />;
+  if (!u || !t) return <ErrorNote message="ลิงก์ไม่ถูกต้อง กรุณาเปิดจากแชท LINE อีกครั้ง" />;
 
   const submit = async () => {
     setBusy(true);
@@ -83,23 +83,24 @@ function Onboard() {
       <Card className="mt-10 text-center">
         <p className="text-3xl">🙏</p>
         <p className="mt-2 text-lg font-semibold">บันทึกเรียบร้อยแล้ว</p>
+        {role === "monk" ? <p className="mt-1 font-medium text-ember">รอสำนักงานวัดยืนยัน</p> : null}
         <p className="text-sm text-muted">ปิดหน้านี้แล้วกลับไปที่แชท LINE ได้เลย · You can close this page.</p>
       </Card>
     );
 
   return (
     <section lang="th" className="flex flex-col gap-4 pb-10">
-      <h1 className="text-2xl font-bold">{role === "office" ? "ลงทะเบียนสำนักงานวัด" : "ลงทะเบียนพระภิกษุ"}</h1>
+      <h1 className="text-2xl font-bold">{role === "office" ? "ลงทะเบียนสำนักงานวัด" : "แจ้งชื่อเพื่อรับกิจนิมนต์"}</h1>
       <p className="text-sm text-muted">ใช้เวลาประมาณ 2 นาที · Takes about 2 minutes</p>
 
       <Card className="flex flex-col gap-3">
         <label className="flex flex-col gap-1">
           <span className="text-sm text-muted">{role === "office" ? "ชื่อผู้ติดต่อ" : "ชื่อ / ฉายา"}</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="rounded-xl bg-navy px-3 py-2 ring-1 ring-cream/15" />
+          <input value={name} onChange={(e) => setName(e.target.value)} className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember" />
         </label>
         <label className="flex flex-col gap-1">
           <span className="text-sm text-muted">วัด</span>
-          <select value={templeId} onChange={(e) => setTempleId(e.target.value)} className="rounded-xl bg-navy px-3 py-2 ring-1 ring-cream/15">
+          <select value={templeId} onChange={(e) => setTempleId(e.target.value)} className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember">
             <option value="">— วัดอื่น (พิมพ์ชื่อด้านล่าง) —</option>
             {temples.map((tp) => (
               <option key={tp.id} value={tp.id}>
@@ -108,7 +109,7 @@ function Onboard() {
             ))}
           </select>
           {!templeId ? (
-            <input value={templeName} onChange={(e) => setTempleName(e.target.value)} placeholder="ชื่อวัด" className="rounded-xl bg-navy px-3 py-2 ring-1 ring-cream/15" />
+            <input value={templeName} onChange={(e) => setTempleName(e.target.value)} placeholder="ชื่อวัด" className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember" />
           ) : null}
         </label>
       </Card>
@@ -116,7 +117,7 @@ function Onboard() {
       {role === "office" ? (
         <Card className="flex flex-col gap-1">
           <span className="text-sm text-muted">รายชื่อพระที่รับกิจนิมนต์ (บรรทัดละหนึ่งรูป)</span>
-          <textarea value={monks} onChange={(e) => setMonks(e.target.value)} rows={4} className="rounded-xl bg-navy px-3 py-2 ring-1 ring-cream/15" />
+          <textarea value={monks} onChange={(e) => setMonks(e.target.value)} rows={4} className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember" />
         </Card>
       ) : null}
 
@@ -186,7 +187,7 @@ function Row({ label, value, onToggle }: { label: string; value: Slot[]; onToggl
           onClick={() => onToggle(s)}
           aria-pressed={value.includes(s)}
           aria-label={`${label} ${l}`}
-          className={`h-9 rounded-lg ${value.includes(s) ? "bg-brand" : "bg-cream/10 ring-1 ring-saffron/30"}`}
+          className={`h-11 rounded-lg ${value.includes(s) ? "bg-brand" : "bg-cream/10 ring-1 ring-saffron/30"}`}
         >
           {value.includes(s) ? "✓" : ""}
         </button>

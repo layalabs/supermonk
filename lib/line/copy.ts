@@ -1,8 +1,9 @@
-// Thai copy for the temple side. Polite lay-to-Sangha register. Grokker reviews before launch.
+// Thai copy for the temple side. Polite lay-to-Sangha register, reviewed by Grokker 2026-09-26.
+// House voice is ครับ on purpose (one voice for the account); นมัสการ only in monk-facing lines.
 
 export const TH = {
   greeting:
-    "นมัสการครับ ยินดีต้อนรับสู่กิจนิมนต์ SuperMonk 🙏\nช่องทางนี้ช่วยให้ชาวต่างชาติในเชียงใหม่นิมนต์พระได้อย่างถูกต้อง\nกรุณาเลือกว่าท่านเป็นผู้ใด",
+    "สวัสดีครับ ยินดีต้อนรับสู่กิจนิมนต์ SuperMonk 🙏\nช่องทางนี้ช่วยให้ชาวต่างชาติในเชียงใหม่นิมนต์พระได้ตามธรรมเนียม\nกรุณาเลือกว่าท่านเป็นผู้ใด",
   roleOffice: "สำนักงานวัด", // quick-reply labels max 20 chars
   roleMonk: "พระภิกษุ",
   formLink: "กรุณากรอกข้อมูลสั้น ๆ (ประมาณ 2 นาที) ที่ลิงก์นี้",
@@ -12,7 +13,9 @@ export const TH = {
   declined: "รับทราบครับ ได้แจ้งเจ้าภาพแล้วว่าไม่สะดวกในวันดังกล่าว",
   already: (status: string) => `กิจนิมนต์นี้ได้ตอบไว้แล้ว (${status === "accepted" ? "รับนิมนต์" : "ไม่สะดวก"})`,
   notFound: "ไม่พบกิจนิมนต์นี้ในระบบครับ",
-  confirmed: (name: string) => `ยืนยัน ${name} เรียบร้อยครับ รับกิจนิมนต์ได้แล้ว`,
+  confirmAsk: (name: string) => `${name} ขอรับกิจนิมนต์ในนามวัดนี้ กรุณารับรองพระรูปนี้`,
+  confirmButton: "รับรอง",
+  confirmed: (name: string) => `รับรอง ${name} เรียบร้อยครับ รับกิจนิมนต์ได้แล้ว`,
   notYourTemple: "บัญชีนี้ไม่ใช่สำนักงานของวัดนี้ครับ",
   notYours: "กิจนิมนต์นี้ไม่ได้ส่งถึงบัญชีนี้ครับ",
   cardTitle: "กิจนิมนต์ใหม่",
