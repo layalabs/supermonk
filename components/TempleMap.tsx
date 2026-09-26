@@ -1,13 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import maplibregl, { type Map as MapLibreMap, type Marker, type Popup, type StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { shortDate, SLOT_LABEL } from "@/lib/labels";
-import type { MatchCard, Slot, Temple } from "@/lib/types";
-import { FOCUS_RING } from "@/components/ui";
+import TemplePopover from "@/components/TemplePopover";
+import type { MatchCard, Temple } from "@/lib/types";
 
 // Interactive Chiang Mai map for /matches. Loaded only on the client, only in Map view
 // (app/matches/page.tsx uses next/dynamic), so the grid never pays for MapLibre.
@@ -181,45 +179,8 @@ export default function TempleMap({ temples, highlights }: { temples: Temple[]; 
         </div>
       ) : null}
       {popupEl && selectedTemple && selectedCards.length
-        ? createPortal(<PopoverCard temple={selectedTemple} cards={selectedCards} />, popupEl)
+        ? createPortal(<TemplePopover temple={selectedTemple} cards={selectedCards} />, popupEl)
         : null}
-    </div>
-  );
-}
-
-function PopoverCard({ temple, cards }: { temple: Temple; cards: MatchCard[] }) {
-  return (
-    <div className="flex flex-col gap-3 p-4 text-navy">
-      <div>
-        <p className="text-xs uppercase tracking-wide text-muted">Temple</p>
-        <p className="font-semibold leading-tight">{temple.name}</p>
-        <p lang="th" className="text-xs text-muted">
-          {temple.nameThai}
-        </p>
-      </div>
-      <ul className="flex flex-col gap-3">
-        {cards.map((c) => (
-          <li key={c.monkId} className="flex items-center gap-3 border-t border-navy/10 pt-3">
-            <div className="bg-brand flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold text-navy" aria-hidden>
-              {c.name.replace(/^Phra\s+/, "").charAt(0)}
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-semibold leading-tight">{c.name}</p>
-              <p className="text-xs text-muted">
-                {c.distanceKm === null ? "Distance —" : `${c.distanceKm} km`}
-                {" · "}
-                {c.nextSlot ? `${shortDate(c.nextSlot.date)} ${SLOT_LABEL[c.nextSlot.slot as Slot]?.toLowerCase()}` : "no open slot"}
-              </p>
-            </div>
-            <Link
-              href={`/monk/${c.monkId}`}
-              className={`bg-brand inline-flex min-h-11 shrink-0 items-center rounded-full px-3 py-1.5 text-xs font-bold text-navy shadow-sm shadow-orange/20 transition hover:brightness-105 active:scale-95 ${FOCUS_RING}`}
-            >
-              Invite
-            </Link>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

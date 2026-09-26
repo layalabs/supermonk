@@ -210,3 +210,81 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .sm-pin { transition: none; }
 }
+
+/* Illustrated map (components/IllustratedMap.tsx). Symbols are HTML buttons over an SVG scene;
+   matched temples get a saffron ground halo that breathes, muted ones a name tooltip on hover/focus. */
+.sm-isym {
+  padding: 2px;
+  cursor: pointer;
+  line-height: 0;
+  filter: drop-shadow(0 5px 6px rgba(43, 29, 18, 0.28));
+  transition: transform 0.15s ease, opacity 0.15s ease, filter 0.15s ease;
+  transform-origin: 50% 100%;
+}
+.sm-isym svg {
+  display: block;
+}
+.sm-isym--muted {
+  transform: scale(0.72);
+  opacity: 0.72;
+  filter: saturate(0.45) drop-shadow(0 3px 4px rgba(43, 29, 18, 0.2));
+}
+.sm-isym--muted:hover,
+.sm-isym--muted:focus-visible {
+  opacity: 1;
+  transform: scale(0.85);
+  filter: saturate(0.85) drop-shadow(0 4px 6px rgba(43, 29, 18, 0.25));
+}
+.sm-isym--hot {
+  transform: scale(1.12);
+}
+.sm-isym--hot:hover,
+.sm-isym--hot:focus-visible,
+.sm-isym--hot[aria-expanded="true"] {
+  transform: scale(1.22);
+}
+.sm-isym--hot::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 78%;
+  height: 26%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 2.5px solid var(--color-saffron);
+  background: color-mix(in srgb, var(--color-saffron) 32%, transparent);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-saffron) 20%, transparent), 0 0 18px 6px color-mix(in srgb, var(--color-saffron) 35%, transparent);
+  z-index: -1;
+  animation: sm-iglow 2.4s ease-in-out infinite;
+}
+@keyframes sm-iglow {
+  0%, 100% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-saffron) 20%, transparent), 0 0 18px 6px color-mix(in srgb, var(--color-saffron) 35%, transparent); }
+  50% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--color-saffron) 12%, transparent), 0 0 28px 10px color-mix(in srgb, var(--color-saffron) 45%, transparent); }
+}
+.sm-isym--muted[data-name]::after {
+  content: attr(data-name);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--color-navy);
+  color: var(--color-cream);
+  font-size: 14px; /* the parent is scaled to ~0.85 on hover, so this renders at ~12 px */
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+.sm-isym--muted:hover::after,
+.sm-isym--muted:focus-visible::after {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sm-isym { transition: none; }
+  .sm-isym--hot::before { animation: none; }
+}

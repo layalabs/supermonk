@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import monks from "@/data/monks.json";
 import temples from "@/data/temples.json";
+import IllustratedMap, { type ResolvedMatch } from "@/components/IllustratedMap";
 import MonkCard from "@/components/MonkCard";
 import type { TempleHighlights } from "@/components/TempleMap";
 import { Header, Pill, Segmented, Stage } from "@/components/ui";
@@ -13,13 +14,15 @@ import { readFlow, type Flow } from "@/lib/client/session";
 import { LANGUAGE_LABEL, SERVICE_NAME, shortDate, SLOT_LABEL } from "@/lib/labels";
 import type { Language, Temple } from "@/lib/types";
 
-// MapLibre (~250 kB) is only fetched when someone switches to Map view; Grid stays as light as before.
+// MapLibre (~250 kB) is only fetched when someone switches to Streets view; Grid and the
+// illustrated Map (pure SVG) stay as light as before.
 const TempleMap = dynamic(() => import("@/components/TempleMap"), {
   ssr: false,
   loading: () => <div className="flex h-full w-full items-center justify-center text-sm text-muted">Loading the map…</div>,
 });
 
-type View = "grid" | "map";
+type View = "grid" | "map" | "streets";
+const VIEWS: View[] = ["grid", "map", "streets"];
 const VIEW_KEY = "supermonk.matchesView";
 const MONK_TEMPLE = new Map(monks.map((m) => [m.id, m.templeId]));
 const ALL_TEMPLES = temples as Temple[];
@@ -35,7 +38,8 @@ export default function MatchesPage() {
     const f = readFlow();
     if (!f.matches) router.replace("/");
     else setFlow(f);
-    if (sessionStorage.getItem(VIEW_KEY) === "map") setView("map");
+    const saved = sessionStorage.getItem(VIEW_KEY);
+    if (saved && VIEWS.includes(saved as View)) setView(saved as View);
   }, [router]);
 
   const pickView = (v: View) => {
@@ -51,14 +55,15 @@ export default function MatchesPage() {
         .filter((m) => langs.every((l) => m.languages.includes(l))),
     [flow, onDateOnly, langs],
   );
+  const resolved = useMemo<ResolvedMatch[]>(
+    () => shown.flatMap((card) => (MONK_TEMPLE.get(card.monkId) ? [{ ...card, templeId: MONK_TEMPLE.get(card.monkId)! }] : [])),
+    [shown],
+  );
   const highlights = useMemo<TempleHighlights>(() => {
     const out: TempleHighlights = {};
-    for (const card of shown) {
-      const templeId = MONK_TEMPLE.get(card.monkId);
-      if (templeId) (out[templeId] ??= []).push(card);
-    }
+    for (const card of resolved) (out[card.templeId] ??= []).push(card);
     return out;
-  }, [shown]);
+  }, [resolved]);
 
   if (!flow?.extracted) return null;
   const e = flow.extracted;
@@ -86,6 +91,7 @@ export default function MatchesPage() {
             options={[
               { value: "grid", label: "Grid" },
               { value: "map", label: "Map" },
+              { value: "streets", label: "Streets" },
             ]}
           />
         </div>
@@ -101,15 +107,19 @@ export default function MatchesPage() {
           ))}
         </div>
 
-        {view === "map" ? (
+        {view === "map" || view === "streets" ? (
           <div className="mt-4 rounded-card bg-cream p-1.5 ring-1 ring-navy/10">
-            <div className="h-[420px] overflow-hidden rounded-[12px] bg-cream lg:h-[600px]">
-              <TempleMap temples={ALL_TEMPLES} highlights={highlights} />
-            </div>
+            {view === "map" ? (
+              <IllustratedMap temples={ALL_TEMPLES} matches={resolved} />
+            ) : (
+              <div className="h-[420px] overflow-hidden rounded-[12px] bg-cream lg:h-[600px]">
+                <TempleMap temples={ALL_TEMPLES} highlights={highlights} />
+              </div>
+            )}
             <p className="px-2 pb-1 pt-2 text-xs text-muted">
               {shown.length
-                ? `${shown.length} matched ${shown.length === 1 ? "monk" : "monks"} at ${Object.keys(highlights).length} ${Object.keys(highlights).length === 1 ? "temple" : "temples"}, highlighted in saffron. Tap a pin for details; other pins are Chiang Mai temples on SuperMonk.`
-                : "No monk matches these filters; every pin is a temple on SuperMonk."}
+                ? `${shown.length} matched ${shown.length === 1 ? "monk" : "monks"} at ${Object.keys(highlights).length} ${Object.keys(highlights).length === 1 ? "temple" : "temples"}, highlighted in saffron. Tap a ${view === "map" ? "temple" : "pin"} for details; the others are Chiang Mai temples on SuperMonk.`
+                : `No monk matches these filters; every ${view === "map" ? "temple" : "pin"} is a temple on SuperMonk.`}
             </p>
           </div>
         ) : shown.length ? (
