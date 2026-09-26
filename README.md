@@ -51,6 +51,8 @@ Copy `env.example` to `.env.local` for local keys. Never commit it.
 4. Tap **Accept** on the second phone; the confirmation card appears.
 5. Second run, by voice: *"I'd like to chat with a monk tonight near the river"*.
 
+A 50 s recording of this path is in `docs/demo.mp4` (re-record with `scripts/record-demo.mjs`).
+
 No second phone? Open the invite with `?auto=1` and it accepts itself after 5 s. Run with
 `DEMO_TODAY=2026-09-27` to rehearse against the same dates the seed was built for.
 
