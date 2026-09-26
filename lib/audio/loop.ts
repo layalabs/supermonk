@@ -5,6 +5,10 @@ import { BOWL_COUNT } from "./scale";
 
 export type LoopOptions = {
   onStrike: (index: number) => void;
+  /** Number of notes to pick from; change later with setCount() when the instrument set changes. */
+  count?: number;
+  /** Note picker; defaults to the stepwise phrase walk. The breeze passes pickRandom. */
+  pick?: (previous: number | null, random: () => number, count: number) => number;
   minMs?: number;
   maxMs?: number;
   random?: () => number;
@@ -36,6 +40,15 @@ export function pickNextBowl(previous: number | null, random: () => number, coun
   return previous - 1 >= 0 ? previous - 1 : previous + 1;
 }
 
+// Any note but the previous one: what a gust does to a row of eave chimes.
+export function pickRandom(previous: number | null, random: () => number, count = BOWL_COUNT): number {
+  if (count <= 1) return 0;
+  if (previous === null) return Math.floor(random() * count) % count;
+  let idx = Math.floor(random() * (count - 1));
+  if (idx >= previous) idx += 1;
+  return idx;
+}
+
 export class AmbientLoop {
   private handle: unknown = null;
   private previous: number | null = null;
@@ -43,6 +56,8 @@ export class AmbientLoop {
 
   constructor(options: LoopOptions) {
     this.opts = {
+      count: BOWL_COUNT,
+      pick: pickNextBowl,
       minMs: LOOP_MIN_MS,
       maxMs: LOOP_MAX_MS,
       random: Math.random,
@@ -54,6 +69,16 @@ export class AmbientLoop {
 
   get running(): boolean {
     return this.handle !== null;
+  }
+
+  get count(): number {
+    return this.opts.count;
+  }
+
+  // New instrument set: forget the phrase so the next pick is inside the new range.
+  setCount(count: number): void {
+    this.opts.count = Math.max(1, Math.floor(count));
+    this.previous = null;
   }
 
   start(): void {
@@ -70,7 +95,7 @@ export class AmbientLoop {
   private schedule(ms: number): void {
     this.handle = this.opts.setTimeout(() => {
       this.handle = null;
-      const idx = pickNextBowl(this.previous, this.opts.random);
+      const idx = this.opts.pick(this.previous, this.opts.random, this.opts.count);
       this.previous = idx;
       this.opts.onStrike(idx);
       this.schedule(nextDelayMs(this.opts.random, this.opts.minMs, this.opts.maxMs));

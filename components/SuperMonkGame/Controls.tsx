@@ -1,9 +1,14 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { FOCUS_RING } from "@/components/ui";
 import styles from "./game.module.css";
 
 type Props = {
+  /** Instrument set name shown as the scene title. */
+  title: string;
+  /** How many number keys strike this set (1–keys). */
+  keys: number;
   merit: number;
   sparkles: number[];
   onSparkleEnd: (id: number) => void;
@@ -11,22 +16,25 @@ type Props = {
   onToggleLoop: () => void;
   rain: boolean;
   onToggleRain: () => void;
+  /** null hides the toggle (only the temple bells have a breeze). */
+  breeze: boolean | null;
+  onToggleBreeze: () => void;
   muted: boolean;
   onToggleMute: () => void;
 };
 
 // Top bar: title + merit on the left, three toggles on the right. Merit is a gentle count,
 // never a score: no target, no best, nothing to lose.
-export default function Controls({ merit, sparkles, onSparkleEnd, loop, onToggleLoop, rain, onToggleRain, muted, onToggleMute }: Props) {
+export default function Controls({ title, keys, merit, sparkles, onSparkleEnd, loop, onToggleLoop, rain, onToggleRain, breeze, onToggleBreeze, muted, onToggleMute }: Props) {
   return (
     <div className="relative z-10 flex items-start justify-between gap-3 px-4 pt-3 md:px-5 md:pt-4">
       <div>
-        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-muted">Healing bowls</p>
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-muted">{title}</p>
         <p className="relative mt-0.5 text-sm text-navy" aria-live="polite" aria-atomic>
           <span className="text-saffron" aria-hidden>
             ✦
           </span>{" "}
-          {merit === 0 ? "Tap a bowl to make merit" : `${merit} merit`}
+          {merit === 0 ? "Tap a note to make merit" : `${merit} merit`}
           {sparkles.map((id, i) => (
             <span
               key={id}
@@ -39,7 +47,7 @@ export default function Controls({ merit, sparkles, onSparkleEnd, loop, onToggle
             </span>
           ))}
         </p>
-        <p className="mt-1 hidden text-[11px] text-muted md:block">Keys 1–5 strike the bowls · space breathes</p>
+        <p className="mt-1 hidden text-[11px] text-muted md:block">Keys 1–{keys} strike · space breathes</p>
       </div>
 
       <div className="flex items-center gap-1.5">
@@ -59,6 +67,13 @@ export default function Controls({ merit, sparkles, onSparkleEnd, loop, onToggle
             <path d="M7.5 15l-1 2M11 15l-1 2M14.5 15l-1 2" />
           </svg>
         </Toggle>
+        {breeze !== null ? (
+          <Toggle pressed={breeze} onClick={onToggleBreeze} label={breeze ? "Stop the breeze" : "Let a breeze tinkle the chimes"}>
+            <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+              <path d="M3 7h9a2 2 0 1 0-2-2M3 11h12a2 2 0 1 1-2 2M3 15h6a1.5 1.5 0 1 1 0 3" />
+            </svg>
+          </Toggle>
+        ) : null}
         <Toggle pressed={muted} onClick={onToggleMute} label={muted ? "Unmute" : "Mute"}>
           <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 8h3l4-3v10l-4-3H3z" fill="currentColor" stroke="none" />
@@ -78,7 +93,7 @@ function Toggle({ pressed, onClick, label, children }: { pressed: boolean; onCli
       aria-pressed={pressed}
       aria-label={label}
       title={label}
-      className={`flex h-11 min-w-11 touch-manipulation items-center justify-center gap-1.5 rounded-full px-2.5 text-xs font-medium ring-1 transition outline-none focus-visible:ring-2 focus-visible:ring-ember active:scale-95 ${
+      className={`flex h-11 min-w-11 touch-manipulation items-center justify-center gap-1.5 rounded-full px-2.5 text-xs font-medium ring-1 transition active:scale-95 ${FOCUS_RING} ${
         pressed ? "bg-saffron text-navy ring-saffron" : "bg-navy/5 text-navy ring-navy/10 hover:bg-navy/10"
       }`}
     >

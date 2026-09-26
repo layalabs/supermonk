@@ -2,8 +2,9 @@
 // Browsers refuse to start audio without a user gesture, so nothing is created until
 // unlock() is called from a click / touch / key handler. All voices live in synth.ts.
 
+import { INSTRUMENTS, noteFrequency, type InstrumentId } from "./instruments";
 import { bowlFrequency, ROOT_HZ } from "./scale";
-import { bowlVoice, chimeVoice, startDrone, startRain, type Stoppable } from "./synth";
+import { bowlVoice, chimeVoice, gongVoice, handpanVoice, startDrone, startRain, templeBellVoice, windChimeVoice, type Stoppable } from "./synth";
 
 export const DEFAULT_VOLUME = 0.28;
 const SILENT = 0.0001;
@@ -24,6 +25,7 @@ export class HealingAudio {
   private volume = DEFAULT_VOLUME;
   private mutedFlag = false;
   private disposed = false;
+  private instrumentId: InstrumentId = "bowls";
 
   constructor(
     private readonly createContext: ContextFactory = browserContextFactory,
@@ -44,6 +46,16 @@ export class HealingAudio {
 
   get rainOn(): boolean {
     return this.rain !== null;
+  }
+
+  get instrument(): InstrumentId {
+    return this.instrumentId;
+  }
+
+  // Root for the drone and the breathing chime: the bowls keep the constructor root (so the
+  // matching screen's single bowl stays in tune); the other sets bring their own.
+  private get root(): number {
+    return this.instrumentId === "bowls" ? this.rootHz : INSTRUMENTS[this.instrumentId].droneHz;
   }
 
   // Call from a user gesture. Idempotent; returns false when Web Audio is unavailable.
@@ -70,19 +82,53 @@ export class HealingAudio {
     return true;
   }
 
-  strikeBowl(index: number, velocity = 1): void {
+  // Switch sets. A running drone is re-rooted so it keeps sitting under the new instrument.
+  setInstrument(id: InstrumentId): void {
+    if (id === this.instrumentId) return;
+    this.instrumentId = id;
+    if (this.drone) {
+      this.setDrone(false);
+      this.setDrone(true);
+    }
+  }
+
+  // Strike note `index` of the current set. Index is clamped to the set, so key 8 on the
+  // five-bowl set plays the top bowl rather than throwing.
+  strike(index: number, velocity = 1): void {
     if (!this.ctx || !this.master) return;
-    bowlVoice(this.ctx, this.master, bowlFrequency(index, this.rootHz), this.ctx.currentTime, velocity);
+    const at = this.ctx.currentTime;
+    switch (this.instrumentId) {
+      case "bowls":
+        bowlVoice(this.ctx, this.master, bowlFrequency(index, this.rootHz), at, velocity);
+        return;
+      case "bells": {
+        const hz = noteFrequency("bells", index);
+        if (hz === INSTRUMENTS.bells.notes[0].hz) templeBellVoice(this.ctx, this.master, hz, at, velocity);
+        else windChimeVoice(this.ctx, this.master, hz, at, velocity);
+        return;
+      }
+      case "gongs":
+        gongVoice(this.ctx, this.master, noteFrequency("gongs", index), at, velocity);
+        return;
+      case "handpan":
+        handpanVoice(this.ctx, this.master, noteFrequency("handpan", index), at, velocity);
+        return;
+    }
+  }
+
+  /** @deprecated Use strike(); kept for the matching screen and older tests. */
+  strikeBowl(index: number, velocity = 1): void {
+    this.strike(index, velocity);
   }
 
   chime(ratio = 4, gain = 0.6): void {
     if (!this.ctx || !this.master) return;
-    chimeVoice(this.ctx, this.master, this.rootHz * ratio, this.ctx.currentTime, gain);
+    chimeVoice(this.ctx, this.master, this.root * ratio, this.ctx.currentTime, gain);
   }
 
   setDrone(on: boolean): void {
     if (!this.ctx || !this.master) return;
-    if (on && !this.drone) this.drone = startDrone(this.ctx, this.master, this.rootHz, this.ctx.currentTime);
+    if (on && !this.drone) this.drone = startDrone(this.ctx, this.master, this.root, this.ctx.currentTime);
     else if (!on && this.drone) {
       this.drone.stop(this.ctx.currentTime);
       this.drone = null;

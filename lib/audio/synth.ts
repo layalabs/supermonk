@@ -49,18 +49,163 @@ export function bowlVoice(ctx: AudioContext, out: AudioNode, fundamental: number
   return longest;
 }
 
-function malletTransient(ctx: AudioContext, out: AudioNode, at: number, gain: number): void {
+function malletTransient(ctx: AudioContext, out: AudioNode, at: number, gain: number, cutoff = 900, seconds = 0.04): void {
   const src = ctx.createBufferSource();
   src.buffer = noiseBuffer(ctx, 0.06);
   const lp = ctx.createBiquadFilter();
   lp.type = "lowpass";
-  lp.frequency.value = 900;
+  lp.frequency.value = cutoff;
   const g = ctx.createGain();
   g.gain.setValueAtTime(gain, at);
-  g.gain.exponentialRampToValueAtTime(SILENT, at + 0.04);
+  g.gain.exponentialRampToValueAtTime(SILENT, at + seconds);
   src.connect(lp).connect(g).connect(out);
   src.start(at);
+  src.stop(at + Math.max(0.06, seconds + 0.02));
+}
+
+// ---------------------------------------------------------------------------------------
+// Shared additive voice used by the three new sets. Each partial is a sine with its own
+// exponential decay; `pair` doubles the partial with a ± detune (Hz) so the two beat
+// slowly, the shimmer that separates metal from a plain sine. Returns the longest decay.
+
+export type Partial = { ratio: number; gain: number; decay: number; pair?: number };
+
+export type AdditiveOptions = {
+  /** Attack time in seconds (a log on bronze is slower than a finger on steel). */
+  attack: number;
+  /** Extra detune in cents applied to every partial (wind chimes drift; gongs do not). */
+  cents?: number;
+  /** Low-pass cutoff (Hz) on the whole voice, like the mallet's felt. */
+  cutoff: number;
+};
+
+export function additiveVoice(
+  ctx: AudioContext,
+  out: AudioNode,
+  partials: readonly Partial[],
+  fundamental: number,
+  at: number,
+  velocity: number,
+  opts: AdditiveOptions,
+): number {
+  const v = Math.min(1, Math.max(0.1, velocity));
+  const voice = ctx.createGain();
+  voice.gain.value = v;
+  const tone = ctx.createBiquadFilter();
+  tone.type = "lowpass";
+  tone.frequency.value = opts.cutoff;
+  tone.Q.value = 0.4;
+  voice.connect(tone).connect(out);
+
+  let longest = 0;
+  for (const p of partials) {
+    const sides = p.pair ? [-p.pair, p.pair] : [0];
+    for (const offset of sides) {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = fundamental * p.ratio + offset;
+      if (opts.cents) osc.detune.value = opts.cents;
+      g.gain.setValueAtTime(SILENT, at);
+      g.gain.exponentialRampToValueAtTime(p.gain / sides.length, at + opts.attack);
+      g.gain.exponentialRampToValueAtTime(SILENT, at + p.decay);
+      osc.connect(g).connect(voice);
+      osc.start(at);
+      osc.stop(at + p.decay + 0.05);
+      longest = Math.max(longest, p.decay);
+    }
+  }
+  return longest;
+}
+
+// Large temple bell (ระฆัง): the classic bell partial series (hum, prime, tierce, quint,
+// nominal) below and above the strike note, hum and prime doubled so they beat. Very
+// long decay; a log striker gives a slow, heavy attack and a deep thud.
+export const TEMPLE_BELL_PARTIALS: readonly Partial[] = [
+  { ratio: 0.5, gain: 0.35, decay: 14, pair: 0.4 },
+  { ratio: 1, gain: 0.5, decay: 9, pair: 0.7 },
+  { ratio: 1.2, gain: 0.22, decay: 6 },
+  { ratio: 1.5, gain: 0.16, decay: 4.5 },
+  { ratio: 2.0, gain: 0.14, decay: 3.5 },
+  { ratio: 2.51, gain: 0.06, decay: 2.4 },
+  { ratio: 3.0, gain: 0.03, decay: 1.6 },
+];
+
+export function templeBellVoice(ctx: AudioContext, out: AudioNode, fundamental: number, at: number, velocity = 1): number {
+  const longest = additiveVoice(ctx, out, TEMPLE_BELL_PARTIALS, fundamental, at, velocity, { attack: 0.03, cutoff: 1800 });
+  malletTransient(ctx, out, at, 0.18 * Math.min(1, Math.max(0.1, velocity)), 320, 0.09);
+  return longest;
+}
+
+// Small eave chime (กระดิ่ง): bright, short, near a small bell's partials, with a random
+// detune per strike so a row of them never sounds machine-tuned. A tiny high-passed tick
+// stands in for the leaf clapper.
+export const WIND_CHIME_PARTIALS: readonly Partial[] = [
+  { ratio: 1, gain: 0.32, decay: 1.6 },
+  { ratio: 2.76, gain: 0.12, decay: 1.0 },
+  { ratio: 5.4, gain: 0.04, decay: 0.5 },
+];
+export const WIND_CHIME_DETUNE_CENTS = 25;
+
+export function windChimeVoice(ctx: AudioContext, out: AudioNode, fundamental: number, at: number, velocity = 1, random: () => number = Math.random): number {
+  const cents = (random() * 2 - 1) * WIND_CHIME_DETUNE_CENTS;
+  const longest = additiveVoice(ctx, out, WIND_CHIME_PARTIALS, fundamental, at, velocity, { attack: 0.003, cents, cutoff: 9000 });
+  const src = ctx.createBufferSource();
+  src.buffer = noiseBuffer(ctx, 0.06);
+  const hp = ctx.createBiquadFilter();
+  hp.type = "highpass";
+  hp.frequency.value = 4000;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.03 * Math.min(1, Math.max(0.1, velocity)), at);
+  g.gain.exponentialRampToValueAtTime(SILENT, at + 0.008);
+  src.connect(hp).connect(g).connect(out);
+  src.start(at);
   src.stop(at + 0.06);
+  return longest;
+}
+
+// Bossed gong (ฆ้องวง): the central boss gives a clear, near-harmonic fundamental with a
+// slightly stretched octave and twelfth; warm (low-pass 1.8 kHz), medium decay, and a
+// soft padded-mallet thud. The fundamental blooms in over 40 ms rather than clicking.
+export const GONG_PARTIALS: readonly Partial[] = [
+  { ratio: 1, gain: 0.5, decay: 3.2, pair: 0.5 },
+  { ratio: 2.02, gain: 0.2, decay: 2.2 },
+  { ratio: 3.05, gain: 0.1, decay: 1.6 },
+  { ratio: 4.1, gain: 0.05, decay: 1.0 },
+];
+
+export function gongVoice(ctx: AudioContext, out: AudioNode, fundamental: number, at: number, velocity = 1): number {
+  const longest = additiveVoice(ctx, out, GONG_PARTIALS, fundamental, at, velocity, { attack: 0.04, cutoff: 1800 });
+  malletTransient(ctx, out, at, 0.14 * Math.min(1, Math.max(0.1, velocity)), 250, 0.06);
+  return longest;
+}
+
+// Handpan: every tone field is tuned 1 : 2 : 3 (fundamental, octave, compound fifth), which is
+// what makes a handpan sound like a chord from a single note. Soft finger attack, 3–5 s
+// decay, and a short breathy puff of band-passed noise on the strike.
+export const HANDPAN_PARTIALS: readonly Partial[] = [
+  { ratio: 1, gain: 0.5, decay: 4.5, pair: 0.35 },
+  { ratio: 2.0, gain: 0.25, decay: 3.2 },
+  { ratio: 3.0, gain: 0.12, decay: 2.2 },
+  { ratio: 5.02, gain: 0.03, decay: 1.0 },
+];
+
+export function handpanVoice(ctx: AudioContext, out: AudioNode, fundamental: number, at: number, velocity = 1): number {
+  const v = Math.min(1, Math.max(0.1, velocity));
+  const longest = additiveVoice(ctx, out, HANDPAN_PARTIALS, fundamental, at, v, { attack: 0.01, cutoff: 5000 });
+  const src = ctx.createBufferSource();
+  src.buffer = noiseBuffer(ctx, 0.06);
+  const bp = ctx.createBiquadFilter();
+  bp.type = "bandpass";
+  bp.frequency.value = fundamental * 3;
+  bp.Q.value = 2;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.05 * v, at);
+  g.gain.exponentialRampToValueAtTime(SILENT, at + 0.09);
+  src.connect(bp).connect(g).connect(out);
+  src.start(at);
+  src.stop(at + 0.11);
+  return longest;
 }
 
 // Chime: brighter and shorter than a bowl, near-harmonic partials. Used for the breathing pacer.

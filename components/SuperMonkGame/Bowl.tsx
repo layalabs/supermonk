@@ -1,9 +1,11 @@
 "use client";
 
 import type { KeyboardEvent } from "react";
+import { FOCUS_RING } from "@/components/ui";
 import styles from "./game.module.css";
+import type { Ripple, SceneProps } from "./types";
 
-export type Ripple = { id: number; bowl: number };
+export type { Ripple };
 
 type Props = {
   index: number;
@@ -35,7 +37,7 @@ export default function Bowl({ index, note, struckAt, ripples, onStrike, onRippl
         if (e.button === 0 || e.pointerType !== "mouse") onStrike(index);
       }}
       onKeyDown={onKeyDown}
-      className="relative shrink-0 touch-manipulation rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ember focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+      className={`relative shrink-0 touch-manipulation rounded-full ${FOCUS_RING}`}
       style={{ width, maxWidth: 108 }}
     >
       {ripples.map((r) => (
@@ -65,5 +67,24 @@ export default function Bowl({ index, note, struckAt, ripples, onStrike, onRippl
         </span>
       </span>
     </button>
+  );
+}
+
+// The five bowls in a row on the mat, widest (lowest) first.
+export function BowlsScene({ notes, struck, ripples, onStrike, onRippleEnd }: SceneProps) {
+  return (
+    <div className="absolute inset-x-3 bottom-2 z-10 flex items-end justify-center gap-2 md:inset-x-6 md:bottom-4 md:gap-4">
+      {notes.map((note, i) => (
+        <Bowl
+          key={note.label}
+          index={i}
+          note={note.label}
+          struckAt={struck[i] ?? null}
+          ripples={ripples.filter((r) => r.bowl === i)}
+          onStrike={onStrike}
+          onRippleEnd={onRippleEnd}
+        />
+      ))}
+    </div>
   );
 }
