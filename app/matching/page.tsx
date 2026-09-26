@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
 import FlyingMonk from "@/components/FlyingMonk";
-import { ErrorNote, GhostButton } from "@/components/ui";
+import { ErrorNote, GhostButton, PrimaryButton } from "@/components/ui";
 import { postJson, readFlow, writeFlow } from "@/lib/client/session";
 import type { MatchResponse } from "@/lib/types";
 
@@ -12,9 +12,12 @@ const WHY_BUDGET_MS = 6000;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export default function MatchingPage() {
+function Matching() {
   const router = useRouter();
+  // ?hold=1 keeps the game on screen after matching (for the pitch and for design work).
+  const hold = useSearchParams().get("hold") === "1";
   const [error, setError] = useState<string | null>(null);
+  const [ready, setReady] = useState(false);
   const started = useRef(false);
 
   useEffect(() => {
@@ -40,12 +43,13 @@ export default function MatchingPage() {
         const matches = res.matches.map((m) => ({ ...m, why: why[m.monkId] ?? m.why }));
         await sleep(Math.max(0, MIN_MS - (Date.now() - t0)));
         writeFlow({ matches, runnerUp: res.runnerUp });
-        router.replace("/matches");
+        if (hold) setReady(true);
+        else router.replace("/matches");
       } catch (e) {
         setError((e as Error).message);
       }
     })();
-  }, [router]);
+  }, [router, hold]);
 
   return (
     <section className="flex flex-1 flex-col">
@@ -57,6 +61,15 @@ export default function MatchingPage() {
       ) : (
         <FlyingMonk />
       )}
+      {ready ? <PrimaryButton onClick={() => router.replace("/matches")}>Show my monks</PrimaryButton> : null}
     </section>
+  );
+}
+
+export default function MatchingPage() {
+  return (
+    <Suspense fallback={null}>
+      <Matching />
+    </Suspense>
   );
 }
