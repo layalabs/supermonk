@@ -21,3 +21,16 @@ export function loadData(dir = path.join(process.cwd(), "data")): SeedData {
   if (dir === path.join(process.cwd(), "data")) cache = data;
   return data;
 }
+
+/**
+ * Seed plus monks onboarded through LINE (P1). Only `active` LINE monks are matchable;
+ * `pending_temple` ones wait for their temple office. Async because the LINE store may be remote.
+ */
+export async function loadAllData(): Promise<SeedData> {
+  const seed = loadData();
+  const { getLineStore } = await import("@/lib/line/store");
+  const lineMonks = (await getLineStore().listMonks()).filter((m) => m.status === "active");
+  if (!lineMonks.length) return seed;
+  const seedIds = new Set(seed.monks.map((m) => m.id));
+  return { ...seed, monks: [...seed.monks, ...lineMonks.filter((m) => !seedIds.has(m.id))] };
+}
