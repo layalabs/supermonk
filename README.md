@@ -25,6 +25,7 @@ fixed question flow. Add keys to switch to the real services:
 | `STORE` | `json` or `supabase` (overrides the default) |
 | `LLM` | `anthropic`, `claude-cli` (local dev, shells out to `claude -p`) or `fixed` |
 | `DEMO_TODAY` | Pin "today" (`2026-09-27`) so rehearsals and recordings are repeatable |
+| `VERIFY_REQUIRED`, `NEXT_PUBLIC_VERIFY_REQUIRED` | `1` gates invites on host verification (docs/VERIFICATION.md); set both, the public one shows "Not verified" badges |
 
 Copy `env.example` to `.env.local` for local keys. Never commit it.
 

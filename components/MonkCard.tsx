@@ -19,12 +19,14 @@ export default function MonkCard({ card, top }: { card: MatchCard; top?: boolean
   return (
     <Link
       href={`/monk/${card.monkId}`}
-      className={`flex w-[82%] shrink-0 snap-center flex-col gap-3 rounded-card bg-navy-2 p-5 shadow-sm shadow-navy/5 ring-1 ring-navy/10 transition active:scale-[0.99] lg:w-auto lg:snap-align-none lg:p-6 motion-safe:lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:shadow-orange/10 lg:hover:ring-saffron/50 ${FOCUS_RING}`}
+      className={`flex w-[82%] shrink-0 snap-center flex-col gap-3 rounded-card bg-navy-2 p-5 shadow-sm shadow-navy/5 ring-1 ring-navy/10 transition active:scale-[0.99] min-w-0 lg:w-full lg:snap-align-none lg:p-6 motion-safe:lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:shadow-orange/10 lg:hover:ring-saffron/50 ${FOCUS_RING}`}
     >
-      <div className="flex items-center justify-between">
-        {top ? <span className="bg-brand whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold text-navy">Closest match</span> : <span />}
-        <span className={`whitespace-nowrap text-xs ${card.availableOnDate ? "text-rice-deep" : "text-muted"}`}>
-          {card.availableOnDate ? "● Available on your date" : "○ Not on your date"}
+      <div className="flex items-center justify-between gap-2">
+        {top ? <span className="bg-brand shrink-0 whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold text-navy">Closest match</span> : <span />}
+        {/* Short label below lg: the full one touched the "Closest match" badge on a 287 px card at 390 px. */}
+        <span className={`text-right text-xs ${card.availableOnDate ? "text-rice-deep" : "text-muted"}`}>
+          <span className="lg:hidden">{card.availableOnDate ? "● Available" : "○ Not on date"}</span>
+          <span className="hidden lg:inline">{card.availableOnDate ? "● Available on your date" : "○ Not on your date"}</span>
         </span>
       </div>
       <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
@@ -47,7 +49,7 @@ export default function MonkCard({ card, top }: { card: MatchCard; top?: boolean
           </p>
         </div>
       </div>
-      {monk ? <p className="hidden text-sm leading-relaxed text-navy/80 lg:line-clamp-2">{monk.bio}</p> : null}
+      {monk ? <p className="hidden break-words text-sm leading-relaxed text-navy/80 lg:line-clamp-2">{monk.bio}</p> : null}
       <p className="text-sm text-navy/90">
         <span className="hidden text-xs uppercase tracking-wide text-muted lg:block">Why this monk</span>
         {card.why}

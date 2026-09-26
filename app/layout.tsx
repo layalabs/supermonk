@@ -3,7 +3,7 @@ import "./globals.css";
 import DemoBadge from "@/components/DemoBadge";
 
 export const metadata: Metadata = {
-  title: "SuperMonk",
+  title: { default: "SuperMonk", template: "%s · SuperMonk" },
   description: "Invite a monk in Chiang Mai: blessings, monk chat, meditation.",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, title: "SuperMonk", statusBarStyle: "default" },

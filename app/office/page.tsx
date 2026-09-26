@@ -14,7 +14,7 @@ type Row = Invite & { card: ConfirmationCard };
 const STATUS_STYLE: Record<InviteStatus, string> = {
   pending: "bg-saffron/25 text-ember",
   accepted: "bg-rice/30 text-rice-deep",
-  declined: "bg-cape/15 text-cape",
+  declined: "bg-cape/15 text-cape-deep",
 };
 
 // Temple-office view for the pitch: a teammate accepts on a second phone. No auth (SPEC §4).

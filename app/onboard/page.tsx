@@ -189,7 +189,7 @@ function Row({ label, value, onToggle }: { label: string; value: Slot[]; onToggl
           onClick={() => onToggle(s)}
           aria-pressed={value.includes(s)}
           aria-label={`${label} ${l}`}
-          className={`h-11 rounded-lg ${FOCUS_RING} ${value.includes(s) ? "bg-brand" : "bg-cream/10 ring-1 ring-saffron/30"}`}
+          className={`h-11 rounded-lg ${FOCUS_RING} ${value.includes(s) ? "bg-brand" : "bg-surface ring-1 ring-navy/20"}`}
         >
           {value.includes(s) ? "✓" : ""}
         </button>

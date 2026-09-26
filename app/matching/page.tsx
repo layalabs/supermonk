@@ -54,6 +54,7 @@ function Matching() {
   return (
     <Stage wide>
       <section className="flex w-full flex-1 flex-col lg:mx-auto lg:max-w-[760px]">
+        <h1 className="sr-only">Finding your monks</h1>
         {error ? (
           <div className="mt-20 flex flex-col gap-3">
             <ErrorNote message={`Matching failed: ${error}`} />
