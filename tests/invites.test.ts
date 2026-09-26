@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { loadData } from "@/lib/data";
+import { AREA_CENTROIDS } from "@/lib/geo";
 import { buildCard, buildIcs, buildInvite, newCode } from "@/lib/invites";
 import type { CreateInviteRequest } from "@/lib/types";
 
@@ -57,6 +58,8 @@ describe("buildCard", () => {
     expect(card.where).toBe("Your place in Nimman");
     expect(card.thaiLine).toContain("พระสมชาย");
     expect(card.thaiLine).not.toMatch(/[{}]/);
+    expect(card.thaiLine).toContain("ที่นิมมาน");
+    expect(card.thaiLine).not.toContain("Nimman");
     expect(card.prepare.length).toBeGreaterThan(3);
     expect(card.icsUrl).toMatch(/^\/api\/invites\/SM-.{5}\/ics$/);
   });
@@ -66,6 +69,16 @@ describe("buildCard", () => {
     const card = buildCard(buildInvite({ ...ok, monkId: monk.id, serviceId: "monk_chat", slot: "evening", donation: 100 }, data), data);
     const temple = data.temples.find((t) => t.id === monk.templeId)!;
     expect(card.where.startsWith(temple.name)).toBe(true);
+  });
+});
+
+describe("Thai area names", () => {
+  it("every area in the seed has a Thai name, so no Thai line falls back to English", () => {
+    for (const [id, a] of Object.entries(AREA_CENTROIDS)) expect(a.labelThai, id).toMatch(/[\u0E00-\u0E7F]/);
+  });
+  it("keeps a typed address as written", () => {
+    const card = buildCard(buildInvite({ ...ok, address: "The Nimmana Condo, room 804" }, data), data);
+    expect(card.thaiLine).toContain("ที่ The Nimmana Condo, room 804");
   });
 });
 
