@@ -1,4 +1,3 @@
-
 # SuperMonk market research
 
 Merged from three researchers on 2026-09-26/27 UTC. Source files, each with its own Sources list:
@@ -67,6 +66,20 @@ Full tables and 40 sources: `docs/research/MARKET.md` (Grokker). Fab verified th
 | SOM, year 1 | Live Chiang Mai app, seed temples, no ad budget | **≈560 users, 0.53m THB donations** | 4% of movers (200 × 2,000) + 0.6% of chat slice (314 × 300) + 50 vehicle/shop × 800 |
 
 Do not add the 60.6bn to the 107m on a slide: different languages, different users. The year-one number is a demo-city figure, not a fundraise figure.
+
+### Cross-check: Fab's independent estimate (`docs/research/MARKET_FAB.md`)
+
+A second sizing, built separately from Grokker's, gives ranges that contain Grokker's point figures:
+
+| Layer | Grokker | Independent range | Note |
+|---|---|---|---|
+| All monk invitations + monk-chat visits in Chiang Mai, Thai + foreign (TAM) | not sized | 80k–241k uses, **139–842m THB/yr** | 0.05–0.15 invite events per household × 899,912 households × 3,000–6,000 THB, plus 1–3% of foreign visitors × 100–300 THB |
+| English-reachable (SAM) | 27.3m THB | 2.2–36.8m THB | same 15k–40k resident band, 20–40% of visitor monk-chat uses |
+| Year one (SOM) | 0.53m THB | 44k–2.9m THB | 2–8% of SAM |
+
+**What it adds:** about **97% of the addressable money is on the Thai side** (local events 135–810m THB vs foreign 3.5–32m), so the English MVP is a wedge and the growth story is a Thai-language release. Kasikorn Research (2025-07-11) sizes Thailand's charity market at about 150bn THB. Chiang Mai household religious spend at the Northern rate is about 2.0bn THB/yr (188 THB/month × 899,912). Foreign visitors to Chiang Mai stayed 2.89 days and spent about 4,650 THB per person per day (MOTS 2024 workbook).
+
+**Corrections:** the provincial brief's 2024 prose repeats the 2023 visitor total; the table row (11,485,568) is right, and MOTS later revised 2024 to 11,473,206 visitors and 3,544,641 foreign. The 15k–40k resident band remains the softest input in the model: no agency publishes a DTV, nomad or per-province long-stay count. Say so on the slide.
 
 ## 4. Demand signals
 
