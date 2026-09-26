@@ -3,9 +3,12 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Card, ErrorNote, Stage } from "@/components/ui";
+import VerifiedBadge from "@/components/VerifiedBadge";
 import { getJson, postJson } from "@/lib/client/session";
 import { baht, SERVICE_NAME } from "@/lib/labels";
 import type { ConfirmationCard, Invite, InviteStatus } from "@/lib/types";
+import { fetchLevels } from "@/lib/verify/client";
+import type { VerifyTier } from "@/lib/verify/types";
 
 type Row = Invite & { card: ConfirmationCard };
 const STATUS_STYLE: Record<InviteStatus, string> = {
@@ -20,11 +23,14 @@ function Office() {
   const [rows, setRows] = useState<Row[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
+  const [levels, setLevels] = useState<Record<string, VerifyTier>>({});
   const seen = useRef(new Set<string>());
 
   const load = useCallback(async () => {
     try {
-      setRows((await getJson<{ invites: Row[] }>("/api/office/invites")).invites);
+      const invites = (await getJson<{ invites: Row[] }>("/api/office/invites")).invites;
+      setRows(invites);
+      fetchLevels(invites.map((r) => r.deviceId)).then(setLevels, () => undefined);
       setError(null);
     } catch (e) {
       setError((e as Error).message);
@@ -80,7 +86,7 @@ function Office() {
             {!pending.length ? <p className="text-muted">No invites waiting.</p> : null}
             {pending.map((r) => (
               <Card key={r.code} className="flex flex-col gap-3">
-                <InviteSummary row={r} />
+                <InviteSummary row={r} level={levels[r.deviceId]} />
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     disabled={busy === r.code}
@@ -104,7 +110,7 @@ function Office() {
             {done.length ? <h2 className="mt-4 text-sm uppercase tracking-wide text-muted lg:mt-0">Answered</h2> : null}
             {done.map((r) => (
               <Card key={r.code} className="opacity-70">
-                <InviteSummary row={r} />
+                <InviteSummary row={r} level={levels[r.deviceId]} />
               </Card>
             ))}
           </div>
@@ -114,11 +120,12 @@ function Office() {
   );
 }
 
-function InviteSummary({ row }: { row: Row }) {
+function InviteSummary({ row, level }: { row: Row; level?: VerifyTier }) {
   return (
     <div className="flex items-start justify-between gap-3">
       <div className="text-sm">
         <p className="text-base font-semibold">{SERVICE_NAME[row.serviceId]}</p>
+        <VerifiedBadge level={level} className="mb-1" />
         <p>
           {row.card.monkName} · {row.card.templeName}
         </p>

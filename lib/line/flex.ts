@@ -23,9 +23,9 @@ export function parsePostback(data: string): { action: PostbackAction; value: st
 export function confirmMonkMessage(monkName: string, monkId: string): LineMessage {
   return {
     type: "text",
-    text: `${monkName} ลงทะเบียนเป็นพระของวัดนี้ กรุณายืนยันเพื่อให้รับกิจนิมนต์ได้`,
+    text: TH.confirmAsk(monkName),
     quickReply: {
-      items: [{ type: "action", action: { type: "postback", label: "ยืนยัน", data: POSTBACK.confirm(monkId), displayText: "ยืนยัน" } }],
+      items: [{ type: "action", action: { type: "postback", label: TH.confirmButton, data: POSTBACK.confirm(monkId), displayText: TH.confirmButton } }],
     },
   };
 }

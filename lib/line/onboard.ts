@@ -15,15 +15,15 @@ const clean = (s: unknown, max = 80) => (typeof s === "string" ? s.trim().replac
 export function validateForm(raw: unknown, data: SeedData): OnboardForm {
   const r = (raw ?? {}) as Record<string, unknown>;
   const role = r.role === "office" || r.role === "monk" ? (r.role as LineRole) : null;
-  if (!role) throw new OnboardError("role must be office or monk");
+  if (!role) throw new OnboardError("ลิงก์ไม่ถูกต้อง กรุณาเปิดจากแชท LINE อีกครั้ง");
   const name = clean(r.name);
-  if (!name) throw new OnboardError("กรุณากรอกชื่อ (name is required)");
+  if (!name) throw new OnboardError("กรุณากรอกชื่อ");
   const templeId = clean(r.templeId, 60) || undefined;
   const templeName = clean(r.templeName) || undefined;
-  if (templeId && !data.temples.some((t) => t.id === templeId)) throw new OnboardError("unknown templeId");
-  if (!templeId && !templeName) throw new OnboardError("กรุณาเลือกวัด (temple is required)");
+  if (templeId && !data.temples.some((t) => t.id === templeId)) throw new OnboardError("ไม่พบวัดที่เลือก กรุณาเลือกใหม่");
+  if (!templeId && !templeName) throw new OnboardError("กรุณาเลือกวัด");
   const services = (Array.isArray(r.services) ? r.services : []).filter((s): s is ServiceId => s in SERVICE_MODE);
-  if (!services.length) throw new OnboardError("เลือกกิจอย่างน้อยหนึ่งอย่าง (pick at least one service)");
+  if (!services.length) throw new OnboardError("กรุณาเลือกกิจที่รับอย่างน้อยหนึ่งอย่าง");
   const areas = (Array.isArray(r.areas) ? r.areas : []).filter((a): a is Area => AREAS.includes(a as Area));
   const languages = [...new Set(["th", ...(Array.isArray(r.languages) ? r.languages : [])])].filter((l): l is Language => LANGS.includes(l as Language));
   const weeklyRaw = (r.weekly ?? {}) as Record<string, unknown>;
@@ -32,12 +32,12 @@ export function validateForm(raw: unknown, data: SeedData): OnboardForm {
     const slots = (Array.isArray(weeklyRaw[d]) ? weeklyRaw[d] : []).filter((s): s is Slot => SLOTS.includes(s as Slot));
     if (slots.length) weekly[d] = [...new Set(slots)];
   }
-  if (!Object.keys(weekly).length) throw new OnboardError("เลือกวันเวลาที่สะดวกอย่างน้อยหนึ่งช่อง (pick at least one time)");
+  if (!Object.keys(weekly).length) throw new OnboardError("กรุณาเลือกวันเวลาที่สะดวกอย่างน้อยหนึ่งช่อง");
   const monks =
     role === "office"
       ? (Array.isArray(r.monks) ? r.monks : []).map((m) => ({ name: clean((m as { name?: unknown })?.name) })).filter((m) => m.name).slice(0, 30)
       : undefined;
-  if (role === "office" && !monks?.length) throw new OnboardError("กรุณาเพิ่มรายชื่อพระอย่างน้อยหนึ่งรูป (add at least one monk)");
+  if (role === "office" && !monks?.length) throw new OnboardError("กรุณาเพิ่มรายชื่อพระอย่างน้อยหนึ่งรูป");
   const travels = r.travels === undefined ? services.some((s) => SERVICE_MODE[s] === "monk_comes") : Boolean(r.travels);
   return { role, name, templeId, templeName, services, areas, languages, weekly, monks, travels };
 }
