@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "tsc --noEmit",
     "test": "vitest run",
-    "import-seed": "node --experimental-strip-types scripts/import-seed.ts"
+    "import-seed": "node scripts/import-seed.mjs",
+    "check-seed": "node scripts/check-seed.mjs",
+    "gen-seed": "python3 scripts/gen-seed.py && node scripts/check-seed.mjs"
   },
   "engines": {
     "node": ">=22.6"

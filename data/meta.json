@@ -1,0 +1,9 @@
+{
+  "slotThai": {
+    "morning": "ช่วงเช้า",
+    "afternoon": "ช่วงบ่าย",
+    "evening": "ช่วงเย็น"
+  },
+  "thaiReviewed": false,
+  "note": "Thai lines and checklists are unreviewed drafts; a Thai speaker must check them before the pitch."
+}
