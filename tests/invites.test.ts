@@ -78,3 +78,15 @@ describe("buildIcs", () => {
     expect(ics.split("\r\n")[0]).toBe("BEGIN:VCALENDAR");
   });
 });
+
+import { defaultDonation, denominations } from "@/lib/labels";
+describe("donation options", () => {
+  it("ladders small ranges and spreads ceremony ranges", () => {
+    expect(denominations([0, 200])).toEqual([100, 200]);
+    expect(denominations([0, 500])).toEqual([100, 200, 300, 500]);
+    expect(denominations([1000, 3000])).toEqual([1000, 2000, 3000]);
+    expect(denominations([200, 500])).toEqual([200, 300, 500]);
+    expect(defaultDonation([1000, 2000, 3000])).toBe(1000);
+    expect(defaultDonation([100, 200])).toBe(100);
+  });
+});

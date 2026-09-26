@@ -35,3 +35,11 @@ body {
   background-clip: text;
   color: transparent;
 }
+
+/* Horizontal pill rows and the carousel scroll by touch; hide the desktop scrollbar. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

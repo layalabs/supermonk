@@ -40,6 +40,12 @@ describe("parseText", () => {
     expect(parseText("Chang Khlan", TODAY).area).toBe("chang_khlan");
     expect(parseText("Ping River", TODAY).area).toBe("ping_river");
   });
+  it("understands every starter pill on the Ask screen", () => {
+    const pills = { "Bless my new home": "house_blessing", "Bless my new shop": "shop_blessing",
+      "Merit for someone I lost": "memorial", "Bless my car or bike": "vehicle_blessing",
+      "Talk with a monk": "monk_chat", "Learn to meditate": "meditation" } as const;
+    for (const [text, id] of Object.entries(pills)) expect(parseText(text, TODAY).serviceId, text).toBe(id);
+  });
   it("routes car and shop blessings before the generic 'bless' rule", () => {
     expect(parseText("please bless my new motorbike", TODAY).serviceId).toBe("vehicle_blessing");
     expect(parseText("bless our café opening", TODAY).serviceId).toBe("shop_blessing");

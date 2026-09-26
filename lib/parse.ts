@@ -5,7 +5,7 @@ import type { Area, Extracted, Mode, ServiceId, Slot } from "@/lib/types";
 // Deliberately simple: it only has to understand the demo phrasing and the pills we offer.
 
 const SERVICE_RULES: [RegExp, ServiceId][] = [
-  [/memorial|passed away|died|funeral|merit for (my|our|a)|in memory/i, "memorial"],
+  [/memorial|passed away|died|funeral|merit for|in memory|someone i lost|lost (my|our|a)/i, "memorial"],
   [/\b(car|bike|motorbike|motorcycle|scooter|vehicle|truck)\b/i, "vehicle_blessing"],
   [/\b(shop|caf[eé]|office|store|business|restaurant|bar)\b|opening/i, "shop_blessing"],
   [/meditat/i, "meditation"],
