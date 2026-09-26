@@ -26,6 +26,7 @@ and no invite is created (`tests/invite-gate.test.ts`).
 | Var | Values | Default |
 |---|---|---|
 | `VERIFY_REQUIRED` | `0` / `1` | `0` |
+| `NEXT_PUBLIC_VERIFY_REQUIRED` | `0` / `1` | `0` (set to `1` with `VERIFY_REQUIRED`; the browser cannot read the server flag, and level-0 "Not verified" badges are hidden without it) |
 | `VERIFY` | `mock` / `didit` | `didit` if `DIDIT_API_KEY` is set, else `mock` |
 | `OTP` | `mock` | `mock` (only implementation) |
 | `DIDIT_API_KEY` | console API key | needed for `VERIFY=didit` |

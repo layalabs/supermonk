@@ -102,7 +102,9 @@ export default function ChatPage() {
     <Stage>
       <section className="flex flex-1 flex-col">
         <Header back="/" />
-        <div className="flex flex-1 flex-col gap-3">
+        <h1 className="sr-only">Tell SuperMonk more</h1>
+        {/* lg:flex-none keeps the answer pills right under the last bubble on the projector instead of ~480 px down. */}
+        <div className="flex flex-1 flex-col gap-3 lg:flex-none">
           {flow.messages.map((m, i) => (
             <Bubble key={i} from={m.role}>
               {m.content}

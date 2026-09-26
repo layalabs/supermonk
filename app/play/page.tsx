@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import SuperMonkGame from "@/components/SuperMonkGame";
 import { Header } from "@/components/ui";
 
-export const metadata: Metadata = { title: "SuperMonk · Healing bowls" };
+export const metadata: Metadata = { title: "Healing bowls" };
 
 // Demo route for the home-page slot: renders the game on its own at the desktop column
 // width (560 px) so it can be tested and screenshotted without the rest of the flow.

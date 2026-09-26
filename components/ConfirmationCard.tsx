@@ -30,7 +30,7 @@ export default function ConfirmationCard({ card, verified }: { card: CardData; v
       </dl>
 
       <div>
-        <h3 className="mb-2 text-sm uppercase tracking-wide text-muted">What to prepare</h3>
+        <h2 className="mb-2 text-sm uppercase tracking-wide text-muted">What to prepare</h2>
         <ul className="flex flex-col gap-1.5 text-sm">
           {card.prepare.map((item) => (
             <li key={item} className="flex gap-2">

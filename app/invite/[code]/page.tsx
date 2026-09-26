@@ -64,24 +64,47 @@ function InviteStatus() {
     setNext(others[0]);
   }, [data]);
 
-  if (!data) return error ? <ErrorNote message={error} /> : <p className="mt-20 text-center text-muted">Loading…</p>;
+  // One live region that exists from the first render; only its text changes, so screen readers
+  // announce pending → accepted / declined (a region mounted together with its content is not).
+  const status = !data
+    ? "Loading your invite"
+    : data.invite.status === "pending"
+      ? "Invite sent"
+      : data.invite.status === "accepted"
+        ? `${data.card.monkName} accepted`
+        : `${data.card.monkName} can't make it`;
+  const live = (
+    <p role="status" aria-live="polite" className="sr-only">
+      {status}
+    </p>
+  );
+
+  if (!data)
+    return (
+      <>
+        {live}
+        {error ? <ErrorNote message={error} /> : <p className="mt-20 text-center text-muted">Loading…</p>}
+      </>
+    );
   const { invite, card } = data;
 
+  // Accepted: the card is the whole story, so it takes the single centred column on lg (no empty
+  // left column). Declined: the runner-up sits in the aside. `block` (not flex) so the MonkCard
+  // gets the column width instead of sizing to its unwrapped bio.
   const asideContent =
-    invite.status === "accepted" ? (
-      <ConfirmationCard card={card} verified={verified} />
-    ) : invite.status === "declined" && next ? (
-      <div className="-mx-5 flex px-5 lg:mx-0 lg:px-0">
+    invite.status === "declined" && next ? (
+      <div className="-mx-5 block px-5 lg:mx-0 lg:px-0">
         <MonkCard card={next} />
       </div>
     ) : null;
 
   return (
     <Stage aside={asideContent ? <StageAside>{asideContent}</StageAside> : undefined}>
+      {live}
       <section className="flex flex-1 flex-col gap-5">
         <Header back="/my" />
         {invite.status === "pending" ? (
-          <div className="flex flex-col items-center gap-4 py-8 text-center" role="status" aria-live="polite">
+          <div className="flex flex-col items-center gap-4 py-8 text-center">
             <div className="h-14 w-14 rounded-full border-4 border-saffron/20 border-t-saffron motion-safe:animate-spin motion-reduce:border-saffron/60" aria-hidden />
             <h1 className="text-2xl font-bold">Invite sent</h1>
             <p className="text-muted">
@@ -97,7 +120,7 @@ function InviteStatus() {
 
         {invite.status === "accepted" ? (
           <>
-            <div className="text-center" role="status" aria-live="polite">
+            <div className="text-center">
               <p className="text-4xl" aria-hidden>
                 🙏
               </p>
@@ -106,11 +129,12 @@ function InviteStatus() {
               </h1>
               <p className="mt-1 text-muted">Here is everything you need for the day.</p>
             </div>
+            <ConfirmationCard card={card} verified={verified} />
           </>
         ) : null}
 
         {invite.status === "declined" ? (
-          <div className="flex flex-col gap-4" role="status" aria-live="polite">
+          <div className="flex flex-col gap-4">
             <h1 className="text-2xl font-bold">{card.monkName} can't make it</h1>
             <p className="text-muted">The temple office declined this time. Here is another monk who could come.</p>
             {next ? null : (

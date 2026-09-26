@@ -88,7 +88,7 @@ export function Header({ title, back }: { title?: string; back?: string }) {
           ‹
         </Link>
       ) : null}
-      <Link href="/" className={`flex items-center gap-2 rounded-lg ${FOCUS_RING}`}>
+      <Link href="/" aria-label="SuperMonk home" className={`flex items-center gap-2 rounded-lg ${FOCUS_RING}`}>
         <img src="/icons/icon-192.png" alt="" className="h-8 w-8 rounded-lg" />
         {title ? null : <span className="text-lg font-bold">Super<span className="text-brand">Monk</span></span>}
       </Link>

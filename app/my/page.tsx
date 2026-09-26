@@ -10,7 +10,7 @@ import type { Invite, InviteStatus } from "@/lib/types";
 const STATUS_STYLE: Record<InviteStatus, string> = {
   pending: "bg-saffron/25 text-ember",
   accepted: "bg-rice/30 text-rice-deep",
-  declined: "bg-cape/15 text-cape",
+  declined: "bg-cape/15 text-cape-deep",
 };
 
 export default function MyInvitesPage() {
