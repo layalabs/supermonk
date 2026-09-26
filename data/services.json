@@ -1,0 +1,165 @@
+{
+  "slotThai": {
+    "morning": "ช่วงเช้า",
+    "afternoon": "ช่วงบ่าย",
+    "evening": "ช่วงเย็น"
+  },
+  "thaiReviewed": false,
+  "services": [
+    {
+      "id": "house_blessing",
+      "name": "House / condo blessing",
+      "nameThai": "ทำบุญขึ้นบ้านใหม่",
+      "mode": "monk_comes",
+      "durationMin": 90,
+      "preferredSlots": [
+        "morning"
+      ],
+      "donationRange": [
+        1000,
+        3000
+      ],
+      "pills": [
+        "Bless my new home"
+      ],
+      "prepare": [
+        "Clean the home, especially the entrance and the room where monks will sit",
+        "A low table with a white cloth for the Buddha image and offerings",
+        "Flowers, candles and incense (a temple shop sells a ready set)",
+        "A bowl of clean water for the holy water",
+        "Food for the monks, served before 11:00, and drinking water",
+        "An envelope with the donation (ปัจจัย), handed over at the end",
+        "Dress modestly: shoulders and knees covered, sit lower than the monks"
+      ],
+      "thaiLine": "ขอนิมนต์{monkThai} จาก{templeThai} ไปทำบุญขึ้นบ้านใหม่ที่ {where} วันที่ {date} {slotThai}"
+    },
+    {
+      "id": "shop_blessing",
+      "name": "Shop / office opening blessing",
+      "nameThai": "ทำบุญเปิดร้าน",
+      "mode": "monk_comes",
+      "durationMin": 90,
+      "preferredSlots": [
+        "morning"
+      ],
+      "donationRange": [
+        1000,
+        3000
+      ],
+      "pills": [
+        "Bless my new shop"
+      ],
+      "prepare": [
+        "Clean the shop and clear a space near the entrance for the monks",
+        "A low table with a white cloth, flowers, candles and incense",
+        "A bowl of clean water for the holy water",
+        "Food for the monks before 11:00, and drinking water",
+        "The owner and staff present, dressed modestly",
+        "An envelope with the donation (ปัจจัย)"
+      ],
+      "thaiLine": "ขอนิมนต์{monkThai} จาก{templeThai} ไปทำบุญเปิดร้านที่ {where} วันที่ {date} {slotThai}"
+    },
+    {
+      "id": "memorial",
+      "name": "Memorial or merit-making at home",
+      "nameThai": "ทำบุญอุทิศส่วนกุศล",
+      "mode": "monk_comes",
+      "durationMin": 60,
+      "preferredSlots": [
+        "morning",
+        "afternoon"
+      ],
+      "donationRange": [
+        1000,
+        2000
+      ],
+      "pills": [
+        "Merit for someone I lost"
+      ],
+      "prepare": [
+        "A photo of the person, placed on a small table with flowers",
+        "An offering set (สังฆทาน) from any temple shop or supermarket",
+        "Food or drinks for the monks if before noon, drinks only after",
+        "An envelope with the donation (ปัจจัย)",
+        "Dress modestly, white or muted colours"
+      ],
+      "thaiLine": "ขอนิมนต์{monkThai} จาก{templeThai} ไปทำบุญอุทิศส่วนกุศลที่ {where} วันที่ {date} {slotThai}"
+    },
+    {
+      "id": "vehicle_blessing",
+      "name": "Vehicle blessing (car or motorbike)",
+      "nameThai": "เจิมรถ",
+      "mode": "you_go",
+      "durationMin": 20,
+      "preferredSlots": [
+        "morning"
+      ],
+      "donationRange": [
+        200,
+        500
+      ],
+      "pills": [
+        "Bless my car or bike"
+      ],
+      "prepare": [
+        "Bring the vehicle to the temple, cleaned",
+        "A small offering set or flowers, candles and incense",
+        "An envelope with the donation (ปัจจัย)",
+        "Arrive in the morning, dressed modestly"
+      ],
+      "thaiLine": "ขอนิมนต์{monkThai} เจิมรถที่{templeThai} วันที่ {date} {slotThai}"
+    },
+    {
+      "id": "monk_chat",
+      "name": "Monk chat (conversation and culture)",
+      "nameThai": "สนทนาธรรม",
+      "mode": "you_go",
+      "durationMin": 60,
+      "preferredSlots": [
+        "afternoon",
+        "evening"
+      ],
+      "donationRange": [
+        0,
+        200
+      ],
+      "pills": [
+        "Talk with a monk"
+      ],
+      "prepare": [
+        "Shoulders and knees covered, shoes off inside the halls",
+        "Women do not touch monks or hand items directly to them; place items down first",
+        "Bring three questions; monks like practising English too",
+        "Phone on silent, and ask before taking photos",
+        "A donation is optional; 100 baht or more is customary"
+      ],
+      "thaiLine": "ขอเข้าพบ{monkThai} ที่{templeThai} เพื่อสนทนาธรรม วันที่ {date} {slotThai}"
+    },
+    {
+      "id": "meditation",
+      "name": "Meditation guidance, one-on-one",
+      "nameThai": "ฝึกสมาธิ",
+      "mode": "you_go",
+      "durationMin": 60,
+      "preferredSlots": [
+        "morning",
+        "afternoon",
+        "evening"
+      ],
+      "donationRange": [
+        0,
+        500
+      ],
+      "pills": [
+        "Learn to meditate"
+      ],
+      "prepare": [
+        "Loose, modest clothes in muted colours",
+        "Arrive 10 minutes early, shoes off, phone silent",
+        "Eat lightly beforehand",
+        "A donation is optional"
+      ],
+      "thaiLine": "ขอเข้าพบ{monkThai} ที่{templeThai} เพื่อฝึกสมาธิ วันที่ {date} {slotThai}"
+    }
+  ]
+}

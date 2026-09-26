@@ -1,0 +1,162 @@
+[
+  {
+    "id": "wat_chedi_luang",
+    "name": "Wat Chedi Luang",
+    "nameThai": "วัดเจดีย์หลวง",
+    "area": "old_city",
+    "lat": 18.787,
+    "lng": 98.9866,
+    "address": "103 Prapokklao Rd, Phra Sing",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_phra_singh",
+    "name": "Wat Phra Singh",
+    "nameThai": "วัดพระสิงห์",
+    "area": "old_city",
+    "lat": 18.7885,
+    "lng": 98.9817,
+    "address": "2 Samlan Rd, Phra Sing",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_chiang_man",
+    "name": "Wat Chiang Man",
+    "nameThai": "วัดเชียงมั่น",
+    "area": "old_city",
+    "lat": 18.7935,
+    "lng": 98.9893,
+    "address": "171 Ratchapakhinai Rd, Si Phum",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_phan_tao",
+    "name": "Wat Phan Tao",
+    "nameThai": "วัดพันเตา",
+    "area": "old_city",
+    "lat": 18.7874,
+    "lng": 98.9873,
+    "address": "127/7 Prapokklao Rd, Phra Sing",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_lok_moli",
+    "name": "Wat Lok Moli",
+    "nameThai": "วัดโลกโมฬี",
+    "area": "old_city",
+    "lat": 18.796,
+    "lng": 98.984,
+    "address": "Mani Nopparat Rd, Si Phum",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_suan_dok",
+    "name": "Wat Suan Dok",
+    "nameThai": "วัดสวนดอก",
+    "area": "nimman",
+    "lat": 18.7896,
+    "lng": 98.9678,
+    "address": "139 Suthep Rd, Suthep",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_umong",
+    "name": "Wat Umong",
+    "nameThai": "วัดอุโมงค์",
+    "area": "nimman",
+    "lat": 18.7826,
+    "lng": 98.949,
+    "address": "135 Moo 10, Suthep",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_jed_yod",
+    "name": "Wat Jed Yod",
+    "nameThai": "วัดเจ็ดยอด",
+    "area": "santitham",
+    "lat": 18.8095,
+    "lng": 98.972,
+    "address": "Super Highway, Chang Phueak",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_ket_karam",
+    "name": "Wat Ket Karam",
+    "nameThai": "วัดเกตการาม",
+    "area": "wat_ket",
+    "lat": 18.792,
+    "lng": 99.0033,
+    "address": "96 Charoenrat Rd, Wat Ket",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_bupparam",
+    "name": "Wat Bupparam",
+    "nameThai": "วัดบุพพาราม",
+    "area": "chang_khlan",
+    "lat": 18.7877,
+    "lng": 98.9973,
+    "address": "143 Tha Phae Rd, Chang Khlan",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_mahawan",
+    "name": "Wat Mahawan",
+    "nameThai": "วัดมหาวัน",
+    "area": "chang_khlan",
+    "lat": 18.7878,
+    "lng": 98.9963,
+    "address": "Tha Phae Rd, Chang Khlan",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_saen_fang",
+    "name": "Wat Saen Fang",
+    "nameThai": "วัดแสนฝาง",
+    "area": "chang_khlan",
+    "lat": 18.79,
+    "lng": 98.997,
+    "address": "Tha Phae Rd, Chang Moi",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_chetawan",
+    "name": "Wat Chetawan",
+    "nameThai": "วัดเชตวัน",
+    "area": "chang_khlan",
+    "lat": 18.7898,
+    "lng": 98.9972,
+    "address": "Tha Phae Rd, Chang Moi",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_chai_mongkhon",
+    "name": "Wat Chai Mongkhon",
+    "nameThai": "วัดชัยมงคล",
+    "area": "ping_river",
+    "lat": 18.781,
+    "lng": 99.003,
+    "address": "133 Charoen Prathet Rd, Chang Khlan",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_srisuphan",
+    "name": "Wat Srisuphan",
+    "nameThai": "วัดศรีสุพรรณ",
+    "area": "old_city",
+    "lat": 18.7797,
+    "lng": 98.9873,
+    "address": "100 Wua Lai Rd, Hai Ya",
+    "coordsApproximate": true
+  },
+  {
+    "id": "wat_doi_suthep",
+    "name": "Wat Phra That Doi Suthep",
+    "nameThai": "วัดพระธาตุดอยสุเทพ",
+    "area": "doi_suthep",
+    "lat": 18.8048,
+    "lng": 98.9217,
+    "address": "Sriwichai Rd, Suthep",
+    "coordsApproximate": true
+  }
+]
