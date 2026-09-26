@@ -3,17 +3,25 @@ import type { ChatMessage, Extracted } from "@/lib/types";
 import { MODEL, clarifySystem, clarifyUser, parseJsonReply, WHY_SYSTEM, whyUser } from "./prompts";
 import type { ClarifyTurn, LlmAdapter, MonkSummary } from "./types";
 
-export function anthropicAdapter(apiKey: string): LlmAdapter {
-  const client = new Anthropic({ apiKey, timeout: 12_000, maxRetries: 1 });
+export function anthropicAdapter(apiKey: string, opts: { fetch?: typeof fetch } = {}): LlmAdapter {
+  const client = new Anthropic({ apiKey, timeout: 12_000, maxRetries: 1, ...(opts.fetch && { fetch: opts.fetch }) });
   const ask = async (system: string, user: string, maxTokens: number) => {
     const res = await client.messages.create({
       model: MODEL,
       max_tokens: maxTokens,
+      // Sonnet 5 thinks by default; on these short JSON tasks that spent the whole budget and
+      // returned no text. Extraction does not need it, and it would add seconds on stage.
+      thinking: { type: "disabled" },
       system,
       messages: [{ role: "user", content: user }],
     });
     const text = res.content.map((b) => (b.type === "text" ? b.text : "")).join("");
-    return parseJsonReply(text);
+    if (!text.trim()) throw new Error(`model returned no text (stop_reason ${res.stop_reason})`);
+    try {
+      return parseJsonReply(text);
+    } catch (error) {
+      throw new Error(`${(error as Error).message} (stop_reason ${res.stop_reason}): ${text.slice(0, 120)}`);
+    }
   };
   return {
     name: "anthropic",

@@ -20,6 +20,8 @@ Slots: morning, afternoon, evening. Languages: en, th.
 Read the conversation and extract what the user wants. Required before matching:
 serviceId; date; area ONLY if the service is monk_comes. Ask about mode only if the user clearly wants the other place.
 If something required is missing, ask exactly ONE short question and offer up to 4 tappable answers ("pills", each at most 24 characters).
+Every pill must be a complete answer on its own: concrete dates like "Sat Oct 3", areas, or services. Never offer "Pick a date", "Other" or "Not sure".
+Ask for the date before the area.
 If nothing required is missing, set ready to true and give no question.
 Convert relative dates ("Saturday", "tomorrow") to ISO dates on or after today.
 

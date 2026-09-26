@@ -46,6 +46,17 @@ describe("parseText", () => {
       "Talk with a monk": "monk_chat", "Learn to meditate": "meditation" } as const;
     for (const [text, id] of Object.entries(pills)) expect(parseText(text, TODAY).serviceId, text).toBe(id);
   });
+  it("reads month-day pills the model offers, even with a wrong weekday", () => {
+    expect(parseText("Mon Sep 28", TODAY).date).toBe("2026-09-28");
+    expect(parseText("Sep 29 Mon", TODAY).date).toBe("2026-09-29");
+    expect(parseText("Fri Oct 2", TODAY).date).toBe("2026-10-02");
+    expect(parseText("3 October", TODAY).date).toBe("2026-10-03");
+    expect(parseText("Sep 1", TODAY).date).toBe("2027-09-01");
+  });
+  it("reads 'next week' as the coming Monday, never today", () => {
+    expect(parseText("Next week", "2026-09-26")).toMatchObject({ date: "2026-09-28" }); // Saturday → Mon 28
+    expect(parseText("sometime next week", TODAY)).toMatchObject({ date: "2026-09-28" }); // Sunday → Mon 28
+  });
   it("routes car and shop blessings before the generic 'bless' rule", () => {
     expect(parseText("please bless my new motorbike", TODAY).serviceId).toBe("vehicle_blessing");
     expect(parseText("bless our café opening", TODAY).serviceId).toBe("shop_blessing");
@@ -99,6 +110,13 @@ describe("clarify with the fixed adapter", () => {
   });
 });
 
+describe("defaults when we stop asking", () => {
+  it("never defaults to a day that is already under way", async () => {
+    const r = await clarify([user("bless my house"), bot("q1"), user("Nimman"), bot("q2"), user("dunno")], {}, fixedAdapter, "2026-09-26");
+    expect(r.extracted.date).toBe("2026-10-03"); // Saturday → the next Saturday, not today
+  });
+});
+
 describe("clarify with a model adapter", () => {
   const model = (turn: Awaited<ReturnType<LlmAdapter["clarify"]>> | Error): LlmAdapter => ({
     name: "anthropic",
@@ -119,6 +137,16 @@ describe("clarify with a model adapter", () => {
     expect(r.ready).toBe(false);
     expect(r.question).toBe("When should the monk come?");
     expect(r.pills).toEqual(["Saturday"]);
+  });
+
+  it("drops pills that cannot be answered by a tap", async () => {
+    const r = await clarify(
+      [user("bless my house")],
+      {},
+      model({ ready: false, question: "When?", pills: ["Tomorrow", "Pick a date", "Not sure yet", "Other"], extracted: {} }),
+      TODAY,
+    );
+    expect(r.pills).toEqual(["Tomorrow"]);
     expect(r.extracted.serviceId).toBe("house_blessing");
     expect(r.extracted.area).toBeUndefined();
   });

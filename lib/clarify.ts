@@ -1,4 +1,4 @@
-import { isIsoDate, nextWeekday } from "@/lib/dates";
+import { addDays, isIsoDate, nextWeekday } from "@/lib/dates";
 import { nextQuestion } from "@/lib/llm/fixed";
 import type { LlmAdapter } from "@/lib/llm/types";
 import { AREAS, parseText, SERVICE_MODE, SLOTS } from "@/lib/parse";
@@ -24,7 +24,11 @@ export function sanitize(raw: unknown, today: string): Partial<Extracted> {
 
 function sanitizePills(p: unknown): string[] | undefined {
   if (!Array.isArray(p)) return undefined;
-  const pills = p.filter((x): x is string => typeof x === "string" && x.trim().length > 0 && x.length <= 24).slice(0, 4);
+  // A pill must be an answer in itself; "Pick a date" or "Not sure" would just repeat the question.
+  const vague = /\b(pick|choose|select|other|not sure|something else|custom)\b/i;
+  const pills = p
+    .filter((x): x is string => typeof x === "string" && x.trim().length > 0 && x.length <= 24 && !vague.test(x))
+    .slice(0, 4);
   return pills.length ? pills : undefined;
 }
 
@@ -34,7 +38,7 @@ export function isComplete(e: Partial<Extracted>): boolean {
   return mode !== "monk_comes" || Boolean(e.area);
 }
 
-/** Fill defaults once we stop asking: next Saturday morning, Nimman, English. */
+/** Fill defaults once we stop asking: the next Saturday after today, morning, Nimman, English. */
 export function finalize(e: Partial<Extracted>, freeText: string, today: string): Extracted {
   const serviceId = e.serviceId ?? "house_blessing";
   const mode = e.mode ?? SERVICE_MODE[serviceId];
@@ -42,7 +46,7 @@ export function finalize(e: Partial<Extracted>, freeText: string, today: string)
     ...e,
     serviceId,
     mode,
-    date: e.date ?? nextWeekday(today, 6),
+    date: e.date ?? nextWeekday(addDays(today, 1), 6), // next Saturday, never today
     slot: e.slot ?? (mode === "monk_comes" ? "morning" : undefined),
     area: e.area ?? (mode === "monk_comes" ? "nimman" : undefined),
     language: e.language ?? "en",

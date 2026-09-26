@@ -50,11 +50,14 @@ export function parseText(text: string, today: string): Partial<Extracted> {
   else if (/\bmorning\b/i.test(text)) out.slot = "morning";
 
   const iso = text.match(/\b(\d{4}-\d{2}-\d{2})\b/);
+  const monthDay = parseMonthDay(text, today);
   const day = text.match(/\b(mon|tue|wed|thu|fri|sat|sun)[a-z]*\b/i);
   if (iso && isIsoDate(iso[1])) out.date = iso[1];
+  else if (monthDay) out.date = monthDay; // "Mon Sep 28": trust the date over a weekday
   else if (/\b(today|tonight)\b/i.test(text)) out.date = today;
   else if (/\btomorrow\b/i.test(text)) out.date = addDays(today, 1);
   else if (/\bweekend\b/i.test(text)) out.date = nextWeekday(today, 6);
+  else if (/\bnext week\b/i.test(text)) out.date = nextWeekday(addDays(today, 1), 1);
   else if (day) out.date = nextWeekday(today, weekdayIndex(day[1]));
 
   if (/\bthai\b/i.test(text) && /\b(in|speak|speaks|language)\b.*\bthai\b/i.test(text)) out.language = "th";
@@ -70,3 +73,19 @@ export function parseText(text: string, today: string): Partial<Extracted> {
 
 export const SLOTS: Slot[] = ["morning", "afternoon", "evening"];
 export const AREAS: Area[] = AREA_RULES.map(([, a]) => a);
+
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+/** "Sep 28", "28 Sep", "3 October" → the next such date on or after today. */
+function parseMonthDay(text: string, today: string): string | undefined {
+  const m =
+    text.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})\b/i) ??
+    text.match(/\b(\d{1,2})\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b/i);
+  if (!m) return undefined;
+  const [monthName, day] = /\d/.test(m[1]) ? [m[2], Number(m[1])] : [m[1], Number(m[2])];
+  const month = MONTHS.indexOf(monthName.toLowerCase().slice(0, 3)) + 1;
+  if (!month || day < 1 || day > 31) return undefined;
+  const year = Number(today.slice(0, 4));
+  const fmt = (y: number) => `${y}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  return fmt(year) >= today ? fmt(year) : fmt(year + 1);
+}
