@@ -184,6 +184,27 @@ describe("IllustratedMap", () => {
     expect(css).toMatch(/prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.sm-isym--hot::before \{ animation: none; \}/);
   });
 
+  it("stacks name badges above muted symbols and matched symbols above both", () => {
+    const html = renderToStaticMarkup(createElement(IllustratedMap, { temples, matches, painting: null }));
+    const z = (re: RegExp) => Number(html.match(re)?.[1]);
+    const label = z(/class="sm-ilabel pointer-events-none absolute z-\[(\d)\]/);
+    const hot = z(/class="absolute z-\[(\d)\]"[^>]*>\s*<button[^>]*data-hot="true"/);
+    const muted = z(/class="absolute z-\[(\d)\]"[^>]*>\s*<button(?![^>]*data-hot)[^>]*data-temple=/);
+    expect(label).toBeGreaterThan(muted);
+    expect(hot).toBeGreaterThan(label);
+  });
+
+  it("keeps every area badge clear of the Chiang Mai cartouche (desktop split column)", () => {
+    const html = renderToStaticMarkup(createElement(IllustratedMap, { temples, matches, painting: null, fill: true }));
+    const badges = [...html.matchAll(/style="left:([\d.]+)px;top:([\d.]+)px"[^>]*>([^<]+)<\/span>/g)];
+    expect(badges.length).toBeGreaterThan(3);
+    for (const [, left, top, name] of badges) {
+      const w = name.length * 10.2 + 24;
+      const overlaps = Number(left) - w / 2 < 220 && Number(top) - 12 < 60;
+      expect(overlaps, name).toBe(false);
+    }
+  });
+
   it("opens the popover with monk name, distance, next slot and an Invite link", () => {
     const id = hotIds[0];
     const cards = matches.filter((m) => m.templeId === id);

@@ -47,7 +47,13 @@ export default function MeditationWait({ message = "Finding your monk…", onCyc
         ))}
       </div>
 
-      <p className="relative mt-8 text-sm uppercase tracking-[0.3em] text-muted">{message}</p>
+      {/* The page's h1 is sr-only (app/matching/page.tsx), so this visible line is presentation only. */}
+      <p className="relative mt-8 text-balance text-center text-2xl font-semibold tracking-tight text-navy lg:text-3xl" aria-hidden>
+        {message}
+      </p>
+      <p className="relative mt-1 text-base italic text-muted" aria-hidden>
+        Meanwhile…
+      </p>
 
       <div className="relative mt-4 flex w-full flex-col items-center">
         {/* breath ring behind the monk, in step with his chest */}
@@ -58,7 +64,7 @@ export default function MeditationWait({ message = "Finding your monk…", onCyc
           data-phase={phase}
           aria-hidden
         />
-        <SeatedMonk breathing inhaleMs={WAIT_INHALE_MS} exhaleMs={WAIT_EXHALE_MS} onPhase={setPhase} onCycle={onCycle} className="relative w-56 drop-shadow-[0_14px_30px_rgba(232,121,43,0.3)] lg:w-72" />
+        <SeatedMonk breathing air inhaleMs={WAIT_INHALE_MS} exhaleMs={WAIT_EXHALE_MS} onPhase={setPhase} onCycle={onCycle} className="relative w-56 drop-shadow-[0_14px_30px_rgba(232,121,43,0.3)] lg:w-72" />
         <p className="relative mt-2 text-3xl font-semibold text-navy" role="status" aria-live="polite">
           {WORD[phase]}
         </p>
@@ -84,7 +90,18 @@ export default function MeditationWait({ message = "Finding your monk…", onCyc
           <path d="M8 12 Q12 56 60 56 Q108 56 112 12 Z" fill="url(#bowl)" />
           <ellipse cx="60" cy="12" rx="44" ry="5" fill="#0f1a2e" opacity="0.55" />
         </svg>
-        <span className="text-sm text-muted">{merit ? `Tap the bowl · ${merit} merit` : "Tap the bowl"}</span>
+        <span className="text-sm text-muted">Tap the bowl</span>
+        {/* Height reserved so the first tap does not push the page. Keyed by the count so each tap pops. */}
+        <span className="flex h-12 items-baseline justify-center gap-1.5" aria-live="polite">
+          {merit ? (
+            <>
+              <span key={merit} className="sm-pop inline-block text-5xl font-extrabold tabular-nums leading-none text-ember">
+                {merit}
+              </span>
+              <span className="text-base font-semibold text-ember">merit</span>
+            </>
+          ) : null}
+        </span>
       </button>
     </div>
   );

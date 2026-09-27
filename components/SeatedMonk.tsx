@@ -17,14 +17,25 @@ export type SeatedMonkProps = {
   exhaleMs: number;
   onCycle?: () => void;
   onPhase?: (phase: BreathPhase) => void;
+  /** Draw soft blue wisps of air flowing to the nose on the inhale and away on the exhale. */
+  air?: boolean;
   className?: string;
 };
+
+// Wisps of air that sweep in from the room around the body to the face; the inhale runs them
+// forward, the exhale runs the same dash backwards so the breath leaves the way it came.
+const AIR_PATHS = [
+  "M2 98 C18 72 32 94 50 78 C60 69 70 66 80 64",
+  "M10 30 C24 50 38 34 52 48 C60 56 70 60 80 62",
+  "M198 98 C182 72 168 94 150 78 C140 69 130 66 120 64",
+  "M190 30 C176 50 162 34 148 48 C140 56 130 60 120 62",
+];
 
 // Skin tones are not palette colours, so they are literal here; everything else is a token.
 const SKIN = "#f1c59b";
 const SKIN_SHADE = "#d99a6c";
 
-export default function SeatedMonk({ breathing, inhaleMs, exhaleMs, onCycle, onPhase, className = "" }: SeatedMonkProps) {
+export default function SeatedMonk({ breathing, inhaleMs, exhaleMs, onCycle, onPhase, air = false, className = "" }: SeatedMonkProps) {
   const [phase, setPhase] = useState<BreathPhase>("in");
 
   useEffect(() => {
@@ -64,6 +75,22 @@ export default function SeatedMonk({ breathing, inhaleMs, exhaleMs, onCycle, onP
       <ellipse cx="64" cy="188" rx="13" ry="7" fill={SKIN} />
       <ellipse cx="60" cy="189" rx="6" ry="3" fill={SKIN_SHADE} opacity="0.5" />
 
+      {air && breathing ? (
+        // Behind the body so each wisp disappears behind the head, as if drawn in at the nose.
+        // Keyed by phase so every inhale and exhale restarts the flow from its beginning.
+        <g key={phase} className="sm-air" data-phase={phase} fill="none" strokeLinecap="round">
+          {AIR_PATHS.map((d, i) => (
+            <path
+              key={d}
+              d={d}
+              pathLength={100}
+              className="stroke-air"
+              strokeWidth={i % 2 === 0 ? 3 : 2}
+              style={{ animationDuration: `${Math.round(ms * 0.8)}ms`, animationDelay: `${Math.round(ms * 0.12 * (i % 2))}ms` }}
+            />
+          ))}
+        </g>
+      ) : null}
       {/* breathing body: chest, shoulders, arms, neck and head rise together */}
       <g
         className="sm-seated-body"
