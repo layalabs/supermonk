@@ -143,7 +143,20 @@ export default function InviteChoices({ matches, extracted }: { matches: MatchCa
   const input = `min-h-11 rounded-card bg-navy-2 px-3 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember`;
   return (
     <div className="flex flex-col gap-3">
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div>
+        <h2 id="invite-choice-label" className="text-base font-semibold">
+          How would you like to invite?
+        </h2>
+        <p className="text-sm text-muted">Choose one.</p>
+      </div>
+      {/* One of two paths: an "or" chip sits in the gap between the cards (side by side or stacked). */}
+      <div role="group" aria-labelledby="invite-choice-label" className="relative grid gap-5 sm:grid-cols-2">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cream px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-muted ring-1 ring-navy/15"
+        >
+          or
+        </span>
         {(
           [
             ["outreach", "Let SuperMonk reach out for me", `We invite the ${Math.min(3, new Set(matches.map((m) => m.temple)).size)} best-fit temples and tell you who accepts first.`],
@@ -162,10 +175,19 @@ export default function InviteChoices({ matches, extracted }: { matches: MatchCa
                 setHandle("");
               }
             }}
-            className={`rounded-card p-4 text-left ring-1 transition ${open === p ? "bg-navy-2 ring-ember" : "bg-cream ring-navy/10 hover:ring-navy/25"} ${FOCUS_RING}`}
+            className={`flex items-start gap-3 rounded-card p-4 text-left transition ${open === p ? "bg-navy-2 ring-2 ring-ember" : "bg-navy-2/60 ring-1 ring-navy/15 hover:bg-navy-2 hover:ring-ember/50"} ${FOCUS_RING}`}
           >
-            <span className="block font-semibold">{title}</span>
-            <span className="mt-1 block text-sm text-muted">{sub}</span>
+            {/* radio-style marker: empty until chosen, filled ember when this path is open */}
+            <span
+              aria-hidden
+              className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ring-2 ${open === p ? "ring-ember" : "ring-navy/30"}`}
+            >
+              {open === p ? <span className="h-2.5 w-2.5 rounded-full bg-ember" /> : null}
+            </span>
+            <span>
+              <span className="block font-semibold">{title}</span>
+              <span className="mt-1 block text-sm text-muted">{sub}</span>
+            </span>
           </button>
         ))}
       </div>
