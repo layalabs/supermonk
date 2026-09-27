@@ -180,6 +180,13 @@ export default function IllustratedMap({
   const wrap = useRef<HTMLDivElement>(null);
   const buttons = useRef(new Map<string, HTMLButtonElement>());
   const [box, setBox] = useState({ w: DEFAULT_WIDTH, h: DEFAULT_HEIGHT });
+  const [halfViewport, setHalfViewport] = useState(DEFAULT_HEIGHT);
+  useEffect(() => {
+    const read = () => setHalfViewport(Math.round(window.innerHeight / 2));
+    read();
+    window.addEventListener("resize", read);
+    return () => window.removeEventListener("resize", read);
+  }, []);
   const [ownSelected, setOwnSelected] = useState<string | null>(initialSelected);
   const controlled = selectedProp !== undefined;
   const selected = controlled ? selectedProp : ownSelected;
@@ -204,7 +211,9 @@ export default function IllustratedMap({
   const compact = !fill && box.w < COMPACT_BELOW_PX;
   const containerWidth = box.w;
   const width = compact ? COMPACT_SCENE_PX : box.w;
-  const height = compact ? (COMPACT_SCENE_PX * COMPACT_VIEWBOX.height) / COMPACT_VIEWBOX.width : fill ? box.h : Math.round(box.w * 0.6);
+  // Outside the desktop column the map never exceeds half the small viewport (Stefan): a compact
+  // scene taller than that pans both ways inside a 50svh box; a wider one just gets shorter.
+  const height = compact ? (COMPACT_SCENE_PX * COMPACT_VIEWBOX.height) / COMPACT_VIEWBOX.width : fill ? box.h : Math.min(Math.round(box.w * 0.6), halfViewport);
   const vb = useMemo(() => (compact ? COMPACT_VIEWBOX : fitViewBox(width, height)), [compact, width, height]);
   const symbolPx = compact ? SYMBOL_PX.compact : SYMBOL_PX.full;
   const scale = width / vb.width;
@@ -214,7 +223,8 @@ export default function IllustratedMap({
     const el = scroller.current;
     if (!el || !compact) return;
     el.scrollLeft = (MOAT.x + MOAT.width / 2 - vb.x) * scale - containerWidth / 2;
-  }, [compact, vb.x, scale, containerWidth]);
+    el.scrollTop = (MOAT.y + MOAT.height / 2 - vb.y) * scale - el.clientHeight / 2;
+  }, [compact, vb.x, vb.y, scale, containerWidth]);
 
   const byTemple = useMemo(() => {
     const out: Record<string, MatchCard[]> = {};
@@ -292,7 +302,7 @@ export default function IllustratedMap({
     >
     <div
       ref={scroller}
-      className={`no-scrollbar w-full rounded-[12px] ${compact ? "overflow-x-auto" : "overflow-hidden"} ${fill ? "min-h-0 flex-1" : ""}`}
+      className={`no-scrollbar w-full rounded-[12px] ${compact ? "max-h-[50svh] overflow-auto" : "overflow-hidden"} ${fill ? "min-h-0 flex-1" : ""}`}
       data-compact={compact ? "true" : undefined}
     >
     <div ref={wrap} className="relative mx-auto overflow-hidden rounded-[12px] bg-[#f6ecd6]" style={{ width, height }}>

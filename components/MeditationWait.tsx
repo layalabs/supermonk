@@ -65,7 +65,13 @@ export default function MeditationWait({ message = "Finding your monk…", onCyc
           aria-hidden
         />
         <SeatedMonk breathing air inhaleMs={WAIT_INHALE_MS} exhaleMs={WAIT_EXHALE_MS} onPhase={setPhase} onCycle={onCycle} className="relative w-56 drop-shadow-[0_14px_30px_rgba(232,121,43,0.3)] lg:w-72" />
-        <p className="relative mt-2 text-3xl font-semibold text-navy" role="status" aria-live="polite">
+        {/* The word breathes too: it grows over the inhale and shrinks over the exhale (Stefan). */}
+        <p
+          className="sm-breath-word relative mt-2 text-3xl font-semibold text-navy"
+          style={{ transform: `scale(${phase === "in" ? 1.3 : 0.85})`, transitionDuration: `${phase === "in" ? WAIT_INHALE_MS : WAIT_EXHALE_MS}ms` }}
+          role="status"
+          aria-live="polite"
+        >
           {WORD[phase]}
         </p>
         <p className="relative mt-1 text-xs text-muted">3.5 s in · 4.5 s out</p>

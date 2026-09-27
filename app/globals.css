@@ -71,6 +71,11 @@ body {
   transition-property: transform;
   transition-timing-function: ease-in-out;
 }
+.sm-breath-word {
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
+  transform-origin: 50% 60%;
+}
 /* Breath air (SeatedMonk `air`): one short dash per wisp travels the path. pathLength is 100,
    so an offset of 40 hides the dash before the start and -100 hides it past the end. */
 @keyframes sm-air-in {
@@ -135,6 +140,7 @@ body {
   .sm-ring { animation: sm-fade 1s ease-out forwards; }
   .sm-seated-body { transition: none; transform: none !important; }
   .sm-air { display: none; }
+  .sm-breath-word { transition: none; transform: none !important; }
   .sm-pop { animation: none; }
   .sm-breath { transition-property: opacity; transform: translate(-50%, -50%) !important; }
   .sm-breath[data-phase="out"] { opacity: 0.55; }

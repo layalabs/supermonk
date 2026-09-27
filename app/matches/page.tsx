@@ -203,7 +203,7 @@ export default function MatchesPage() {
                     <IllustratedMap temples={ALL_TEMPLES} matches={resolved} selected={selected} onSelect={selectFromMap} fill={desktop} />
                   </div>
                 ) : (
-                  <div className="h-[420px] overflow-hidden rounded-[12px] bg-cream lg:h-auto lg:min-h-0 lg:flex-1">
+                  <div className="h-[min(420px,50svh)] overflow-hidden rounded-[12px] bg-cream lg:h-auto lg:min-h-0 lg:flex-1">
                     <TempleMap temples={ALL_TEMPLES} highlights={highlights} />
                   </div>
                 )}

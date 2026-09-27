@@ -143,3 +143,14 @@ describe("results page toolbar", () => {
     expect(src).toMatch(/<div role="group" aria-labelledby="filters-label">\s*<h2 id="filters-label"[^>]*>\s*Filter\s*<\/h2>/);
   });
 });
+
+describe("map height on phones and tablets", () => {
+  // Stefan 2026-09-27: the map is never taller than 50svh outside the desktop column.
+  it("caps the compact scroller, the tablet scene and the street map at half the viewport", () => {
+    const map = readFileSync(path.join(process.cwd(), "components/IllustratedMap.tsx"), "utf8");
+    expect(map).toContain('compact ? "max-h-[50svh] overflow-auto"');
+    expect(map).toMatch(/Math\.min\(Math\.round\(box\.w \* 0\.6\), halfViewport\)/);
+    const page = readFileSync(path.join(process.cwd(), "app/matches/page.tsx"), "utf8");
+    expect(page).toContain("h-[min(420px,50svh)]");
+  });
+});

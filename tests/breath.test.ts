@@ -177,6 +177,13 @@ describe("MeditationWait", () => {
     expect(html).toContain('class="sm-air"');
   });
 
+  it("the Inhale / Exhale word grows on the inhale and shrinks on the exhale, still under reduced motion", () => {
+    const html = renderToStaticMarkup(createElement(MeditationWait));
+    expect(html).toMatch(/class="sm-breath-word[^"]*" style="transform:scale\(1\.3\);transition-duration:3500ms"[^>]*>Inhale…/);
+    const css = readFileSync(path.join(process.cwd(), "app/globals.css"), "utf8");
+    expect(css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"))).toContain(".sm-breath-word { transition: none; transform: none !important; }");
+  });
+
   it("reserves the merit counter's height before the first tap", () => {
     const html = renderToStaticMarkup(createElement(MeditationWait));
     expect(html).toContain("Tap the bowl");
