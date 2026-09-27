@@ -41,4 +41,13 @@ describe("onboarding form languages", () => {
   it("both languages have the same keys", () => {
     expect(Object.keys(ONBOARD_COPY.en).sort()).toEqual(Object.keys(ONBOARD_COPY.th).sort());
   });
+
+  it("office lists monks as one field each with an 'Add monk' button, in both languages (Stefan)", () => {
+    const en = render("u=U1&role=office&t=tok&lang=en");
+    expect(en).not.toContain("<textarea");
+    expect(en.match(/placeholder="Monk&#x27;s name"/g)).toHaveLength(1);
+    expect(en).toMatch(/<button type="button"[^>]*>.*<\/svg>Add monk<\/button>/);
+    expect(render("u=U1&role=office&t=tok")).toContain(">เพิ่มพระ</button>");
+    expect(render("u=U1&role=monk&t=tok&lang=en")).not.toContain("Add monk");
+  });
 });

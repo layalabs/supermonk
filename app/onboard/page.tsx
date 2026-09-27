@@ -48,7 +48,7 @@ function Onboard() {
   const [ar, setAr] = useState<string[]>([]);
   const [langs, setLangs] = useState<string[]>([]);
   const [weekly, setWeekly] = useState<Record<string, Slot[]>>({});
-  const [monks, setMonks] = useState("");
+  const [monks, setMonks] = useState<string[]>([""]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
@@ -72,7 +72,7 @@ function Onboard() {
           areas: ar,
           languages: langs,
           weekly,
-          ...(role === "office" && { monks: monks.split("\n").map((n) => ({ name: n })) }),
+          ...(role === "office" && { monks: monks.map((n) => n.trim()).filter(Boolean).map((n) => ({ name: n })) }),
         },
       }),
     });
@@ -132,10 +132,43 @@ function Onboard() {
 
       {role === "office" ? (
         <Card>
-          <label className="flex flex-col gap-1">
-            <span className="text-sm text-muted">{c.monks}</span>
-            <textarea value={monks} onChange={(e) => setMonks(e.target.value)} rows={4} className="rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember" />
-          </label>
+          {/* One field per monk plus "Add monk" (Stefan), instead of a one-per-line text area. */}
+          <fieldset className="flex flex-col gap-2">
+            <legend className="mb-1 text-sm text-muted">{c.monks}</legend>
+            {monks.map((m, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <input
+                  value={m}
+                  onChange={(e) => setMonks(monks.map((x, j) => (j === i ? e.target.value : x)))}
+                  placeholder={c.monkName1}
+                  aria-label={`${c.monkName1} ${i + 1}`}
+                  className="min-w-0 flex-1 rounded-xl bg-navy-2 px-3 py-2 text-navy ring-1 ring-navy/15 focus:outline-none focus:ring-2 focus:ring-ember"
+                />
+                {monks.length > 1 ? (
+                  <button
+                    type="button"
+                    onClick={() => setMonks(monks.filter((_, j) => j !== i))}
+                    aria-label={`${c.removeMonk} ${m || `${c.monkName1} ${i + 1}`}`}
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted hover:bg-navy/5 hover:text-navy ${FOCUS_RING}`}
+                  >
+                    <svg viewBox="0 0 20 20" className="h-4 w-4" aria-hidden>
+                      <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                ) : null}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => setMonks([...monks, ""])}
+              className={`flex min-h-11 items-center gap-2 self-start rounded-full px-3 font-semibold text-ember hover:bg-saffron/10 ${FOCUS_RING}`}
+            >
+              <svg viewBox="0 0 20 20" className="h-5 w-5" aria-hidden>
+                <path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+              </svg>
+              {c.addMonk}
+            </button>
+          </fieldset>
         </Card>
       ) : null}
 

@@ -126,6 +126,7 @@ describe("SeatedMonk", () => {
     expect(html).toContain('data-phase="in"');
     expect(html).toContain(`transition-duration:${IN}ms`);
     expect(html).toContain("fill-cape/85"); // the small cape stays
+    expect(html).toContain('<circle cx="100" cy="58" r="56" class="fill-saffron/12"></circle>'); // lighter, larger halo (Stefan)
     expect(html).not.toMatch(/mask/i);
   });
 

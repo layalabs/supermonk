@@ -63,7 +63,7 @@ export default function SeatedMonk({ breathing, inhaleMs, exhaleMs, onCycle, onP
   return (
     <svg viewBox="0 0 200 220" className={`block ${className}`} aria-hidden data-breathing={breathing || undefined} data-phase={breathing ? phase : undefined}>
       {/* halo */}
-      <circle cx="100" cy="58" r="44" className="fill-saffron/25" />
+      <circle cx="100" cy="58" r="56" className="fill-saffron/12" />
       {/* cape, resting behind the shoulders and pooling to the left */}
       <path d="M126 96 C96 78 58 84 34 110 C22 124 18 146 26 168 C44 150 68 146 96 152 C112 156 128 150 132 132 Z" className="fill-cape/85" />
       <path d="M124 100 C98 88 66 92 44 114 C34 126 32 142 36 158 C52 146 72 142 96 148 C110 152 122 146 126 130 Z" className="fill-orange/60" />

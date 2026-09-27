@@ -80,7 +80,7 @@ export default function MonkCard({ card, top }: { card: MatchCard; top?: boolean
           </dd>
         </div>
         <div>
-          <dt className="text-xs text-muted">Suggested</dt>
+          <dt className="text-xs text-muted">Suggested donation</dt>
           <dd>{lo === 0 ? `up to ${baht(hi)}` : `${baht(lo)}–${baht(hi)}`}</dd>
         </div>
       </dl>
