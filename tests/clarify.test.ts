@@ -63,6 +63,36 @@ describe("parseText", () => {
   });
 });
 
+describe("weekday words (techno 2026-09-27: 'chat with a monk' skipped the date question)", () => {
+  const today = "2026-09-27";
+  it.each([
+    "I am looking to chat with a monk about Buddhist traditions in Thailand.",
+    "Can a monk bless my new condo?",
+    "Talk with the monks about monastic life",
+    "A sunny spot for a satisfying meditation",
+    "Friendly monks, fresh fries and the suns of Thailand",
+  ])("finds no date in %j", (text) => {
+    expect(parseText(text, today).date).toBeUndefined();
+  });
+
+  it.each([
+    ["house blessing on Monday", "2026-09-28"],
+    ["chat on mon morning", "2026-09-28"],
+    ["this Sat. please", "2026-10-03"],
+    ["Wednesday evening", "2026-09-30"],
+    ["thurs afternoon", "2026-10-01"],
+    ["next tues", "2026-09-29"],
+  ])("still reads %j as a weekday", (text, date) => {
+    expect(parseText(text, today).date).toBe(date);
+  });
+
+  it("asks for the date when a monk chat has none", async () => {
+    const r = await clarify([{ role: "user", content: "I am looking to chat with a monk about Buddhist traditions in Thailand." }], {}, fixedAdapter, today);
+    expect(r.ready).toBe(false);
+    expect(r.question).toBeTruthy();
+  });
+});
+
 describe("sanitize", () => {
   it("drops unknown enums, past dates and bad guests", () => {
     expect(

@@ -51,7 +51,8 @@ export function parseText(text: string, today: string): Partial<Extracted> {
 
   const iso = text.match(/\b(\d{4}-\d{2}-\d{2})\b/);
   const monthDay = parseMonthDay(text, today);
-  const day = text.match(/\b(mon|tue|wed|thu|fri|sat|sun)[a-z]*\b/i);
+  // Whole weekday names or their short forms only: a bare prefix read "monk" as Monday and "sunny" as Sunday.
+  const day = text.match(/\b(mon(?:day)?|tue(?:s(?:day)?)?|wed(?:nesday)?|thu(?:r(?:s(?:day)?)?)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?)\b/i);
   if (iso && isIsoDate(iso[1])) out.date = iso[1];
   else if (monthDay) out.date = monthDay; // "Mon Sep 28": trust the date over a weekday
   else if (/\b(today|tonight)\b/i.test(text)) out.date = today;
