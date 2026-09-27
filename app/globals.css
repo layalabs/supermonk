@@ -19,7 +19,7 @@
   --color-rice: #8fb27a;
   --color-rice-deep: #4a6a36; /* rice as text on cream: 5.72:1 */
   --color-mist: #bfd6e4;
-  --color-air: #6ea6d4; /* breath wisps on the waiting screen; decorative, never text */
+  --color-air: #3f8fd8; /* breath wisps on the waiting screen; decorative, never text */
   --radius-card: 16px;
   --font-sans: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
   --breakpoint-lg: 64rem;
@@ -72,25 +72,26 @@ body {
   transition-timing-function: ease-in-out;
 }
 /* Breath air (SeatedMonk `air`): one short dash per wisp travels the path. pathLength is 100,
-   so an offset of 34 hides the dash before the start and -100 hides it past the end. */
+   so an offset of 40 hides the dash before the start and -100 hides it past the end. */
 @keyframes sm-air-in {
-  0% { stroke-dashoffset: 34; opacity: 0; }
-  20% { opacity: 0.75; }
-  55% { opacity: 0.75; }
+  0% { stroke-dashoffset: 40; opacity: 0; }
+  15% { opacity: 1; }
+  70% { opacity: 1; }
   100% { stroke-dashoffset: -100; opacity: 0; }
 }
 @keyframes sm-air-out {
   0% { stroke-dashoffset: -100; opacity: 0; }
-  45% { opacity: 0.6; }
-  80% { opacity: 0.6; }
-  100% { stroke-dashoffset: 34; opacity: 0; }
+  30% { opacity: 0.9; }
+  85% { opacity: 0.9; }
+  100% { stroke-dashoffset: 40; opacity: 0; }
 }
 .sm-air {
-  filter: blur(0.35px);
+  /* a cream halo lifts the blue off the saffron robe and the skin */
+  filter: drop-shadow(0 0 1.5px rgb(255 253 248 / 0.95)) drop-shadow(0 0 4px rgb(63 143 216 / 0.45));
 }
 .sm-air path {
-  stroke-dasharray: 34 166;
-  stroke-dashoffset: 34;
+  stroke-dasharray: 40 160;
+  stroke-dashoffset: 40;
   opacity: 0;
   animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1);
   animation-fill-mode: both;

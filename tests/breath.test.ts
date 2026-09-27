@@ -135,15 +135,15 @@ describe("SeatedMonk", () => {
     expect(html).toContain("scale(1, 1)");
   });
 
-  it("draws the blue breath air only when asked, behind the body, timed to the phase", () => {
+  it("draws the blue breath air only when asked, over the body, timed to the phase", () => {
     const plain = renderToStaticMarkup(createElement(SeatedMonk, { breathing: true, inhaleMs: IN, exhaleMs: OUT }));
     expect(plain).not.toContain("sm-air");
     const html = renderToStaticMarkup(createElement(SeatedMonk, { breathing: true, air: true, inhaleMs: IN, exhaleMs: OUT }));
     expect(html).toContain('class="sm-air" data-phase="in"');
     expect(html.match(/class="stroke-air"/g)).toHaveLength(4);
     expect(html).toContain(`animation-duration:${Math.round(IN * 0.8)}ms`);
-    // behind the breathing body, so each wisp disappears behind the head
-    expect(html.indexOf("sm-air")).toBeLessThan(html.indexOf("sm-seated-body"));
+    // in front of the breathing body, so the wisps visibly reach the nose
+    expect(html.indexOf("sm-air")).toBeGreaterThan(html.indexOf("sm-seated-body"));
     const still = renderToStaticMarkup(createElement(SeatedMonk, { breathing: false, air: true, inhaleMs: IN, exhaleMs: OUT }));
     expect(still).not.toContain("sm-air");
   });
