@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Card, ErrorNote, GhostButton, Pill } from "@/components/ui";
+import { Card, ErrorNote, FOCUS_RING, GhostButton, Pill } from "@/components/ui";
 import type { OutboxEntry } from "@/lib/line/adapter";
 import type { SmsEntry } from "@/lib/line/sms";
 import type { HostMessage } from "@/lib/outreach/notify";
@@ -65,7 +65,17 @@ export default function DevLine() {
         ))}
       </div>
       <div className="grid grid-cols-2 gap-2">
-        <GhostButton onClick={() => void send("follow")}>Add the Official Account</GhostButton>
+        {/* LINE's add-friend green, deepened from #06C755 so white text passes AA (5.2:1). */}
+        <button
+          type="button"
+          onClick={() => void send("follow")}
+          className={`flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#047E36] px-4 py-2 font-semibold text-white shadow-sm transition hover:bg-[#036B2E] active:scale-[0.98] ${FOCUS_RING}`}
+        >
+          Add the Official Account
+          <svg viewBox="0 0 20 20" className="h-5 w-5" aria-hidden>
+            <path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+          </svg>
+        </button>
         <GhostButton onClick={() => void send("message")}>Say สวัสดี</GhostButton>
       </div>
       {error ? <ErrorNote message={error} /> : null}

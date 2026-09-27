@@ -120,3 +120,14 @@ describe("chat answer pills", () => {
     expect(src).toMatch(/<form\s+className="sticky bottom-10 mt-auto/);
   });
 });
+
+describe("mock LINE add button", () => {
+  // Stefan 2026-09-27: LINE green with a + on the right; the green is deepened so white text passes AA.
+  it("is LINE green with white text and a trailing + icon", () => {
+    const src = readFileSync(path.join(process.cwd(), "app/dev/line/page.tsx"), "utf8");
+    const btn = src.slice(src.indexOf('onClick={() => void send("follow")}'), src.indexOf("</button>", src.indexOf('send("follow")')));
+    expect(btn).toContain("bg-[#047E36]");
+    expect(btn).toContain("text-white");
+    expect(btn.indexOf("Add the Official Account")).toBeLessThan(btn.indexOf('d="M10 4v12M4 10h12"'));
+  });
+});
