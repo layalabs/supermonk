@@ -150,7 +150,7 @@ export default function InviteChoices({ matches, extracted }: { matches: MatchCa
         <p className="text-sm text-muted">Choose one.</p>
       </div>
       {/* One of two paths: an "or" chip sits in the gap between the cards (side by side or stacked). */}
-      <div role="group" aria-labelledby="invite-choice-label" className="relative grid gap-5 sm:grid-cols-2">
+      <div role="group" aria-labelledby="invite-choice-label" className="relative grid gap-x-9 gap-y-12 sm:grid-cols-2">
         <span
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cream px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-muted ring-1 ring-navy/15"
