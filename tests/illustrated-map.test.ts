@@ -6,6 +6,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import IllustratedMap, { COMPACT_VIEWBOX, CORE_VIEWBOX, fitViewBox, handleMapKey, type ResolvedMatch } from "@/components/IllustratedMap";
 import TempleCard, { groupByTemple, templeCardId } from "@/components/TempleCard";
+import { MONK_PHOTO, MONKS_WITH_PHOTO, monkPhotoSrc } from "@/components/MonkPhoto";
 import { SYMBOL_IDS, TEMPLE_SYMBOLS, TempleGlyph } from "@/components/illustrated/templeSymbols";
 import { boundsRect, layoutSymbols, MAP_BOUNDS, project, PX_PER_KM, unproject, VIEW } from "@/lib/map/projection";
 import { haversineKm } from "@/lib/geo";
@@ -322,7 +323,10 @@ describe("temple list (results column)", () => {
   it("each matched monk has the photo avatar and a full-width Invite row under the details (Stefan)", () => {
     const g = groups[0];
     const html = renderToStaticMarkup(createElement(TempleCard, { group: g, topMonkId: result.matches[0].monkId }));
-    expect(html.match(/<img src="\/monks\/face.jpg" alt="" title="AI-generated photo · fictional monk"/g)).toHaveLength(g.cards.length);
+    for (const c of g.cards) expect(html).toContain(`<img src="${monkPhotoSrc(c.monkId)}" alt="" title="AI-generated photo · fictional monk"`);
+    expect(monkPhotoSrc("monk_01")).toBe("/monks/monk_01.jpg");
+    expect(monkPhotoSrc("monk_40")).toBe(MONK_PHOTO);
+    for (const id of MONKS_WITH_PHOTO) expect(existsSync(path.join(process.cwd(), "public", "monks", `${id}.jpg`)), id).toBe(true);
     expect(html).toMatch(/<li class="flex flex-wrap[^"]*">/);
     expect(html).toMatch(/<a class="[^"]*w-full[^"]*justify-center[^"]*" href="\/monk\/[^"]+">Invite<\/a>/);
     expect(existsSync(path.join(process.cwd(), "public/monks/face.jpg"))).toBe(true);

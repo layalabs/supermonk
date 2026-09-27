@@ -35,7 +35,7 @@ export default function MonkCard({ card, top }: { card: MatchCard; top?: boolean
           className="bg-brand flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full text-2xl font-bold text-navy shadow-md shadow-orange/20 lg:h-24 lg:w-24 lg:text-4xl"
           aria-hidden
         >
-          <MonkPhoto />
+          <MonkPhoto monkId={card.monkId} />
         </div>
         <div>
           <h2 className="text-xl font-semibold leading-tight lg:text-2xl">{card.name}</h2>

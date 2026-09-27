@@ -22,7 +22,7 @@ export default function TemplePopover({ temple, cards, onInvite }: { temple: Tem
         {cards.map((c) => (
           <li key={c.monkId} className="flex items-center gap-3 border-t border-navy/10 pt-3">
             <div className="bg-brand flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-bold text-navy" aria-hidden>
-              <MonkPhoto />
+              <MonkPhoto monkId={c.monkId} />
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate font-semibold leading-tight">{c.name}</p>

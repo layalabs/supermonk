@@ -162,7 +162,7 @@ export default function MonkPage() {
             className="bg-brand flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full text-3xl font-bold text-navy shadow-md shadow-orange/20 lg:h-32 lg:w-32 lg:text-5xl"
             aria-hidden
           >
-            <MonkPhoto />
+            <MonkPhoto monkId={monk.id} />
           </div>
           <div>
             <h1 className="text-2xl font-bold leading-tight lg:text-3xl">{monk.name}</h1>

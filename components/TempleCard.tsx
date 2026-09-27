@@ -88,7 +88,7 @@ export default function TempleCard({
           return (
             <li key={c.monkId} className="flex flex-wrap items-center gap-3 py-3 first:pt-1 last:pb-1">
               <div className="bg-brand flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-base font-bold text-navy" aria-hidden>
-                <MonkPhoto />
+                <MonkPhoto monkId={c.monkId} />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
