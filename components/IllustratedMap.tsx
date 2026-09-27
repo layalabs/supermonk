@@ -131,6 +131,8 @@ const AREAS: { name: string; thai: string; at: Point }[] = [
   { name: "Doi Suthep", thai: "ดอยสุเทพ", at: project(18.821, 98.937) },
   { name: "Saraphi", thai: "สารภี", at: project(18.762, 99.018) },
 ];
+/** Top-left "Chiang Mai" cartouche footprint in px (left-2 top-2 plus its two text lines). */
+const CARTOUCHE_PX = { w: 220, h: 60 };
 const badgeBox = (a: { name: string; at: Point }, vb: ViewBox, scale: number, compact: boolean): Box => {
   const w = a.name.length * (compact ? 7.2 : 10.2) + (compact ? 16 : 24);
   const h = compact ? 16 : 24;
@@ -231,7 +233,9 @@ export default function IllustratedMap({
     for (const a of AREAS) {
       const b = badgeBox(a, vb, scale, compact);
       const cx = Math.min(width - b.w / 2 - 6, Math.max(b.w / 2 + 6, b.x + b.w / 2));
-      const cy = b.y + b.h / 2;
+      let cy = b.y + b.h / 2;
+      // Slide a badge that would sit under the "Chiang Mai" cartouche down to just below it.
+      if (!compact && cx - b.w / 2 < CARTOUCHE_PX.w && cy - b.h / 2 < CARTOUCHE_PX.h) cy = CARTOUCHE_PX.h + b.h / 2 + 4;
       if (cy < 12 || cy > height - 12 || Math.abs(cx - (b.x + b.w / 2)) > b.w) continue;
       out.push({ name: a.name, x: cx, y: cy, w: b.w });
     }
@@ -490,7 +494,7 @@ export default function IllustratedMap({
         return (
           <span
             key={`label-${t.id}`}
-            className={`sm-ilabel pointer-events-none absolute z-[2] hidden flex-col items-center justify-center whitespace-nowrap rounded-md bg-[#fffdf8]/90 px-2 leading-tight text-navy shadow-sm ring-1 ring-navy/10 md:flex ${hot ? "font-bold ring-saffron/60" : "font-medium opacity-90"}`}
+            className={`sm-ilabel pointer-events-none absolute z-[3] hidden flex-col items-center justify-center whitespace-nowrap rounded-md bg-[#fffdf8]/90 px-2 leading-tight text-navy shadow-sm ring-1 ring-navy/10 md:flex ${hot ? "font-bold ring-saffron/60" : "font-medium opacity-90"}`}
             style={{ left: box.x, top: box.y, width: box.w, height: box.h }}
             data-side={box.side}
             aria-hidden="true"
@@ -512,7 +516,7 @@ export default function IllustratedMap({
         return (
           <div
             key={t.id}
-            className={`absolute ${hot ? "z-[3]" : "z-[2]"}`}
+            className={`absolute ${hot ? "z-[4]" : "z-[2]"}`}
             style={{ left: pct(p.at.x, vb.x, vb.width), top: pct(p.at.y, vb.y, vb.height), transform: "translate(-50%, -100%)" }}
           >
             <button

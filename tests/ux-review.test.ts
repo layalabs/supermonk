@@ -1,4 +1,4 @@
-import { readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -108,5 +108,15 @@ describe("headings and names", () => {
   it("Header logo link has an accessible name even without the wordmark", () => {
     const html = renderToStaticMarkup(createElement(Header, { title: "Verify" }));
     expect(html).toContain('aria-label="SuperMonk home"');
+  });
+});
+
+describe("chat answer pills", () => {
+  it("sit right under the last message on every size, not pinned to the bottom", () => {
+    const src = readFileSync(path.join(process.cwd(), "app/chat/page.tsx"), "utf8");
+    const pills = src.slice(src.indexOf("flow.pills?.length ?"), src.indexOf("<form"));
+    expect(pills).not.toContain("sticky");
+    expect(src).not.toMatch(/flex flex-1 flex-col gap-3/);
+    expect(src).toMatch(/<form\s+className="sticky bottom-10 mt-auto/);
   });
 });

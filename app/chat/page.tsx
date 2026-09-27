@@ -103,8 +103,8 @@ export default function ChatPage() {
       <section className="flex flex-1 flex-col">
         <Header back="/" />
         <h1 className="sr-only">Tell SuperMonk more</h1>
-        {/* lg:flex-none keeps the answer pills right under the last bubble on the projector instead of ~480 px down. */}
-        <div className="flex flex-1 flex-col gap-3 lg:flex-none">
+        {/* The answer pills sit right under the last bubble on every size; the answer box keeps the bottom (mt-auto). */}
+        <div className="flex flex-col gap-3">
           {flow.messages.map((m, i) => (
             <Bubble key={i} from={m.role}>
               {m.content}
@@ -113,9 +113,9 @@ export default function ChatPage() {
           {busy ? (
             <Bubble from="assistant">
               <span className="inline-flex gap-1" aria-label="SuperMonk is thinking">
-                <span className="motion-safe:animate-bounce">•</span>
-                <span className="motion-safe:animate-bounce [animation-delay:120ms]">•</span>
-                <span className="motion-safe:animate-bounce [animation-delay:240ms]">•</span>
+                <span className="motion-safe:animate-pulse">•</span>
+                <span className="motion-safe:animate-pulse [animation-delay:300ms]">•</span>
+                <span className="motion-safe:animate-pulse [animation-delay:600ms]">•</span>
               </span>
             </Bubble>
           ) : null}
@@ -129,7 +129,7 @@ export default function ChatPage() {
         </div>
 
         {!busy && flow.pills?.length ? (
-          <div className="sticky bottom-10 -mx-5 mt-4 flex gap-2 no-scrollbar overflow-x-auto px-5 pb-2 lg:mx-0 lg:flex-wrap lg:px-0">
+          <div className="-mx-5 mt-3 flex gap-2 no-scrollbar overflow-x-auto px-5 pb-2 lg:mx-0 lg:flex-wrap lg:px-0">
             {flow.pills.map((p) => (
               <Pill key={p} onClick={() => answer(p)}>
                 {p}
@@ -140,7 +140,7 @@ export default function ChatPage() {
         ) : null}
 
         <form
-          className="sticky bottom-10 mt-2 flex gap-2"
+          className="sticky bottom-10 mt-auto flex gap-2 pt-2"
           onSubmit={(e) => {
             e.preventDefault();
             answer(text);
