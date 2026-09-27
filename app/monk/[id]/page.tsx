@@ -7,6 +7,7 @@ import { deviceId, getJson, postJson, readFlow, type Flow } from "@/lib/client/s
 import { baht, defaultDonation, denominations, LANGUAGE_LABEL, shortDate, SLOT_LABEL } from "@/lib/labels";
 import { verificationGate } from "@/lib/verify/client";
 import type { Availability, InviteResponse, Language, Monk, Service, ServiceId, Slot, Temple } from "@/lib/types";
+import MonkPhoto from "@/components/MonkPhoto";
 
 type MonkResponse = { monk: Monk; temple: Temple | null; services: Service[]; availability: Availability[] };
 const SLOTS: Slot[] = ["morning", "afternoon", "evening"];
@@ -158,10 +159,10 @@ export default function MonkPage() {
         <Header back="/matches" />
         <div className="flex items-center gap-4 lg:items-start lg:gap-6">
           <div
-            className="bg-brand flex h-20 w-20 shrink-0 items-center justify-center rounded-full text-3xl font-bold text-navy shadow-md shadow-orange/20 lg:h-32 lg:w-32 lg:text-5xl"
+            className="bg-brand flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full text-3xl font-bold text-navy shadow-md shadow-orange/20 lg:h-32 lg:w-32 lg:text-5xl"
             aria-hidden
           >
-            {monk.name.replace(/^Phra\s+/, "").charAt(0)}
+            <MonkPhoto />
           </div>
           <div>
             <h1 className="text-2xl font-bold leading-tight lg:text-3xl">{monk.name}</h1>

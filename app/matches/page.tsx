@@ -140,7 +140,7 @@ export default function MatchesPage() {
             <h1 className="text-2xl font-bold lg:text-3xl">
               {flow.matches!.length ? `${flow.matches!.length} monks for you` : "No monks found"}
             </h1>
-            <p className="mt-1 text-sm text-muted">
+            <p className="mt-1.5 text-base font-semibold text-ember lg:text-lg">
               {e.serviceId ? SERVICE_NAME[e.serviceId] : ""}
               {e.date ? ` · ${shortDate(e.date)}` : ""}
               {e.slot ? ` · ${SLOT_LABEL[e.slot]}` : ""}

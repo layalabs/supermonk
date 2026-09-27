@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { createElement } from "react";
@@ -317,6 +317,15 @@ describe("temple list (results column)", () => {
     expect(html).toContain("ring-saffron");
     const plain = renderToStaticMarkup(createElement(TempleCard, { group: g, selected: false }));
     expect(plain).not.toContain("aria-current");
+  });
+
+  it("each matched monk has the photo avatar and a full-width Invite row under the details (Stefan)", () => {
+    const g = groups[0];
+    const html = renderToStaticMarkup(createElement(TempleCard, { group: g, topMonkId: result.matches[0].monkId }));
+    expect(html.match(/<img src="\/monks\/face.jpg" alt="" title="AI-generated photo · fictional monk"/g)).toHaveLength(g.cards.length);
+    expect(html).toMatch(/<li class="flex flex-wrap[^"]*">/);
+    expect(html).toMatch(/<a class="[^"]*w-full[^"]*justify-center[^"]*" href="\/monk\/[^"]+">Invite<\/a>/);
+    expect(existsSync(path.join(process.cwd(), "public/monks/face.jpg"))).toBe(true);
   });
 
   it("shows the choosing signals and nothing else (no address, no rating)", () => {

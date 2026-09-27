@@ -5,6 +5,7 @@ import { Chip, FOCUS_RING } from "@/components/ui";
 import { AREA_CENTROIDS } from "@/lib/geo";
 import { LANGUAGE_LABEL, SERVICE_NAME, shortDate, SLOT_LABEL } from "@/lib/labels";
 import type { Area, Language, MatchCard, ServiceId, Slot, Temple } from "@/lib/types";
+import MonkPhoto from "@/components/MonkPhoto";
 
 // Results list for /matches: one card per temple that has matching monks, with the monks under
 // it. Shows only the signals people choose by (temple, area, monks, languages, slots, services);
@@ -85,9 +86,9 @@ export default function TempleCard({
         {cards.map((c) => {
           const monk = MONK.get(c.monkId);
           return (
-            <li key={c.monkId} className="flex items-center gap-3 py-3 first:pt-1 last:pb-1">
-              <div className="bg-brand flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-bold text-navy" aria-hidden>
-                {c.name.replace(/^Phra\s+/, "").charAt(0)}
+            <li key={c.monkId} className="flex flex-wrap items-center gap-3 py-3 first:pt-1 last:pb-1">
+              <div className="bg-brand flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-base font-bold text-navy" aria-hidden>
+                <MonkPhoto />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
@@ -108,7 +109,8 @@ export default function TempleCard({
               <Link
                 href={`/monk/${c.monkId}`}
                 onClick={(e) => e.stopPropagation()}
-                className={`bg-brand inline-flex min-h-11 shrink-0 items-center rounded-full px-3 py-1.5 text-xs font-bold text-navy shadow-sm shadow-orange/20 transition hover:brightness-105 active:scale-95 ${FOCUS_RING}`}
+                // Its own full-width row under the monk (Stefan), so the details keep the whole card width.
+                className={`bg-brand inline-flex min-h-11 w-full items-center justify-center rounded-full px-4 py-2 text-sm font-bold text-navy shadow-sm shadow-orange/20 transition hover:brightness-105 active:scale-[0.98] ${FOCUS_RING}`}
               >
                 Invite
               </Link>

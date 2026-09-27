@@ -5,6 +5,7 @@ import { Chip, FOCUS_RING } from "@/components/ui";
 import { AREA_CENTROIDS } from "@/lib/geo";
 import { baht, LANGUAGE_LABEL, shortDate, SLOT_LABEL } from "@/lib/labels";
 import type { Area, Language, MatchCard, Slot } from "@/lib/types";
+import MonkPhoto from "@/components/MonkPhoto";
 
 // MatchCard carries only the ranking fields; the profile gallery (desktop) also shows the Thai
 // name, area and a bio excerpt, looked up from the seed JSON. Mobile keeps the compact card.
@@ -31,10 +32,10 @@ export default function MonkCard({ card, top }: { card: MatchCard; top?: boolean
       </div>
       <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
         <div
-          className="bg-brand flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-2xl font-bold text-navy shadow-md shadow-orange/20 lg:h-24 lg:w-24 lg:text-4xl"
+          className="bg-brand flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full text-2xl font-bold text-navy shadow-md shadow-orange/20 lg:h-24 lg:w-24 lg:text-4xl"
           aria-hidden
         >
-          {card.name.replace(/^Phra\s+/, "").charAt(0)}
+          <MonkPhoto />
         </div>
         <div>
           <h2 className="text-xl font-semibold leading-tight lg:text-2xl">{card.name}</h2>
