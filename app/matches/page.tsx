@@ -95,15 +95,20 @@ export default function MatchesPage() {
   const showList = desktop || shownView === "map";
 
   const filters = (
-    <div className="-mx-5 flex gap-2 no-scrollbar overflow-x-auto px-5 pb-1 lg:mx-0 lg:flex-wrap lg:px-0">
-      <Pill active={onDateOnly} onClick={() => setOnDateOnly((v) => !v)}>
-        Available on my date
-      </Pill>
-      {allLangs.map((l) => (
-        <Pill key={l} active={langs.includes(l)} onClick={() => setLangs((cur) => (cur.includes(l) ? cur.filter((x) => x !== l) : [...cur, l]))}>
-          {LANGUAGE_LABEL[l as Language] ?? l}
+    <div role="group" aria-labelledby="filters-label">
+      <h2 id="filters-label" className="mb-1.5 text-sm font-semibold text-muted">
+        Filter
+      </h2>
+      <div className="-mx-5 flex gap-2 no-scrollbar overflow-x-auto px-5 pb-1 lg:mx-0 lg:flex-wrap lg:px-0">
+        <Pill active={onDateOnly} onClick={() => setOnDateOnly((v) => !v)}>
+          Available on my date
         </Pill>
-      ))}
+        {allLangs.map((l) => (
+          <Pill key={l} active={langs.includes(l)} onClick={() => setLangs((cur) => (cur.includes(l) ? cur.filter((x) => x !== l) : [...cur, l]))}>
+            {LANGUAGE_LABEL[l as Language] ?? l}
+          </Pill>
+        ))}
+      </div>
     </div>
   );
 
@@ -129,7 +134,8 @@ export default function MatchesPage() {
     <Stage wide>
       <section className="flex flex-1 flex-col">
         <Header back="/chat" />
-        <div className="flex items-start justify-between gap-3">
+        {/* Phones: the view switch gets its own row above the title (Stefan); lg: title left, switch right. */}
+        <div className="flex flex-col-reverse gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h1 className="text-2xl font-bold lg:text-3xl">
               {flow.matches!.length ? `${flow.matches!.length} monks for you` : "No monks found"}
@@ -144,7 +150,7 @@ export default function MatchesPage() {
             label="Results view"
             value={shownView}
             onChange={pickView}
-            className="mt-1"
+            className="self-start lg:mt-1"
             options={
               desktop
                 ? [

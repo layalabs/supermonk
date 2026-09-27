@@ -131,3 +131,15 @@ describe("mock LINE add button", () => {
     expect(btn.indexOf("Add the Official Account")).toBeLessThan(btn.indexOf('d="M10 4v12M4 10h12"'));
   });
 });
+
+describe("results page toolbar", () => {
+  // Stefan 2026-09-27: view switch on its own row at the top on phones; a "Filter" label over the pills.
+  const src = readFileSync(path.join(process.cwd(), "app/matches/page.tsx"), "utf8");
+  it("puts Grid / Map / Streets on its own row above the title below lg", () => {
+    expect(src).toMatch(/className="flex flex-col-reverse gap-3 lg:flex-row lg:items-start lg:justify-between">\s*<div>\s*<h1/);
+    expect(src).toMatch(/label="Results view"[\s\S]{0,80}className="self-start/);
+  });
+  it("labels the filter pills with a 'Filter' heading", () => {
+    expect(src).toMatch(/<div role="group" aria-labelledby="filters-label">\s*<h2 id="filters-label"[^>]*>\s*Filter\s*<\/h2>/);
+  });
+});
