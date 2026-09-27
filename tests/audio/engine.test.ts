@@ -41,6 +41,7 @@ describe("HealingAudio", () => {
   it("strikes a bowl with detuned partial pairs at the pentatonic pitch and a long decay", () => {
     const { ctx, engine } = make();
     engine.unlock();
+    const unlockSources = ctx.sources().length; // the silent iOS unlock buffer
     engine.strikeBowl(2);
     const oscs = ctx.oscillators();
     expect(oscs).toHaveLength(8);
@@ -55,8 +56,8 @@ describe("HealingAudio", () => {
     const longest = Math.max(...oscs.map((o) => o.stoppedAt!));
     expect(longest - ctx.currentTime).toBeGreaterThan(5);
     // mallet transient: one noise burst
-    expect(ctx.sources()).toHaveLength(1);
-    expect(ctx.sources()[0].loop).toBe(false);
+    expect(ctx.sources().slice(unlockSources)).toHaveLength(1);
+    expect(ctx.sources()[unlockSources].loop).toBe(false);
   });
 
   it("clamps bowl index so a stray key cannot crash it", () => {
@@ -80,6 +81,7 @@ describe("HealingAudio", () => {
   it("drone and rain start once, stop with a fade, and are reported", () => {
     const { ctx, engine } = make();
     engine.unlock();
+    const unlockSources = ctx.sources().length; // the silent iOS unlock buffer
     engine.setDrone(true);
     engine.setDrone(true);
     expect(engine.droneOn).toBe(true);
@@ -87,7 +89,7 @@ describe("HealingAudio", () => {
     expect(droneOscs.length).toBe(5); // 4 voices + 1 LFO
     engine.setRain(true);
     expect(engine.rainOn).toBe(true);
-    const rain = ctx.sources()[0];
+    const rain = ctx.sources()[unlockSources];
     expect(rain.loop).toBe(true);
     expect(rain.buffer!.length).toBe(ctx.sampleRate * 2);
 

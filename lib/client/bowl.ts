@@ -3,6 +3,8 @@
 // A singing bowl synthesised with Web Audio: a few inharmonic partials, slightly detuned
 // pairs for the shimmer, fast attack and a long exponential decay. No audio asset needed.
 
+import { wakeAudio } from "@/lib/audio/wake";
+
 let ctx: AudioContext | null = null;
 
 const PARTIALS = [
@@ -16,8 +18,8 @@ export function strikeBowl(fundamental = 196): void {
   const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!Ctor) return;
   ctx ??= new Ctor();
-  // iOS starts contexts suspended; resuming inside the tap handler unlocks audio.
-  if (ctx.state === "suspended") void ctx.resume();
+  // iOS starts contexts suspended; see wake.ts for what unlocking takes there.
+  wakeAudio(ctx);
   const now = ctx.currentTime;
   const master = ctx.createGain();
   master.gain.value = 0.35;
