@@ -4,6 +4,7 @@
 
 import { INSTRUMENTS, noteFrequency, type InstrumentId } from "./instruments";
 import { bowlFrequency, ROOT_HZ } from "./scale";
+import { wakeAudio } from "./wake";
 import { bowlVoice, chimeVoice, gongVoice, handpanVoice, startDrone, startRain, templeBellVoice, windChimeVoice, type Stoppable } from "./synth";
 
 export const DEFAULT_VOLUME = 0.28;
@@ -77,8 +78,8 @@ export class HealingAudio {
       master.connect(comp).connect(ctx.destination);
       this.master = master;
     }
-    // iOS starts contexts suspended; resuming inside the gesture handler unlocks audio.
-    if (this.ctx.state === "suspended") void this.ctx.resume();
+    // iOS starts contexts suspended and only unlocks on touchend / click; see wake.ts.
+    wakeAudio(this.ctx);
     return true;
   }
 

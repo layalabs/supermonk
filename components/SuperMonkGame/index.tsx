@@ -254,7 +254,10 @@ export default function SuperMonkGame({ className = "", height = DEFAULT_HEIGHT,
       ref={root}
       aria-label={`SuperMonk ${set.name.toLowerCase()}`}
       data-instrument={instrument}
+      // pointerdown makes the context on desktop; iOS only lets audio start on touchend / click.
       onPointerDownCapture={unlock}
+      onTouchEndCapture={unlock}
+      onClickCapture={unlock}
       className={`${active ? "" : styles.paused} relative w-full select-none overflow-hidden rounded-card bg-cream text-navy ring-1 ring-navy/10 ${height} ${className}`}
     >
       {/* golden-hour wash: cream at the top, a warm glow low behind the instruments */}
