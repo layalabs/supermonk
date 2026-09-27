@@ -125,8 +125,8 @@ export default function MatchesPage() {
   const mapCaption = (
     <p className="px-2 pb-1 pt-2 text-xs text-muted">
       {shown.length
-        ? `${shown.length} matched ${shown.length === 1 ? "monk" : "monks"} at ${templeCount} ${templeCount === 1 ? "temple" : "temples"}, highlighted in saffron. Tap a ${shownView === "map" ? "temple" : "pin"} for details; the others are Chiang Mai temples on SuperMonk.`
-        : `No monk matches these filters; every ${shownView === "map" ? "temple" : "pin"} is a temple on SuperMonk.`}
+        ? `${shown.length} matched ${shown.length === 1 ? "monk" : "monks"} at ${templeCount} ${templeCount === 1 ? "temple" : "temples"}, highlighted in saffron. Tap a ${shownView === "map" ? "temple" : "pin"} for details; the others are Chiang Mai temples on Nimon.`
+        : `No monk matches these filters; every ${shownView === "map" ? "temple" : "pin"} is a temple on Nimon.`}
     </p>
   );
 

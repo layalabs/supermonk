@@ -113,7 +113,7 @@ export function buildIcs(invite: Invite, card: ConfirmationCard, durationMin: nu
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//SuperMonk//EN",
+    "PRODID:-//Nimon//EN",
     "BEGIN:VEVENT",
     `UID:${invite.code}@supermonk`,
     `DTSTAMP:${fmt(new Date(invite.createdAt))}Z`,

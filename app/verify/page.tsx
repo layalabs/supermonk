@@ -121,7 +121,7 @@ function Verify() {
               <strong>sensitive personal data</strong> and we may only collect them with your explicit consent.
             </li>
             <li>
-              They are processed by our verification provider{status?.config.provider === "didit" ? " (Didit)" : ""}. SuperMonk stores
+              They are processed by our verification provider{status?.config.provider === "didit" ? " (Didit)" : ""}. Nimon stores
               only the result (pass or fail), a masked phone number and timestamps. We never store your images, name or document number.
             </li>
             <li>The provider may process your data outside Thailand (PDPA s.28).</li>

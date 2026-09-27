@@ -121,7 +121,7 @@ export default function MonkPage() {
 
       <Card>
         <h2 className="mb-1 text-sm uppercase tracking-wide text-muted">Suggested donation (ปัจจัย)</h2>
-        <p className="mb-3 text-xs text-muted">Given in an envelope on the day. SuperMonk takes no payment.</p>
+        <p className="mb-3 text-xs text-muted">Given in an envelope on the day. Nimon takes no payment.</p>
         <div className="flex flex-wrap gap-2">
           {options.map((v) => (
             <Pill

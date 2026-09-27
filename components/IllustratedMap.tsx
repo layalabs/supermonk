@@ -564,7 +564,7 @@ export default function IllustratedMap({
         <div className="pointer-events-none absolute left-2 top-2 rounded-lg bg-[#fffdf8]/85 px-3 py-1.5 shadow-sm ring-1 ring-navy/10">
           <p className="text-base font-bold leading-tight">Chiang Mai</p>
           <p lang="th" className="text-xs leading-tight text-muted">
-            เชียงใหม่ · temples on SuperMonk
+            เชียงใหม่ · temples on Nimon
           </p>
         </div>
       ) : null}
@@ -637,7 +637,7 @@ function Legend({ compact, inline = false }: { compact: boolean; inline?: boolea
   return (
     <ul className={cls} aria-label="Legend">
       {row(<span className="h-3 w-3 rounded-full border-2 border-saffron bg-saffron/40 shadow-[0_0_0_2px_rgba(240,160,48,0.35)]" />, "Matched monk here")}
-      {row(<span className="h-3 w-3 rounded-full bg-[#c8764a]/60" />, "Other temple on SuperMonk")}
+      {row(<span className="h-3 w-3 rounded-full bg-[#c8764a]/60" />, "Other temple on Nimon")}
       {!compact ? row(<span className="h-1.5 w-5 rounded-full bg-[#a9c9dc]" />, "Ping River, moat") : null}
       {!compact ? row(<span className="h-0.5 w-5 rounded-full bg-[#b99a6e]" />, "Main roads") : null}
       {!compact ? row(<span className="h-2 w-5 rounded-sm bg-[#d4e2ba]" />, "Rice fields, hills") : null}

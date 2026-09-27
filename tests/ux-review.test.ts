@@ -60,7 +60,7 @@ describe("page titles", () => {
   };
 
   it("root layout uses a title template", () => {
-    expect(rootMetadata.title).toEqual({ default: "SuperMonk", template: "%s · SuperMonk" });
+    expect(rootMetadata.title).toEqual({ default: "Nimon", template: "%s · Nimon" });
   });
 
   it.each(Object.entries(expected))("app/%s has its own title", async (segment, title) => {
@@ -107,7 +107,7 @@ describe("headings and names", () => {
 
   it("Header logo link has an accessible name even without the wordmark", () => {
     const html = renderToStaticMarkup(createElement(Header, { title: "Verify" }));
-    expect(html).toContain('aria-label="SuperMonk home"');
+    expect(html).toContain('aria-label="Nimon home"');
   });
 });
 
@@ -152,5 +152,19 @@ describe("map height on phones and tablets", () => {
     expect(map).toMatch(/Math\.min\(Math\.round\(box\.w \* 0\.6\), halfViewport\)/);
     const page = readFileSync(path.join(process.cwd(), "app/matches/page.tsx"), "utf8");
     expect(page).toContain("h-[min(420px,50svh)]");
+  });
+});
+
+describe("app name vs agent name", () => {
+  // techno 2026-09-27: the app is Nimon; the assistant inside it is still SuperMonk.
+  it("brands the app Nimon and keeps SuperMonk as the agent", () => {
+    const ui = readFileSync(path.join(process.cwd(), "components/ui.tsx"), "utf8");
+    expect(ui).toContain('Nim<span className="text-brand">on</span>');
+    expect(ui).not.toMatch(/Super<span/);
+    const manifest = JSON.parse(readFileSync(path.join(process.cwd(), "public/manifest.webmanifest"), "utf8"));
+    expect([manifest.name, manifest.short_name]).toEqual(["Nimon", "Nimon"]);
+    const chat = readFileSync(path.join(process.cwd(), "app/chat/page.tsx"), "utf8");
+    expect(chat).toContain('aria-label="SuperMonk is thinking"');
+    expect(readFileSync(path.join(process.cwd(), "lib/llm/prompts.ts"), "utf8")).toContain("You are SuperMonk");
   });
 });
